@@ -1,7 +1,7 @@
 namespace EntitiesLibrary.Entities.Enum;
 
 
-public enum ReactionType
+public enum ReactionStatus
 {
     Recomendar,
     MeInteresa,

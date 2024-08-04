@@ -1,12 +1,12 @@
-
+using EntitiesLibrary.Entities.Enum;
 
 namespace EntitiesLibrary.Entities;
-
-
 public class Post{
     public required int Id { get; set; }
     public string? Description { get; set; }
-    public required User User { get; set; }
-    public File? File { get; set; }//TODO COMO SE LISTAS TODOS LOS COMENTARIOS
-    public Comment? Comment { get; set; }//TODO COMO SE LISTAS TODOS LOS COMENTARIOS
+    public required PostStatus PostStatus { get; set; }
+    public required DateTime RegistrationDate { get; set; }
+    public required int IdUser { get; set; }
+    public int IdFile { get; set; }
+   
 }

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore; //Paquete para trabajar con la base de dato
 using ApiTalking.Data; //Contextualizacion de la DB
 using EntitiesLibrary.Entities; //Entidad con la que trabajo controller
 
+using ApiTalking.DTO.User;
+
 namespace ApiTalking.Controllers
 {
     [ApiController]
@@ -17,81 +19,107 @@ namespace ApiTalking.Controllers
         }
         //FIN
 
-
-        //METODOS HTTP
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        {
-            var users = await _context.Users.ToListAsync();
-            return Ok(users);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ResponseUserDTO>>> GetUsers()
+    {
+        return await _context.Users
+            .Select(u => new ResponseUserDTO
             {
-                return NotFound();
-            }
-            return Ok(user);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<User>> CreateUser(User user)
-        {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, User updatedUser)
-        {
-            if (id != updatedUser.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(updatedUser).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.Id == id);
-        }
+                //Id = u.Id,
+                Name = u.Name,
+                LastName = u.LastName,
+                //Email = u.Email,
+                BirthDate = u.BirthDate,
+                Nationality = u.Nationality,
+                Province = u.Province,
+                UserStatus = u.UserStatus.ToString()
+            })
+            .ToListAsync();
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ResponseUserDTO>> GetUser(int id)
+    {
+        var user = await _context.Users.FindAsync(id);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        return new ResponseUserDTO
+        {
+           // Id = user.Id,
+            Name = user.Name,
+            LastName = user.LastName,
+            //Email = user.Email,
+            BirthDate = user.BirthDate,
+            Nationality = user.Nationality,
+            Province = user.Province,
+            UserStatus = user.UserStatus.ToString()
+        };
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<ResponseUserDTO>> CreateUser(RegisterUserDTO userDTO)
+    {
+        var user = new User
+        {
+            Name = userDTO.Name,
+            LastName = userDTO.LastName,
+            Email = userDTO.Email,
+            Password = userDTO.Password, // Hashing the password
+            BirthDate = userDTO.BirthDate,
+            Nationality = userDTO.Nationality,
+            Province = userDTO.Province,
+            UserStatus = userDTO.UserStatus
+        };
+
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetUser), new { id = user.Id }, userDTO);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateUser(int id, User userDTO)
+    {
+        if (id != userDTO.Id)
+        {
+            return BadRequest();
+        }
+
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        user.Name = userDTO.Name;
+        user.LastName = userDTO.LastName;
+        user.Email = userDTO.Email;
+        user.Nationality = userDTO.Nationality;
+        user.Province = userDTO.Province;
+        user.UserStatus = userDTO.UserStatus ;
+
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser(int id)
+    {
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+}
 }

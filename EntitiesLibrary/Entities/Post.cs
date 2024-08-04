@@ -2,6 +2,7 @@ using EntitiesLibrary.Entities.Enum;
 
 namespace EntitiesLibrary.Entities;
 public class Post{
+    
     public required int Id { get; set; }
     public string? Description { get; set; }
     public required PostStatus PostStatus { get; set; }

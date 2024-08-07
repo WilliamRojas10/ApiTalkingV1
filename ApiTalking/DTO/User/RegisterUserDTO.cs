@@ -4,12 +4,12 @@ namespace ApiTalking.DTO.User;
 
 public class RegisterUserDTO
 {
-        public required string Name { get; set; }
-        public required string LastName { get; set; }
-        public required string Password { get; set; }
-        public required string Email { get; set; }
-        public required DateTime BirthDate { get; set; }
-        public string? Nationality { get; set; }
-        public string? Province { get; set; }
-        public UserStatus UserStatus { get; set; } = UserStatus.Active;
+        public required string name { get; set; }
+        public required string lastName { get; set; }
+        public required string password { get; set; }
+        public required string email { get; set; }
+        public required DateTime birthDate { get; set; }
+        public string? nationality { get; set; }
+        public string? province { get; set; }
+        public UserStatus userStatus { get; set; } = UserStatus.Active;
 }

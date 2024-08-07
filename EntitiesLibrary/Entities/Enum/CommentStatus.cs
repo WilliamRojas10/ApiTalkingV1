@@ -1,8 +1,9 @@
+
 namespace EntitiesLibrary.Entities.Enum;
 
-public enum UserStatus
+public enum CommentStatus
 {
-    Active = 1,
-    Blocked = 2,
+    Sent = 1,
+    Reported = 2,
     Deleted = 3
 }

@@ -23,6 +23,15 @@ namespace ApiTalking.Data
                 .HasConversion(
                     v => v.ToString(),
                     v => (UserStatus)Enum.Parse(typeof(UserStatus), v));
+            modelBuilder.Entity<Post>().Property(p => p.PostStatus)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (PostStatus)Enum.Parse(typeof(PostStatus), v));
+            modelBuilder.Entity<Comment>().Property(c => c.CommentStatus)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (CommentStatus)Enum.Parse(typeof(CommentStatus), v));
+
         }
     }
 }

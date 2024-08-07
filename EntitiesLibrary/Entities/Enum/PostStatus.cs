@@ -3,7 +3,7 @@ namespace EntitiesLibrary.Entities.Enum;
 
 public enum PostStatus
 {
-    Active,
-    Blocked,
-    Deleted
+    Active = 1,
+    Blocked = 2,
+    Deleted = 3
 }

@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS Posts (
 CREATE TABLE IF NOT EXISTS Comments (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     Text TEXT NOT NULL,
+    CommentStatus ENUM('Sent', 'Reported', 'Deleted') DEFAULT 'Sent' NOT NULL,
     RegistrationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     IdUser INT NOT NULL,
     IdPost INT NOT NULL,
@@ -55,50 +56,30 @@ CREATE TABLE IF NOT EXISTS Reactions (
 );
 
 -- Datos mock o de prueba
-
-INSERT INTO Users (Name, LastName, Email, Password, BirthDate, Nationality, Province)
-VALUES 
-('John', 'Doe', 'john.doe@example.com', 'password123', '1990-01-01', 'USA', 'California'),
-('Jane', 'Smith', 'jane.smith@example.com', 'password456', '1985-05-15', 'UK', 'London'),
-('Carlos', 'Garcia', 'carlos.garcia@example.com', 'password789', '1992-09-21', 'Spain', 'Madrid'),
-('Maria', 'Lopez', 'maria.lopez@example.com', 'password321', '1995-07-10', 'Argentina', 'Buenos Aires'),
-('Akira', 'Yamamoto', 'akira.yamamoto@example.com', 'password654', '1988-03-22', 'Japan', 'Tokyo');
+INSERT INTO Users (Name, LastName, Email, Password, BirthDate, Nationality, Province, UserStatus)
+VALUES
+  ('John', 'Doe', 'johndoe@example.com', 'password123', '1990-01-01', 'American', 'California', 'Active'),
+  ('Jane', 'Smith', 'janesmith@example.com', 'password456', '1992-05-15', 'Canadian', 'Ontario', 'Active'),
+  ('Michael', 'Johnson', 'michaeljohnson@example.com', 'password789', '1988-11-20', 'Mexican', 'Mexico City', 'Blocked');
 
 INSERT INTO Files (Name, Type, Path)
-VALUES 
-('profile1.jpg', 'jpg', '/images/profile1.jpg'),
-('profile2.png', 'png', '/images/profile2.png'),
-('video1.mp4', 'mp4', '/videos/video1.mp4'),
-('doc1.pdf', 'pdf', '/docs/doc1.pdf'),
-('post_image1.png', 'png', '/images/post_image1.png');
+VALUES
+  ('image1.jpg', 'jpg', '/path/to/image1.jpg'),
+  ('video2.mp4', 'mp4', '/path/to/video2.mp4');
+  
+  INSERT INTO Posts (Description, PostStatus, IdUser, IdFile)
+VALUES
+  ('This is a test post', 'Active', 1, 1),
+  ('Another post', 'Active', 2, NULL);
 
-INSERT INTO Posts (Description, PostStatus, IdUser, IdFile)
-VALUES 
-('This is my first post!', 'Active', 1, NULL),
-('Check out this awesome picture!', 'Active', 2, 5),
-('Here is a video I wanted to share.', 'Active', 3, 3),
-('Sharing some useful documents.', 'Active', 4, 4),
-('Lovely day in the park!', 'Active', 5, NULL);
-
-INSERT INTO Comments (Text, IdUser, IdPost)
-VALUES 
-('Great post!', 2, 1),
-('Nice picture!', 3, 2),
-('Thanks for sharing!', 4, 3),
-('Very useful, thanks!', 5, 4),
-('What a beautiful day!', 1, 5);
-
-INSERT INTO Reactions (ReactionStatus, IdUser, IdPost)
-VALUES 
-('Recomendar', 1, 1),
-('MeInteresa', 2, 2),
-('Celebrar', 3, 3),
-('Recomendar', 4, 4),
-('MeInteresa', 5, 5);
-
-
-
-
-
+INSERT INTO Comments (Text, CommentStatus, IdUser, IdPost)
+VALUES
+  ('Great post!', 'Sent', 2, 1),
+  ('Interesting', 'Sent', 1, 2);
+  
+  INSERT INTO Reactions (ReactionStatus, IdUser, IdPost)
+VALUES
+  ('Recomendar', 1, 1),
+  ('MeInteresa', 2, 1);
 
 

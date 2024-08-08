@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using EntitiesLibrary.Entities;
 using EntitiesLibrary.Entities.Enum;
 using ApiTalking.DTO.common;
-using ApiTalking.DTO.Comment;
+using ApiTalking.DTO.Reaction;
 using ApiTalking.Data;
 
 
@@ -11,17 +11,17 @@ namespace ApiTalking.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CommentController : ControllerBase
+public class ReactionController : ControllerBase
 {
 
     private readonly MyDbContext _context;
-    public CommentController(MyDbContext context)
+    public ReactionController(MyDbContext context)
     {
         _context = context;
     }
 
     [HttpGet("{postId}/reaction")]
-    public async Task<ActionResult<IEnumerable<ResponseCommentDTO>>> GetAllReactionsByPostId(int postId)
+    public async Task<ActionResult<IEnumerable<ResponseReactionDTO>>> GetAllReactionsByPostId(int postId)
     {
         try
         {
@@ -33,25 +33,22 @@ public class CommentController : ControllerBase
             }
 
             // Obtiene todas las reacciones asociadas al post
-            var comment = await _context.Comments
+            var reactions = await _context.Reactions
                 .Where(r => r.IdPost == postId)
-                .Select(rDB => new ResponseCommentDTO
+                .Select(rDB => new ResponseReactionDTO
                 {
-                    id = rDB.Id,
-                    text = rDB.Text,
-                    registrationDate = rDB.RegistrationDate,
-                    // idUser = rDB.IdUser,
-                    //idPost = rDB.IdPost,
-                    commentStatus = rDB.CommentStatus.ToString()
+                    idUser = rDB.IdUser,
+                    idPost = rDB.IdPost,
+                    reactionStatus = rDB.ReactionStatus.ToString()
                 })
                 .ToListAsync();
 
-            if (comment == null || comment.Count == 0)
+            if (reactions == null || reactions.Count == 0)
             {
-                return NotFound($"No se encontró ningun comentario para el post con id: {postId}");
+                return NotFound($"No se encontró ninguna reacción para el post con id: {postId}");
             }
 
-            return Ok(comment);
+            return Ok(reactions);
         }
         catch (Exception ex)
         {
@@ -64,12 +61,13 @@ public class CommentController : ControllerBase
     }
 
 
+
     [HttpPost]
-    public async Task<ActionResult> CreateComment([FromBody] RequestCommentDTO comment)
+    public async Task<ActionResult> CreateReaction([FromBody] RequestReactionDTO reaction)
     {
         try
         {
-            if (comment == null)
+            if (reaction == null)
             {
                 return BadRequest(new ErrorResponseDTO
                 {
@@ -77,10 +75,9 @@ public class CommentController : ControllerBase
                     message = "Datos ingresados erroneos"
                 });
             }
-
             // Verificar que IdUser y IdPost existan en la base de datos
-            var userExists = await _context.Users.AnyAsync(u => u.Id == comment.idUser);
-            var postExists = await _context.Posts.AnyAsync(p => p.Id == comment.idPost);
+            var userExists = await _context.Users.AnyAsync(u => u.Id == reaction.idUser);
+            var postExists = await _context.Posts.AnyAsync(p => p.Id == reaction.idPost);
 
             if (!userExists || !postExists)
             {
@@ -90,24 +87,20 @@ public class CommentController : ControllerBase
                     message = "El usuario o el post no existen."
                 });
             }
-
-            var commentSaved = new Comment
+            var reactionSaved = new Reaction
             {
                 Id = 0,
-                Text = comment.text,
-                //RegistrationDate = DateTime.UtcNow,
-                CommentStatus = comment.commentStatus,
-                IdUser = comment.idUser,
-                IdPost = comment.idPost
+                ReactionStatus = reaction.reactionStatus,
+                IdUser = reaction.idUser,
+                IdPost = reaction.idPost
             };
-
-            _context.Comments.Add(commentSaved);
+            _context.Reactions.Add(reactionSaved);
             await _context.SaveChangesAsync();
 
             return Ok(new ResponseDTO
             {
                 sucess = true,
-                message = "Comentario creado."
+                message = "Reaccion creada."
             });
         }
         catch (DbUpdateException dbEx)
@@ -130,37 +123,22 @@ public class CommentController : ControllerBase
 
 
 
-
-    [HttpPut("Eliminar/{id}")]
-    public async Task<IActionResult> DeletedComment(int id)
+    [HttpDelete("{id}")]
+    public IActionResult DeleteReaction(int id)
     {
-        try
+        var reaction = _context.Reactions
+        .FirstOrDefault(r => r.Id == id &&
+        Enum.IsDefined(typeof(ReactionStatus), r.ReactionStatus));
+        // r.ReactionStatus == ReactionStatus.Celebrar ||
+        // r.ReactionStatus == ReactionStatus.MeInteresa ||
+        // r.ReactionStatus == ReactionStatus.Recomendar ||
+        // r.ReactionStatus == ReactionStatus.NoMeInteresa);
+        if (reaction == null)
         {
-            var comment = await _context.Comments.FindAsync(id);
-            if (comment == null)
-            {
-                return NotFound();
-            }
-            if (comment.CommentStatus == CommentStatus.Deleted)
-            {
-                return BadRequest("El comentario está eliminado, por lo que no puede ser eliminado.");
-            }
-            comment.CommentStatus = CommentStatus.Deleted;
-            await _context.SaveChangesAsync();
+            return NotFound();
+        }
 
-            return Ok(new ResponseDTO
-            {
-                sucess = true,
-                message = "Comentario eliminado."
-            });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new ErrorResponseDTO
-            {
-                sucess = false,
-                message = ex.Message
-            });
-        }
+        _context.Reactions.Remove(reaction);
+        return NoContent();
     }
 }

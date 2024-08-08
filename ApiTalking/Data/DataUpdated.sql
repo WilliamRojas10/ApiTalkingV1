@@ -82,4 +82,5 @@ VALUES
   ('Recomendar', 1, 1),
   ('MeInteresa', 2, 1);
 
-
+select * from Posts;
+select * from Reactions;

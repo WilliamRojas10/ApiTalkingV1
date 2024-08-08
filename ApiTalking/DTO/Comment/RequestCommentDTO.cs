@@ -1,5 +1,5 @@
 using EntitiesLibrary.Entities.Enum;
-namespace ApiTalking.DTO.CommentDTO;
+namespace ApiTalking.DTO.Comment;
 
 public class RequestCommentDTO
 {

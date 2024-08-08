@@ -31,6 +31,10 @@ namespace ApiTalking.Data
                 .HasConversion(
                     v => v.ToString(),
                     v => (CommentStatus)Enum.Parse(typeof(CommentStatus), v));
+            modelBuilder.Entity<Reaction>().Property(r => r.ReactionStatus)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (ReactionStatus)Enum.Parse(typeof(ReactionStatus), v));
 
         }
     }

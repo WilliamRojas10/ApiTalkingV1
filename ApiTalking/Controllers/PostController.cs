@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ApiTalking.Data; // Contexto de base de datos
+using dao_library; // Contexto de base de datos
 using EntitiesLibrary.Entities;
 using EntitiesLibrary.Entities.Enum;
 using ApiTalking.DTO.Post;

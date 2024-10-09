@@ -2,7 +2,7 @@
 using EntitiesLibrary.Entities;//TRAE LAS ENTIDADES
 using EntitiesLibrary.Entities.Enum;//SE TRAE EL ENUM USERSTATUS PARA RECORRERLOS COMO SI FUERA UN BUCLE
 
-namespace ApiTalking.Data
+namespace dao_library
 {
     public class MyDbContext : DbContext
     {

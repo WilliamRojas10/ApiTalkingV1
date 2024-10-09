@@ -1,5 +1,5 @@
 //AGREGADO POR GPT
-using ApiTalking.Data;
+using dao_library;
 using Microsoft.EntityFrameworkCore;
 //FIN
 
@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
     new MySqlServerVersion(new Version(8, 0, 21))));
+    
 //FIN
 // Add services to the container.
 

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ApiTalking.Data;
+using dao_library;
 using EntitiesLibrary.Entities;
 using EntitiesLibrary.Entities.Enum;
 using ApiTalking.DTO.User;

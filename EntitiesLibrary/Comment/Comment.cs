@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EntitiesLibrary.Entities.Enum;
+using EntitiesLibrary.Comment;
 
-namespace EntitiesLibrary.Entities;
+namespace EntitiesLibrary.Comment;
 
 public class Comment
 {

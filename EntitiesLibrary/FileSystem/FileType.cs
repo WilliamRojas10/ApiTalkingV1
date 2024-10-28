@@ -1,7 +1,5 @@
 //TODO TO DELETE??
-
-namespace EntitiesLibrary.Entities;
-
+namespace EntitiesLibrary.FileSystem;
 
 class FileType
 {

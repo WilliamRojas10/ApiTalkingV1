@@ -1,13 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EntitiesLibrary.Entities.Enum;
 
-namespace EntitiesLibrary.Entities
-
+namespace EntitiesLibrary.User
 {
     public class User
     {
-    
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

@@ -1,7 +1,6 @@
-using EntitiesLibrary.Entities.Enum;
+using EntitiesLibrary.Reaction;
 
-namespace EntitiesLibrary.Entities;
-
+namespace EntitiesLibrary.Reaction;
 public class Reaction
 {
     public required int Id { get; set; }

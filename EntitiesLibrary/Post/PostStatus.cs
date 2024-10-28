@@ -1,5 +1,4 @@
-
-namespace EntitiesLibrary.Entities.Enum;
+namespace EntitiesLibrary.Post;
 
 public enum PostStatus
 {

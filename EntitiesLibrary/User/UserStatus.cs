@@ -1,4 +1,4 @@
-namespace EntitiesLibrary.Entities.Enum;
+namespace EntitiesLibrary.User;
 
 public enum UserStatus
 {

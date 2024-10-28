@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EntitiesLibrary.Entities.Enum;
 
-namespace EntitiesLibrary.Entities;
-public class Post{
-    
+namespace EntitiesLibrary.Post;
+public class Post
+{    
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public required int Id { get; set; }

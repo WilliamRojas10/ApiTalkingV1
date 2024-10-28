@@ -1,5 +1,4 @@
-namespace EntitiesLibrary.Entities.Enum;
-
+namespace EntitiesLibrary.Reaction;
 
 public enum ReactionStatus
 {

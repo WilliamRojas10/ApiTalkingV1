@@ -1,5 +1,4 @@
 namespace ApiTalking.DTO.common;
-    public class ErrorResponseDTO: ResponseDTO
-    {
-    
-    }
+public class ErrorResponseDTO: ResponseDTO
+{
+}

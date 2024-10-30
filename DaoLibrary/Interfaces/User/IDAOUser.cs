@@ -1,17 +1,19 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DaoLibrary.Interfaces.User
 {
     public interface IDAOUser
     {
-        IEnumerable<EntitiesLibrary.User.User> GetUsersPaged(int pageNumber, int pageSize, bool? isActive);
-        IEnumerable<EntitiesLibrary.User.User> GetAllUsers();
-        EntitiesLibrary.User.User? GetUserById(int id);
-        void AddUser(EntitiesLibrary.User.User user);
-        void UpdateUser(EntitiesLibrary.User.User user);
-        void DeleteUser(int id);
+        Task<List<EntitiesLibrary.User.User>> GetUsersPaged(int pageNumber, int pageSize, bool? isActive);
+        Task<List<EntitiesLibrary.User.User>> GetAllUsers();
+        Task<EntitiesLibrary.User.User?> GetUserById(int id);
+        Task AddUser(EntitiesLibrary.User.User user);
+        Task UpdateUser(EntitiesLibrary.User.User user);
+        Task DeleteUser(int id);
     }
 }
+
 
 
 // using EntitiesLibrary.User;

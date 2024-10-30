@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DaoLibrary.Interfaces.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,52 +15,60 @@ namespace DaoLibrary.EFCore.User
             _context = context;
         }
 
-        public IEnumerable<EntitiesLibrary.User.User> GetUsersPaged(int pageNumber, int pageSize, bool? isActive)
+
+        public async Task<List<EntitiesLibrary.User.User>> GetUsersPaged(int pageNumber, int pageSize, bool? isActive)
         {
             var query = _context.Set<EntitiesLibrary.User.User>().AsQueryable();
 
-            // Filtrar según el estado
+            // Filtrar según el estado si está presente
             if (isActive.HasValue)
             {
-                query = query.Where(user => user.UserStatus == EntitiesLibrary.User.UserStatus.Active);
+                query = query.Where(user => user.UserStatus == (isActive.Value 
+                                ? EntitiesLibrary.User.UserStatus.Active 
+                                : EntitiesLibrary.User.UserStatus.Deleted));
             }
 
             // Aplicar la paginación
-            return query
-                .Skip((pageNumber - 1) * pageSize)  // Saltar los elementos de las páginas anteriores
-                .Take(pageSize)                      // Tomar solo el número especificado de elementos
-                .ToList();
+            return await query
+                .Skip((pageNumber - 1) * pageSize)  
+                .Take(pageSize)                      
+                .ToListAsync()
+                ;
         }
 
-        public IEnumerable<EntitiesLibrary.User.User> GetAllUsers()
+        public async Task<List<EntitiesLibrary.User.User>> GetAllUsers()
         {
-            return _context.Set<EntitiesLibrary.User.User>().ToList();
+            return await _context.Set<EntitiesLibrary.User.User>()
+                .ToListAsync()
+                ;
         }
 
-        public EntitiesLibrary.User.User? GetUserById(int id)
+        public async Task<EntitiesLibrary.User.User?> GetUserById(int id)
         {
-            return _context.Set<EntitiesLibrary.User.User>().Find(id);
+            return await _context.Set<EntitiesLibrary.User.User>()
+                .FindAsync(id)
+                ;
         }
 
-        public void AddUser(EntitiesLibrary.User.User user)
+        public async Task AddUser(EntitiesLibrary.User.User user)
         {
-            _context.Set<EntitiesLibrary.User.User>().Add(user);
-            _context.SaveChanges();
+            await _context.Set<EntitiesLibrary.User.User>().AddAsync(user);
+            await _context.SaveChangesAsync();
         }
 
-        public void UpdateUser(EntitiesLibrary.User.User user)
+        public async Task UpdateUser(EntitiesLibrary.User.User user)
         {
             _context.Set<EntitiesLibrary.User.User>().Update(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void DeleteUser(int id)
+        public async Task DeleteUser(int id)
         {
-            var user = _context.Set<EntitiesLibrary.User.User>().Find(id);
+            var user = await _context.Set<EntitiesLibrary.User.User>().FindAsync(id);
             if (user != null)
             {
                 _context.Set<EntitiesLibrary.User.User>().Remove(user);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }

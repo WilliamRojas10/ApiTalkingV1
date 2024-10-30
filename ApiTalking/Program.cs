@@ -1,5 +1,5 @@
 //AGREGADO POR GPT
-using dao_library;
+using DaoLibrary;
 using Microsoft.EntityFrameworkCore;
 //FIN
 

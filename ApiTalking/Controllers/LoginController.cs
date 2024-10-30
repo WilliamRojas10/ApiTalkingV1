@@ -1,22 +1,22 @@
-using Microsoft.AspNetCore.Mvc;
+// using Microsoft.AspNetCore.Mvc;
 
-namespace ApiTalking.Controllers;
+// namespace ApiTalking.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-public class LoginController : ControllerBase
-{
+// [ApiController]
+// [Route("[controller]")]
+// public class LoginController : ControllerBase
+// {
 
-    private readonly ILogger<LoginController> _logger;
-    public LoginController(ILogger<LoginController> logger)
-    {
-        _logger = logger;
-    }
+//     private readonly ILogger<LoginController> _logger;
+//     public LoginController(ILogger<LoginController> logger)
+//     {
+//         _logger = logger;
+//     }
 
-    [HttpPost]
-    public async Task<IActionResult> loguin()
-    {
+//     [HttpPost]
+//     public async Task<IActionResult> loguin()
+//     {
         
-        return Ok();
-    }
-}
+//         return Ok();
+//     }
+// }

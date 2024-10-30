@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EntitiesLibrary\EntitiesLibrary.csproj" />
     <ProjectReference Include="..\DaoLibrary\DaoLibrary.csproj" />
+
   </ItemGroup>
 
 </Project>

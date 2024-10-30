@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EntitiesLibrary.Entities.Enum;
+//using EntitiesLibrary.Entities.Enum;
 
 namespace EntitiesLibrary.Post;
 public class Post

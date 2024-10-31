@@ -8,15 +8,14 @@ namespace DaoLibrary.EFCore.User
 {
     public class DAOUser : IDAOUser
     {
-        private readonly DbContext _context;
+        private readonly MyDbContext _context;
 
-        public DAOUser(DbContext context)
+        public DAOUser(MyDbContext context)  // Cambiado de DbContext a MyDbContext
         {
             _context = context;
         }
 
-
-        public async Task<List<EntitiesLibrary.User.User>> GetUsersPaged(int pageNumber, int pageSize, bool? isActive)
+        public async Task<(List<EntitiesLibrary.User.User> Users, int TotalCount)> GetUsersPaged(int pageNumber, int pageSize, bool? isActive)
         {
             var query = _context.Set<EntitiesLibrary.User.User>().AsQueryable();
 
@@ -28,26 +27,26 @@ namespace DaoLibrary.EFCore.User
                                 : EntitiesLibrary.User.UserStatus.Deleted));
             }
 
+            // Obtener la cantidad total de registros antes de aplicar la paginación
+            var totalCount = await query.CountAsync();
+
             // Aplicar la paginación
-            return await query
-                .Skip((pageNumber - 1) * pageSize)  
-                .Take(pageSize)                      
-                .ToListAsync()
-                ;
+            var users = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (users, totalCount);
         }
 
         public async Task<List<EntitiesLibrary.User.User>> GetAllUsers()
         {
-            return await _context.Set<EntitiesLibrary.User.User>()
-                .ToListAsync()
-                ;
+            return await _context.Set<EntitiesLibrary.User.User>().ToListAsync();
         }
 
         public async Task<EntitiesLibrary.User.User?> GetUserById(int id)
         {
-            return await _context.Set<EntitiesLibrary.User.User>()
-                .FindAsync(id)
-                ;
+            return await _context.Set<EntitiesLibrary.User.User>().FindAsync(id);
         }
 
         public async Task AddUser(EntitiesLibrary.User.User user)

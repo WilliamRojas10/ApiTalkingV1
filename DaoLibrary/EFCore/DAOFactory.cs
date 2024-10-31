@@ -17,17 +17,7 @@ public class DAOFactory : IDAOFactory
     {
         this.context = context;
     }
-
-    // public IDAOPerson CreateDAOPerson()
-    // {
-    //     return new DAOEFPerson(context);
-    // }
-
-    // public IDAOPost CreateDAOPost()
-    // {
-    //     return new DAOEFPost(context);
-    // }
-
+   
     public IDAOUser CreateDAOUser()
     {
         return new DAOUser(context);
@@ -36,5 +26,14 @@ public class DAOFactory : IDAOFactory
     // public IDAOUserBan CreateDAOUserBan()
     // {
     //     return new DAOEFUserBan(context);
+    // }
+     // public IDAOPerson CreateDAOPerson()
+    // {
+    //     return new DAOEFPerson(context);
+    // }
+
+    // public IDAOPost CreateDAOPost()
+    // {
+    //     return new DAOEFPost(context);
     // }
 }

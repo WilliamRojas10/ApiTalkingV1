@@ -1,36 +1,29 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DaoLibrary;
-using DaoLibrary.EFCore;
+using System.Threading.Tasks;
 using DaoLibrary.Interfaces.User;
-
-using EntitiesLibrary.User;
-using ApiTalking.DTO.User;
 using ApiTalking.DTO.common;
-using DaoLibrary.EFCore.User;
-using DaoLibrary.Interfaces;
 
 namespace ApiTalking.Controllers;
 
-
-   [ApiController]
+[ApiController]
 [Route("api/[controller]")]
 public class UserController : ControllerBase
 {
     private readonly IDAOUser _daoUser;
 
-    public UserController(DAOFactory daoFactory)
+    // Cambiado a inyección directa de IDAOUser
+    public UserController(IDAOUser daoUser)
     {
-        _daoUser = daoFactory.CreateDAOUser();
+        _daoUser = daoUser;
     }
 
     [HttpGet("paged")]
-    public async Task<ActionResult> GetUser(int page, int pageSize)
+    public async Task<IActionResult> GetUser(int page, int pageSize)
     {
         try
         {
-            var users = await _daoUser.GetAllUsers();
-            if (users == null)
+            (var users, int totalRegistro) = await _daoUser.GetUsersPaged(page, pageSize, null);
+            if (users == null || !users.Any())
             {
                 return BadRequest(new ErrorResponseDTO
                 {
@@ -51,7 +44,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{idUser}")]
-    public async Task<ActionResult> GetUserById(int idUser)
+    public async Task<IActionResult> GetUserById(int idUser)
     {
         try
         {
@@ -64,15 +57,7 @@ public class UserController : ControllerBase
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
-            return Ok(new ResponseUserDTO
-            {
-                name = user.Name,
-                lastName = user.LastName,
-                birthDate = user.BirthDate,
-                nationality = user.Nationality,
-                province = user.Province,
-                email = user.Email
-            });
+            return Ok(user); // O aquí puedes mapear a ResponseUserDTO
         }
         catch (Exception ex)
         {
@@ -84,5 +69,3 @@ public class UserController : ControllerBase
         }
     }
 }
-
-     

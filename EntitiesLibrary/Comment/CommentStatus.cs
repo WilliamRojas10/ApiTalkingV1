@@ -2,7 +2,7 @@ namespace EntitiesLibrary.Comment;
 
 public enum CommentStatus
 {
-    Sent = 1,
-    Reported = 2,
+    Active = 1,
+    Blocked = 2,
     Deleted = 3
 }

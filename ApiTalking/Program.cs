@@ -1,6 +1,9 @@
 //AGREGADO POR GPT
 using DaoLibrary;
+using DaoLibrary.Interfaces;
 using Microsoft.EntityFrameworkCore;
+
+using DaoLibrary.EFCore;
 //FIN
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +17,7 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IDAOFactory, DAOFactory>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

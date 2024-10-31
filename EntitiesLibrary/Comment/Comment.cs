@@ -8,6 +8,7 @@ public class Comment
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [Column("id")]
     public required int Id { get; set; }
     public string? Text { get; set; }
     public  DateTime RegistrationDate { get; set; }

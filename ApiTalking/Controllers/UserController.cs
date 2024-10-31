@@ -24,7 +24,7 @@ public class UserController : ControllerBase
 
 
     [HttpGet]
-    public async Task<ActionResult> getUser(int page, int pageSize)
+    public async Task<ActionResult> GetUser(int page, int pageSize)
     {
         try
         {
@@ -53,7 +53,7 @@ public class UserController : ControllerBase
     }
 
      [HttpGet]
-    public async Task<ActionResult> getUserById( int idUser)
+    public async Task<ActionResult> GetUserById( int idUser)
      {
         try
         {

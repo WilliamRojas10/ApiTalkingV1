@@ -8,6 +8,7 @@ using DaoLibrary.EFCore.User;
 // using dao_library.entity_framework.post;
 
 namespace DaoLibrary.EFCore;
+
 public class DAOFactory : IDAOFactory
 {
     private readonly MyDbContext context;

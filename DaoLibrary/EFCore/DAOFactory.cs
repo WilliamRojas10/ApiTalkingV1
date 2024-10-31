@@ -4,8 +4,9 @@ using DaoLibrary.Interfaces.User;
 using DaoLibrary.EFCore.User;
 // using dao_library.Interfaces.login;
 // using dao_library.entity_framework.login;
-// using dao_library.Interfaces.post;
+using DaoLibrary.Interfaces.Post;
 // using dao_library.entity_framework.post;
+using DaoLibrary.EFCore.Post;
 
 namespace DaoLibrary.EFCore;
 
@@ -17,7 +18,17 @@ public class DAOFactory : IDAOFactory
     {
         this.context = context;
     }
-   
+
+    // public IDAOPerson CreateDAOPerson()
+    // {
+    //     return new DAOEFPerson(context);
+    // }
+
+     public IDAOPost CreateDAOPost()
+     {
+         return new DAOPost(context);
+     }
+
     public IDAOUser CreateDAOUser()
     {
         return new DAOUser(context);

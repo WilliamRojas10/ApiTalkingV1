@@ -8,6 +8,7 @@ using EntitiesLibrary.User;
 using ApiTalking.DTO.User;
 using ApiTalking.DTO.common;
 using DaoLibrary.EFCore.User;
+using DaoLibrary.Interfaces;
 
 namespace ApiTalking.Controllers;
 

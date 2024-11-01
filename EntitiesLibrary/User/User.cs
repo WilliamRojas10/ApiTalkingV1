@@ -12,9 +12,12 @@ namespace EntitiesLibrary.User
         public required string LastName { get; set; }
         public required string Email { get; set; }
         public required string Password { get; set; }
-        public required DateTime BirthDate { get; set; }
+        public required DateOnly BirthDate { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime RegistrationDateTime { get; set; }
         public string? Nationality { get; set; }
         public string? Province { get; set; }
-        public UserStatus UserStatus { get; set; }
+        public required UserStatus UserStatus { get; set; }
     }
 }

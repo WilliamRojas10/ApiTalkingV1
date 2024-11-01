@@ -1,5 +1,4 @@
 namespace EntitiesLibrary.Comment;
-
 public enum CommentStatus
 {
     Active = 1,

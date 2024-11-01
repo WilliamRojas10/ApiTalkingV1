@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-//using EntitiesLibrary.Entities.Enum;
 
 namespace EntitiesLibrary.Post;
 public class Post
@@ -12,7 +11,7 @@ public class Post
     public required PostStatus PostStatus { get; set; }
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public DateTime RegistrationDate { get; set; }
+    public DateTime RegistrationDateTime { get; set; }
     public required int IdUser { get; set; }
     public int? IdFile { get; set; }
    

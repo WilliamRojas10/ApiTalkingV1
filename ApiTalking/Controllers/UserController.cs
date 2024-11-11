@@ -4,7 +4,7 @@ using EntitiesLibrary.User;
 using DaoLibrary.Interfaces.User;
 using ApiTalking.DTO.common;
 using ApiTalking.DTO.User;
-
+using ApiTalking.Helpers;
 
 namespace ApiTalking.Controllers
 {
@@ -121,7 +121,7 @@ namespace ApiTalking.Controllers
                     LastName = userDTO.lastName,
                     Email = userDTO.email,
                     Password = userDTO.password,
-                    BirthDate = convertStringToDateOnly(userDTO.birthDate),
+                    BirthDate = Converter.convertStringToDateOnly(userDTO.birthDate),
                     Nationality = userDTO.nationality,
                     Province = userDTO.province,
                     UserStatus = UserStatus.Active
@@ -172,7 +172,7 @@ namespace ApiTalking.Controllers
                 user.Name = userDTO.name;
                 user.LastName = userDTO.lastName;
                 user.Email = userDTO.email;
-                user.BirthDate = convertStringToDateOnly(userDTO.birthDate);
+                user.BirthDate = Converter.convertStringToDateOnly(userDTO.birthDate);
                 user.Nationality = userDTO.nationality;
                 user.Province = userDTO.province;
 
@@ -300,18 +300,18 @@ namespace ApiTalking.Controllers
         }
 
         ////////////////
-        public static DateOnly convertStringToDateOnly(string dateString)
-        {
-            if (DateOnly.TryParse(dateString, out DateOnly dateOnly))
-            {
-                return dateOnly;
-            }
-            throw new FormatException("El formato de fecha no es válido.");
-        }
-        public static string convertDateOnlyToString(DateOnly dateOnly)
-        {
-            return dateOnly.ToString("dd-MM-yyyy"); // Cambia el formato según sea necesario
-        }
+        // public static DateOnly convertStringToDateOnly(string dateString)
+        // {
+        //     if (DateOnly.TryParse(dateString, out DateOnly dateOnly))
+        //     {
+        //         return dateOnly;
+        //     }
+        //     throw new FormatException("El formato de fecha no es válido.");
+        // }
+        // public static string convertDateOnlyToString(DateOnly dateOnly)
+        // {
+        //     return dateOnly.ToString("dd-MM-yyyy"); // Cambia el formato según sea necesario
+        // }
 
 
     }

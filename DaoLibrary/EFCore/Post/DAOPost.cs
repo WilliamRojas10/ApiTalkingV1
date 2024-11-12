@@ -8,57 +8,61 @@ namespace DaoLibrary.EFCore.Post
 {
     public class DAOPost : IDAOPost
     {
-        private readonly DbContext _context;
+        private readonly MyDbContext _context;
 
-        public DAOPost(DbContext context)
+        public DAOPost(MyDbContext context) 
         {
             _context = context;
         }
 
-
-        public async Task<List<EntitiesLibrary.Post.Post>> GetPostsPaged(int pageNumber, int pageSize, bool? isActive)
+        public async Task<(List<EntitiesLibrary.Post.Post> posts, int TotalCount)> GetPostsPaged
+        (int pageNumber, int pageSize, EntitiesLibrary.Post.PostStatus? postStatus)
         {
             var query = _context.Set<EntitiesLibrary.Post.Post>().AsQueryable();
 
-            // Filtrar según el estado si está presente
-            if (isActive.HasValue)
+
+            if (postStatus.HasValue)
             {
-                query = query.Where(user => user.PostStatus == (isActive.Value 
-                                ? EntitiesLibrary.Post.PostStatus.Active 
-                                : EntitiesLibrary.Post.PostStatus.Deleted));
+                query = query.Where(post => post.PostStatus == postStatus.Value);
             }
 
-            // Aplicar la paginación
-            return await query
-                .Skip((pageNumber - 1) * pageSize)  
-                .Take(pageSize)                      
-                .ToListAsync()
-                ;
+            var totalCount = await query.CountAsync();
+
+            var posts = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (posts, totalCount);
         }
+
 
         public async Task<List<EntitiesLibrary.Post.Post>> GetAllPosts()
         {
-            return await _context.Set<EntitiesLibrary.Post.Post>()
-                .ToListAsync()
-                ;
+            return await _context.Set<EntitiesLibrary.Post.Post>().ToListAsync();
         }
 
         public async Task<EntitiesLibrary.Post.Post?> GetPostById(int id)
         {
-            return await _context.Set<EntitiesLibrary.Post.Post>()
-                .FindAsync(id)
-                ;
+            return await _context.Set<EntitiesLibrary.Post.Post>().FindAsync(id);
         }
 
-        public async Task AddPost(EntitiesLibrary.Post.Post Post)
+         public async Task<EntitiesLibrary.Post.Post?> GetPostById
+        (int id, EntitiesLibrary.Post.PostStatus? postStatus)
         {
-            await _context.Set<EntitiesLibrary.Post.Post>().AddAsync(Post);
+            return await _context.Set<EntitiesLibrary.Post.Post>()
+                .FirstOrDefaultAsync(post => post.Id == id && post.PostStatus == postStatus);
+        }
+
+        public async Task AddPost(EntitiesLibrary.Post.Post post)
+        {
+            await _context.Set<EntitiesLibrary.Post.Post>().AddAsync(post);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdatePost(EntitiesLibrary.Post.Post Post)
+        public async Task UpdatePost(EntitiesLibrary.Post.Post post)
         {
-            _context.Set<EntitiesLibrary.Post.Post>().Update(Post);
+            _context.Set<EntitiesLibrary.Post.Post>().Update(post);
             await _context.SaveChangesAsync();
         }
 

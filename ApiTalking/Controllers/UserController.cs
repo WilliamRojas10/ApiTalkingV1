@@ -5,6 +5,7 @@ using DaoLibrary.Interfaces.User;
 using ApiTalking.DTO.common;
 using ApiTalking.DTO.User;
 using ApiTalking.Helpers;
+using ApiTalking.DTO.Post;
 
 namespace ApiTalking.Controllers
 {
@@ -298,6 +299,91 @@ namespace ApiTalking.Controllers
                 });
             }
         }
+
+
+// agregar imagen desde el ordenador -------------------------------------------
+[HttpPost("subir-imagen")]
+public async Task<IActionResult> UploadUserImage([FromForm] UploadFileDTO imageDTO)
+{
+    try
+    {
+        // Validar si la imagen se proporciona correctamente
+        if (imageDTO.image == null || imageDTO.image.Length == 0)
+        {
+            return BadRequest(new ErrorResponseDTO
+            {
+                sucess = false,
+                message = "No se proporcionó ninguna imagen o el archivo está vacío."
+            });
+        }
+
+        // Verificar si el usuario existe
+        var user = await _daoUser.GetUserById(imageDTO.userId);
+        if (user == null)
+        {
+            return NotFound(new ErrorResponseDTO
+            {
+                sucess = false,
+                message = $"No se encontró el usuario con el Id: {imageDTO.userId}"
+            });
+        }
+
+        // Validar la extensión del archivo
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+        var extension = Path.GetExtension(imageDTO.image.FileName).ToLower();
+        if (!allowedExtensions.Contains(extension))
+        {
+            return BadRequest(new ErrorResponseDTO
+            {
+                sucess = false,
+                message = "El formato del archivo no es válido. Solo se permiten .jpg, .jpeg, .png, .gif."
+            });
+        }
+
+        // Preparar el directorio de almacenamiento
+        var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "users");
+        if (!Directory.Exists(uploadPath))
+        {
+            Directory.CreateDirectory(uploadPath);
+        }
+
+        // Generar un nombre único para la imagen
+        var imageFileName = $"{imageDTO.userId}_{Guid.NewGuid()}{extension}";
+        var imagePath = Path.Combine(uploadPath, imageFileName);
+
+        // Guardar la imagen físicamente en el servidor
+        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+        {
+            await imageDTO.image.CopyToAsync(fileStream);
+        }
+
+        // Actualizar la información del usuario con la nueva ruta de imagen
+        user.ProfileImagePath = $"/images/users/{imageFileName}";
+        await _daoUser.UpdateUser(user);
+
+        return Ok(new ResponseDTO
+        {
+            sucess = true,
+            message = "La imagen fue subida exitosamente.",
+            data = new { userId = imageDTO.userId, imagePath = user.ProfileImagePath }
+        });
+    }
+    catch (Exception ex)
+    {
+        return BadRequest(new ErrorResponseDTO
+        {
+            sucess = false,
+            message = "Error al subir la imagen: " + ex.Message
+        });
+    }
+}
+
+
+
+
+
+
+
 
         ////////////////
         // public static DateOnly convertStringToDateOnly(string dateString)

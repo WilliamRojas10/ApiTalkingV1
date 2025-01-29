@@ -14,3 +14,12 @@ public class RequestPostDTO
     public int? idFile { get; set; }
    
 }
+
+
+public class UploadFileDTO
+{
+    public IFormFile? image { get; set; } // Ahora puede ser nulo
+
+    
+    public int userId { get; set; }
+}

@@ -19,6 +19,8 @@ namespace DaoLibrary
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
 
+        //public string? ProfileImagePath { get; set; }
+
         // //Para recorrer el enum UserStatus
         //  protected override void OnModelCreating(ModelBuilder modelBuilder)
         //  {

@@ -19,5 +19,7 @@ namespace EntitiesLibrary.User
         public string? Nationality { get; set; }
         public string? Province { get; set; }
         public required UserStatus UserStatus { get; set; }
+
+         public string? ProfileImagePath { get; set; }
     }
 }

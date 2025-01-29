@@ -2,6 +2,7 @@ using DaoLibrary;
 using Microsoft.EntityFrameworkCore;
 using DaoLibrary.Interfaces;
 using DaoLibrary.EFCore;
+using Microsoft.OpenApi.Models; // Para OpenApiSchema y OpenApiInfo
 
 using DaoLibrary.Interfaces.User;
 using DaoLibrary.EFCore.User;
@@ -21,7 +22,18 @@ builder.Services.AddScoped<IDAOUser, DAOUser>(); // Registra DAOUser si es neces
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiTalking", Version = "v1" });
+
+    // Mapea IFormFile para que Swagger lo reconozca como un tipo de archivo binario
+    c.MapType<IFormFile>(() => new OpenApiSchema
+    {
+        Type = "string",
+        Format = "binary"
+    });
+});
+
 
 var app = builder.Build();
 
@@ -35,5 +47,5 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-
+app.UseStaticFiles();
 app.Run();

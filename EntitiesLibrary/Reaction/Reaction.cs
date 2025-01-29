@@ -14,5 +14,5 @@ public class Reaction
     public DateTime RegistrationDateTime { get; set; }
     public ReactionStatus ReactionStatus { get; set; }
 
-    //public required EntitiesLibrary.Common.EntityStatus EntityStatus { get; set; }
+    public required EntitiesLibrary.Common.EntityStatus EntityStatus { get; set; }
 }

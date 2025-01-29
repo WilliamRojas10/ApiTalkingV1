@@ -7,8 +7,8 @@ using ApiTalking.DTO.Post;
 using ApiTalking.Helpers;
 using DaoLibrary.Interfaces.User;
 
-namespace ApiTalking.Controllers
-{
+namespace ApiTalking.Controllers;
+
     [ApiController]
     [Route("api/[controller]")]
     public class PostController : ControllerBase
@@ -22,12 +22,12 @@ namespace ApiTalking.Controllers
             _daoUser = daoUser;
         }
 
-        [HttpGet("listar")]
+        [HttpGet("paginado")]
         public async Task<IActionResult> GetPosts(int page, int pageSize)
         {
             try
             {
-                var activeStatus = EntitiesLibrary.Post.PostStatus.Active;
+                var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
                 (var posts, int totalRecords) = await _daoPost.GetPostsPaged
                 (
                 page,
@@ -115,11 +115,11 @@ namespace ApiTalking.Controllers
                         message = "Datos del usuario no válidos"
                     });
                 }
-                var userStatusActive = EntitiesLibrary.User.UserStatus.Active;
+                var userStatusActive = EntitiesLibrary.Common.EntityStatus.Active;
                 var post = new Post
                 {
                     Description = postDTO.description,
-                    PostStatus = EntitiesLibrary.Post.PostStatus.Active,
+                    EntityStatus = EntitiesLibrary.Common.EntityStatus.Active,
                     User = await _daoUser.GetUserById(postDTO.idUser, userStatusActive),
                     //TODO: Se tiene que obtener por id de file
                     //File = postDTO.idFile
@@ -149,7 +149,7 @@ namespace ApiTalking.Controllers
         {
             try
             {
-                var activeStatus = EntitiesLibrary.Post.PostStatus.Active;
+                var activeStatus = EntitiesLibrary.Common.EntityStatus.Active; 
                 if (postDTO == null)
                 {
                     return BadRequest(new ErrorResponseDTO
@@ -171,7 +171,7 @@ namespace ApiTalking.Controllers
                 post.Description = postDTO.description;
                 //TODO: Se tiene que obtener por id de file
                 //post.File = postDTO.idFile;
-                post.PostStatus = (EntitiesLibrary.Post.PostStatus)postDTO.postStatus;
+                post.EntityStatus= (EntitiesLibrary.Common.EntityStatus)postDTO.postStatus;//TODO CAMBIA EL ATRIBUTO DEL DTO
 
 
                 await _daoPost.UpdatePost(post);
@@ -197,10 +197,10 @@ namespace ApiTalking.Controllers
         {
             try
             {
-                var activeStatus = EntitiesLibrary.Post.PostStatus.Active;
-                var deletedStatus = EntitiesLibrary.Post.PostStatus.Deleted;
+                var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
+                var deletedStatus = EntitiesLibrary.Common.EntityStatus.Deleted;
                 var post = await _daoPost.GetPostById(idPost, activeStatus);
-                if (post == null || post.PostStatus == deletedStatus)
+                if (post == null || post.EntityStatus == deletedStatus)
                 {
                     return NotFound(new ErrorResponseDTO
                     {
@@ -208,7 +208,7 @@ namespace ApiTalking.Controllers
                         message = "No se encontró el post con el Id: " + idPost
                     });
                 }
-                post.PostStatus = EntitiesLibrary.Post.PostStatus.Blocked;
+                post.EntityStatus = EntitiesLibrary.Common.EntityStatus.Blocked;
                 await _daoPost.UpdatePost(post);
 
                 return Ok(new ResponseDTO
@@ -232,10 +232,10 @@ namespace ApiTalking.Controllers
         {
             try
             {
-                var statusDeleted = EntitiesLibrary.Post.PostStatus.Deleted;
-                var statusActive = EntitiesLibrary.Post.PostStatus.Active;
-                var post = await _daoPost.GetPostById(idPost, statusActive);
-                if (post == null || post.PostStatus != statusDeleted)
+                var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
+                var deletedStatus = EntitiesLibrary.Common.EntityStatus.Deleted;
+                var post = await _daoPost.GetPostById(idPost, activeStatus);
+                if (post == null || post.EntityStatus != deletedStatus)
                 {
                     return NotFound(new ErrorResponseDTO
                     {
@@ -243,7 +243,7 @@ namespace ApiTalking.Controllers
                         message = "No se encontró el usuario con el Id: " + idPost
                     });
                 }
-                post.PostStatus = EntitiesLibrary.Post.PostStatus.Active;
+                post.EntityStatus = EntitiesLibrary.Common.EntityStatus.Active;
                 await _daoPost.UpdatePost(post);
 
                 return Ok(new ResponseDTO
@@ -267,7 +267,7 @@ namespace ApiTalking.Controllers
         {
             try
             {
-                var activeStatus = EntitiesLibrary.Post.PostStatus.Active;
+                var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
                 var post = await _daoPost.GetPostById(idPost, activeStatus);
                 if (post == null)
                 {
@@ -277,7 +277,7 @@ namespace ApiTalking.Controllers
                         message = "No se encontró el post con el Id: " + idPost
                     });
                 }
-                post.PostStatus = EntitiesLibrary.Post.PostStatus.Deleted;
+                post.EntityStatus = EntitiesLibrary.Common.EntityStatus.Deleted;
 
                 await _daoPost.UpdatePost(post);
 
@@ -304,4 +304,3 @@ namespace ApiTalking.Controllers
 
 
 
-}

@@ -3,6 +3,7 @@ using System;
 using DaoLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DaoLibrary.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250128220916_AddProfileImagePathToUser")]
+    partial class AddProfileImagePathToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,9 +26,10 @@ namespace DaoLibrary.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
-                    b.Property<int>("EntityStatus")
+                    b.Property<int>("CommentStatus")
                         .HasColumnType("int");
 
                     b.Property<int>("PostId")
@@ -71,9 +75,6 @@ namespace DaoLibrary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("EntityStatus")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -101,10 +102,10 @@ namespace DaoLibrary.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("EntityStatus")
+                    b.Property<int?>("FileId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FileId")
+                    b.Property<int>("PostStatus")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RegistrationDateTime")
@@ -129,10 +130,7 @@ namespace DaoLibrary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("EntityStatus")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PostId")
+                    b.Property<int>("PostStatus")
                         .HasColumnType("int");
 
                     b.Property<int>("ReactionStatus")
@@ -146,8 +144,6 @@ namespace DaoLibrary.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
@@ -166,9 +162,6 @@ namespace DaoLibrary.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("EntityStatus")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -195,7 +188,7 @@ namespace DaoLibrary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UserType")
+                    b.Property<int>("UserStatus")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -252,19 +245,11 @@ namespace DaoLibrary.Migrations
 
             modelBuilder.Entity("EntitiesLibrary.Reaction.Reaction", b =>
                 {
-                    b.HasOne("EntitiesLibrary.Post.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EntitiesLibrary.User.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });

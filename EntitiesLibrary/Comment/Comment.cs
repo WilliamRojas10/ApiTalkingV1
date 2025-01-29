@@ -12,7 +12,7 @@ public class Comment
     
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public  DateTime RegistrationDateTime { get; set; }
-    //public  CommentStatus CommentStatus { get; set; }
+
     public required EntitiesLibrary.User.User User { get; set; }
 
     public required EntitiesLibrary.Post.Post Post { get; set; }

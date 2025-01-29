@@ -54,6 +54,7 @@ namespace DaoLibrary.EFCore.User;
                 .FirstOrDefaultAsync(user => user.Id == id && user.EntityStatus == entityStatus);
         }
 
+
         public async Task AddUser(EntitiesLibrary.User.User user)
         {
             await _context.Set<EntitiesLibrary.User.User>().AddAsync(user);

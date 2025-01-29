@@ -21,5 +21,10 @@ namespace EntitiesLibrary.User;
 
         public required EntitiesLibrary.User.UserType UserType { get; set; } 
         public required EntitiesLibrary.Common.EntityStatus EntityStatus { get; set; }
+    
+
+        //public required UserStatus UserStatus { get; set; }
+
+         public string? ProfileImagePath { get; set; }
     }
 

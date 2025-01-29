@@ -11,7 +11,7 @@ public class DAOReaction : IDAOReaction
 {
     private readonly MyDbContext _context;
 
-    public DAOReaction(MyDbContext context)  
+    public DAOReaction(MyDbContext context)
     {
         _context = context;
     }
@@ -76,4 +76,5 @@ public class DAOReaction : IDAOReaction
             await _context.SaveChangesAsync();
         }
     }
+}
 

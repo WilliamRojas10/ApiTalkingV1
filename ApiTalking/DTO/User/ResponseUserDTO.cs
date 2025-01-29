@@ -11,5 +11,10 @@ public class ResponseUserDTO
     public string registrationDateTime { get; set; }
     public string? nationality { get; set; } = "";
     public string? province { get; set; } = "";
+    public string? ProfileImagePath { get; set; }
+        
+    
     // public string userStatus { get; set; } = "";
+
+    
 }

@@ -10,5 +10,10 @@
          public string? nationality { get; set; }
          public string? province { get; set; }
         // public int userStatus { get; set; } 
+
+        public string? ProfileImagePath { get; set; }
+
+        public string? registrationDateTime { get; set; }
+
  }
 

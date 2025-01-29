@@ -5,6 +5,10 @@ using DaoLibrary.Interfaces.Comment;
 using ApiTalking.DTO.common;
 using ApiTalking.DTO.Comment;
 using ApiTalking.Helpers;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
+using DaoLibrary.Interfaces.User;
+using DaoLibrary.Interfaces.Post;
 
 namespace ApiTalking.Controllers;
 
@@ -13,10 +17,15 @@ namespace ApiTalking.Controllers;
 public class CommentController : ControllerBase
 {
     private readonly IDAOComment _daoComment;
+    private readonly IDAOUser _daoUser;
+    private readonly IDAOPost _daoPost;
 
-    public CommentController(IDAOComment daoComment)
+    public CommentController(IDAOComment daoComment, IDAOUser daoUser, IDAOPost daoPost)
     {
         _daoComment = daoComment;
+        _daoUser = daoUser;
+        _daoPost = daoPost;
+
     }
 
     [HttpGet("paginado")]
@@ -42,12 +51,8 @@ public class CommentController : ControllerBase
             var commentDTO = comments.Select(comment => new ResponseCommentDTO
             {
                 idComment = comment.Id,
-                name = comment.Name,
-                lastName = comment.LastName,
-                email = comment.Email,
-                birthDate = comment.BirthDate.ToString(),
-                nationality = comment.Nationality,
-                province = comment.Province
+                text = comment.Text,
+                registrationDate = comment.RegistrationDateTime.ToString(),
             });
             return Ok(new
             {
@@ -86,12 +91,8 @@ public class CommentController : ControllerBase
             return Ok(new ResponseCommentDTO
             {
                 idComment = comment.Id,
-                name = comment.Name,
-                lastName = comment.LastName,
-                email = comment.Email,
-                birthDate = comment.BirthDate.ToString(),
-                nationality = comment.Nationality,
-                province = comment.Province
+                text = comment.Text,
+                registrationDate = comment.RegistrationDateTime.ToString(),
             });
         }
         catch (Exception ex)
@@ -105,7 +106,7 @@ public class CommentController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateComment([FromBody] RequestCommentDTO commentDTO)
+    public async Task<IActionResult> CreateComment ([FromBody] RequestCommentDTO commentDTO)
     {
         try
         {
@@ -117,25 +118,25 @@ public class CommentController : ControllerBase
                     message = "Datos del usuario no válidos"
                 });
             }
+            EntitiesLibrary.User.User user = await _daoUser.
+                                                GetUserById(commentDTO.idUser, EntitiesLibrary.Common.EntityStatus.Active);
 
+            EntitiesLibrary.Post.Post post = await _daoPost.
+                                                GetPostById(commentDTO.idPost, EntitiesLibrary.Common.EntityStatus.Active);
             var comment = new Comment
             {
-                Name = commentDTO.name,
-                LastName = commentDTO.lastName,
-                Email = commentDTO.email,
-                Password = commentDTO.password,
-                BirthDate = Converter.convertStringToDateOnly(commentDTO.birthDate),
-                Nationality = commentDTO.nationality,
-                Province = commentDTO.province,
+                User = user,
+                Post = post,
+                Text = commentDTO.text,
                 EntityStatus = EntitiesLibrary.Common.EntityStatus.Active
             };
 
-            await _daoComment.AddComment(Comment);
+            await _daoComment.AddComment(comment);
 
             return Ok(new ResponseDTO
             {
                 sucess = true,
-                message = "Usuario guardado correctamente"
+                message = "Comentario guardado correctamente"
             });
         }
         catch (Exception ex)
@@ -143,7 +144,7 @@ public class CommentController : ControllerBase
             return BadRequest(new ErrorResponseDTO
             {
                 sucess = false,
-                message = "Error al crear el usuario: " + ex.Message
+                message = "Error al crear un comentario: " + ex.Message
             });
         }
     }
@@ -172,12 +173,7 @@ public class CommentController : ControllerBase
                     message = "No se encontró el usuario con el Id: " + idComment
                 });
             }
-            comment.Name = commentDTO.name;
-            comment.LastName = commentDTO.lastName;
-            comment.Email = commentDTO.email;
-            comment.BirthDate = Converter.convertStringToDateOnly(commentDTO.birthDate);
-            comment.Nationality = commentDTO.nationality;
-            comment.Province = commentDTO.province;
+            comment.Text = commentDTO.text;
 
             await _daoComment.UpdateComment(comment);
 
@@ -247,7 +243,7 @@ public class CommentController : ControllerBase
                     message = "No se encontró el usuario con el Id: " + idComment
                 });
             }
-            comment.CommentStatus = EntitiesLibrary.Common.EntityStatus.Active;
+            comment.EntityStatus = EntitiesLibrary.Common.EntityStatus.Active;
 
             await _daoComment.UpdateComment(comment);
 

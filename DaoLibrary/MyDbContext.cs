@@ -5,8 +5,7 @@ using EntitiesLibrary.Post;
 using EntitiesLibrary.Reaction;
 using EntitiesLibrary.User;
 
-namespace DaoLibrary
-{
+namespace DaoLibrary;
     public class MyDbContext : DbContext
     {
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
@@ -18,6 +17,8 @@ namespace DaoLibrary
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
+
+        //public string? ProfileImagePath { get; set; }
 
         // //Para recorrer el enum UserStatus
         //  protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,4 +41,3 @@ namespace DaoLibrary
         //              v => (ReactionStatus)Enum.Parse(typeof(ReactionStatus), v));
         //  }
     }
-}

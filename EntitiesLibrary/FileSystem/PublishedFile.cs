@@ -11,5 +11,5 @@ public class PublishedFile
     public required string Name { get; set; }
     public required FileType Type { get; set; }
     public required string Path { get; set; }
-
+    public required EntitiesLibrary.Common.EntityStatus EntityStatus { get; set; }
 }

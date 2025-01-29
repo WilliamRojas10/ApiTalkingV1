@@ -8,9 +8,11 @@ public class Reaction
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public required EntitiesLibrary.User.User User { get; set; }
-    public required EntitiesLibrary.Post.PostStatus PostStatus { get; set; }
+    public required EntitiesLibrary.Post.Post Post{ get; set; }
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime RegistrationDateTime { get; set; }
-    public required ReactionStatus ReactionStatus { get; set; }
+    public ReactionStatus ReactionStatus { get; set; }
+
+    //public required EntitiesLibrary.Common.EntityStatus EntityStatus { get; set; }
 }

@@ -2,11 +2,15 @@ using DaoLibrary;
 using DaoLibrary.Interfaces;
 using DaoLibrary.Interfaces.User;
 using DaoLibrary.EFCore.User;
-// using dao_library.Interfaces.login;
-// using dao_library.entity_framework.login;
+
 using DaoLibrary.Interfaces.Post;
-// using dao_library.entity_framework.post;
 using DaoLibrary.EFCore.Post;
+
+using DaoLibrary.Interfaces.Reaction;
+using DaoLibrary.EFCore.Reaction;
+
+using DaoLibrary.Interfaces.Comment;
+using DaoLibrary.EFCore.Comment;
 
 namespace DaoLibrary.EFCore;
 
@@ -34,17 +38,13 @@ public class DAOFactory : IDAOFactory
         return new DAOUser(context);
     }
 
-    // public IDAOUserBan CreateDAOUserBan()
-    // {
-    //     return new DAOEFUserBan(context);
-    // }
-     // public IDAOPerson CreateDAOPerson()
-    // {
-    //     return new DAOEFPerson(context);
-    // }
+    public IDAOReaction CreateDAOReaction()
+    {
+        return new DAOReaction(context);
+    }
 
-    // public IDAOPost CreateDAOPost()
-    // {
-    //     return new DAOEFPost(context);
-    // }
+    public IDAOComment CreateDAOComment()
+    {
+        return new DAOComment(context);
+    }
 }

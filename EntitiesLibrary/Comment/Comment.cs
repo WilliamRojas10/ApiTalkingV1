@@ -7,14 +7,15 @@ public class Comment
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("id")]
     public int Id { get; set; }
     public string? Text { get; set; }
     
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public  DateTime RegistrationDateTime { get; set; }
-    public  CommentStatus CommentStatus { get; set; }
+    //public  CommentStatus CommentStatus { get; set; }
     public required EntitiesLibrary.User.User User { get; set; }
+
     public required EntitiesLibrary.Post.Post Post { get; set; }
 
+    public required EntitiesLibrary.Common.EntityStatus EntityStatus { get; set; }
 }

@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 using DaoLibrary.Interfaces.User;
 using Microsoft.EntityFrameworkCore;
 
-namespace DaoLibrary.EFCore.User
-{
+namespace DaoLibrary.EFCore.User;
     public class DAOUser : IDAOUser
     {
         private readonly MyDbContext _context;
@@ -17,14 +16,14 @@ namespace DaoLibrary.EFCore.User
 
 
         public async Task<(List<EntitiesLibrary.User.User> Users, int TotalCount)> GetUsersPaged
-        (int pageNumber, int pageSize, EntitiesLibrary.User.UserStatus? userStatus)
+        (int pageNumber, int pageSize, EntitiesLibrary.Common.EntityStatus? entityStatus)
         {
             var query = _context.Set<EntitiesLibrary.User.User>().AsQueryable();
 
 
-            if (userStatus.HasValue)
+            if (entityStatus.HasValue)
             {
-                query = query.Where(user => user.UserStatus == userStatus.Value);
+                query = query.Where(user => user.EntityStatus == entityStatus.Value);
             }
 
             var totalCount = await query.CountAsync();
@@ -49,10 +48,10 @@ namespace DaoLibrary.EFCore.User
         }
 
          public async Task<EntitiesLibrary.User.User?> GetUserById
-        (int id, EntitiesLibrary.User.UserStatus? userStatus)
+        (int id, EntitiesLibrary.Common.EntityStatus? entityStatus)
         {
             return await _context.Set<EntitiesLibrary.User.User>()
-                .FirstOrDefaultAsync(user => user.Id == id && user.UserStatus == userStatus);
+                .FirstOrDefaultAsync(user => user.Id == id && user.EntityStatus == entityStatus);
         }
 
         public async Task AddUser(EntitiesLibrary.User.User user)
@@ -77,4 +76,3 @@ namespace DaoLibrary.EFCore.User
             }
         }
     }
-}

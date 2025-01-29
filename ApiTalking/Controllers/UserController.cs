@@ -6,8 +6,8 @@ using ApiTalking.DTO.common;
 using ApiTalking.DTO.User;
 using ApiTalking.Helpers;
 
-namespace ApiTalking.Controllers
-{
+namespace ApiTalking.Controllers;
+
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -20,12 +20,12 @@ namespace ApiTalking.Controllers
             _daoUser = daoUser;
         }
 
-        [HttpGet("listar")]
+        [HttpGet("paginado")]
         public async Task<IActionResult> GetUsers(int page, int pageSize)
         {
             try
             {
-                var activeStatus = EntitiesLibrary.User.UserStatus.Active;  
+                var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;  
                 (var users, int totalRecords) = await _daoUser.GetUsersPaged
                 (
                 page, 
@@ -67,11 +67,15 @@ namespace ApiTalking.Controllers
         }
 
         [HttpGet("{idUser}")]
-        public async Task<IActionResult> GetUserById(int idUser)
+        public async Task<IActionResult> GetUserById
+        (
+            int idUser, 
+            EntitiesLibrary.Common.EntityStatus entityStatus
+        )
         {
             try
             {
-                var user = await _daoUser.GetUserById(idUser);
+                var user = await _daoUser.GetUserById(idUser, entityStatus);
                 if (user == null)
                 {
                     return BadRequest(new ErrorResponseDTO
@@ -124,7 +128,7 @@ namespace ApiTalking.Controllers
                     BirthDate = Converter.convertStringToDateOnly(userDTO.birthDate),
                     Nationality = userDTO.nationality,
                     Province = userDTO.province,
-                    UserStatus = UserStatus.Active
+                    EntityStatus = EntitiesLibrary.Common.EntityStatus.Active
                 };
 
                 await _daoUser.AddUser(user);
@@ -150,7 +154,7 @@ namespace ApiTalking.Controllers
         {
             try
             {
-                var activeStatus = EntitiesLibrary.User.UserStatus.Active;
+                var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
                 if (userDTO == null)
                 {
                     return BadRequest(new ErrorResponseDTO
@@ -199,7 +203,7 @@ namespace ApiTalking.Controllers
         {
             try
             {
-                var activeStatus = EntitiesLibrary.User.UserStatus.Active;
+                var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
 
                 var user = await _daoUser.GetUserById(idUser, activeStatus);
                 if (user == null)
@@ -210,7 +214,7 @@ namespace ApiTalking.Controllers
                         message = "No se encontró el usuario con el Id: " + idUser
                     });
                 }
-                user.UserStatus = EntitiesLibrary.User.UserStatus.Blocked;
+                user.EntityStatus = EntitiesLibrary.Common.EntityStatus.Blocked;
 
                 await _daoUser.UpdateUser(user);
 
@@ -244,7 +248,7 @@ namespace ApiTalking.Controllers
                         message = "No se encontró el usuario con el Id: " + idUser
                     });
                 }
-                user.UserStatus = EntitiesLibrary.User.UserStatus.Active;
+                user.UserStatus = EntitiesLibrary.Common.EntityStatus.Active;
 
                 await _daoUser.UpdateUser(user);
 
@@ -269,7 +273,7 @@ namespace ApiTalking.Controllers
         {
             try
             {
-                var activeStatus = EntitiesLibrary.User.UserStatus.Active;
+                var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
                 var user = await _daoUser.GetUserById(idUser, activeStatus );
                 if (user == null)
                 {
@@ -279,7 +283,7 @@ namespace ApiTalking.Controllers
                         message = "No se encontró el usuario con el Id: " + idUser
                     });
                 }
-                user.UserStatus = EntitiesLibrary.User.UserStatus.Deleted;
+                user.EntityStatus = EntitiesLibrary.Common.EntityStatus.Deleted;
 
                 await _daoUser.UpdateUser(user);
 
@@ -299,22 +303,9 @@ namespace ApiTalking.Controllers
             }
         }
 
-        ////////////////
-        // public static DateOnly convertStringToDateOnly(string dateString)
-        // {
-        //     if (DateOnly.TryParse(dateString, out DateOnly dateOnly))
-        //     {
-        //         return dateOnly;
-        //     }
-        //     throw new FormatException("El formato de fecha no es válido.");
-        // }
-        // public static string convertDateOnlyToString(DateOnly dateOnly)
-        // {
-        //     return dateOnly.ToString("dd-MM-yyyy"); // Cambia el formato según sea necesario
-        // }
 
 
-    }
+    
 
 
 

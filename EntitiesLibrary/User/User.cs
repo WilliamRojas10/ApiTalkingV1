@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EntitiesLibrary.User
-{
+namespace EntitiesLibrary.User;
     public class User
     {
         [Key]
@@ -18,6 +17,9 @@ namespace EntitiesLibrary.User
         public DateTime RegistrationDateTime { get; set; }
         public string? Nationality { get; set; }
         public string? Province { get; set; }
-        public required UserStatus UserStatus { get; set; }
+        //public required UserStatus UserStatus { get; set; }
+
+        public required EntitiesLibrary.User.UserType UserType { get; set; } 
+        public required EntitiesLibrary.Common.EntityStatus EntityStatus { get; set; }
     }
-}
+

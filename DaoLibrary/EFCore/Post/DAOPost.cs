@@ -16,14 +16,14 @@ namespace DaoLibrary.EFCore.Post
         }
 
         public async Task<(List<EntitiesLibrary.Post.Post> posts, int TotalCount)> GetPostsPaged
-        (int pageNumber, int pageSize, EntitiesLibrary.Post.PostStatus? postStatus)
+        (int pageNumber, int pageSize, EntitiesLibrary.Common.EntityStatus? entityStatus)
         {
             var query = _context.Set<EntitiesLibrary.Post.Post>().AsQueryable();
 
 
-            if (postStatus.HasValue)
+            if (entityStatus.HasValue)
             {
-                query = query.Where(post => post.PostStatus == postStatus.Value);
+                query = query.Where(post => post.EntityStatus == entityStatus.Value);
             }
 
             var totalCount = await query.CountAsync();
@@ -48,10 +48,10 @@ namespace DaoLibrary.EFCore.Post
         }
 
          public async Task<EntitiesLibrary.Post.Post?> GetPostById
-        (int id, EntitiesLibrary.Post.PostStatus? postStatus)
+        (int id, EntitiesLibrary.Common.EntityStatus? entityStatus)
         {
             return await _context.Set<EntitiesLibrary.Post.Post>()
-                .FirstOrDefaultAsync(post => post.Id == id && post.PostStatus == postStatus);
+                .FirstOrDefaultAsync(post => post.Id == id && post.EntityStatus == entityStatus);
         }
 
         public async Task AddPost(EntitiesLibrary.Post.Post post)

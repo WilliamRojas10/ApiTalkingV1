@@ -1,14 +1,15 @@
-// using dao_library.Interfaces.login;
-// using dao_library.Interfaces.post;
+
 using DaoLibrary.Interfaces.User;
 using DaoLibrary.Interfaces.Post;
+using DaoLibrary.Interfaces.Comment;
+using DaoLibrary.Interfaces.Reaction;
 
 namespace DaoLibrary.Interfaces;
 
 public interface IDAOFactory
 {
     IDAOUser CreateDAOUser();
-    // IDAOPerson CreateDAOPerson();
-    // IDAOUserBan CreateDAOUserBan();
     IDAOPost CreateDAOPost();
+    IDAOComment CreateDAOComment();
+    IDAOReaction CreateDAOReaction();
 }

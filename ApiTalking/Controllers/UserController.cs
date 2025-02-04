@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using EntitiesLibrary.User;
 using DaoLibrary.Interfaces.User;
-using ApiTalking.DTO.common;
-using ApiTalking.DTO.User;
+using ApiTalking.DTOs.common;
+using ApiTalking.DTOs.User;
 using ApiTalking.Helpers;
-using ApiTalking.DTO.Post;
+using ApiTalking.DTOs.Post;
 
 namespace ApiTalking.Controllers;
 

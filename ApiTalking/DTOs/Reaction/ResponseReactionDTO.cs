@@ -1,4 +1,4 @@
-namespace ApiTalking.DTO.Reaction;
+namespace ApiTalking.DTOs.Reaction;
 public class ResponseReactionDTO
 {
     public required int idReaction{ get; set; }

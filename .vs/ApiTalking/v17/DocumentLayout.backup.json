@@ -3,48 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\apitalking\\controllers\\commentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\controllers\\commentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\apitalking\\controllers\\postcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\controllers\\postcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2656618-50ED-4183-810C-E390DC8947AC}|EntitiesLibrary\\EntitiesLibrary.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\entitieslibrary\\comment\\comment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2656618-50ED-4183-810C-E390DC8947AC}|EntitiesLibrary\\EntitiesLibrary.csproj|solutionrelative:entitieslibrary\\comment\\comment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\apitalking\\service\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\service\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\apitalking\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\daolibrary\\efcore\\comment\\daocomment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|solutionrelative:daolibrary\\efcore\\comment\\daocomment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\apitalking\\dtos\\common\\responsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\dtos\\common\\responsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\daolibrary\\efcore\\user\\daouser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|solutionrelative:daolibrary\\efcore\\user\\daouser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E2656618-50ED-4183-810C-E390DC8947AC}|EntitiesLibrary\\EntitiesLibrary.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\entitieslibrary\\reaction\\reaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2656618-50ED-4183-810C-E390DC8947AC}|EntitiesLibrary\\EntitiesLibrary.csproj|solutionrelative:entitieslibrary\\reaction\\reaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\daolibrary\\efcore\\reaction\\daoreaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|solutionrelative:daolibrary\\efcore\\reaction\\daoreaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\apitalking\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2656618-50ED-4183-810C-E390DC8947AC}|EntitiesLibrary\\EntitiesLibrary.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\entitieslibrary\\user\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E2656618-50ED-4183-810C-E390DC8947AC}|EntitiesLibrary\\EntitiesLibrary.csproj|solutionrelative:entitieslibrary\\user\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\apitalking\\dto\\comment\\responsecommentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\dto\\comment\\responsecommentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E2656618-50ED-4183-810C-E390DC8947AC}|EntitiesLibrary\\EntitiesLibrary.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\entitieslibrary\\entitieslibrary.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{E2656618-50ED-4183-810C-E390DC8947AC}|EntitiesLibrary\\EntitiesLibrary.csproj|solutionrelative:entitieslibrary\\entitieslibrary.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\apitalking\\controllers\\postcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\controllers\\postcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\daolibrary\\efcore\\user\\daouser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|solutionrelative:daolibrary\\efcore\\user\\daouser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\apitalking\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\apitalking\\dtos\\login\\responselogindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\dtos\\login\\responselogindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\apitalking\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,8 +54,123 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PostController.cs",
+              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Controllers\\PostController.cs",
+              "RelativeDocumentMoniker": "ApiTalking\\Controllers\\PostController.cs",
+              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Controllers\\PostController.cs",
+              "RelativeToolTip": "ApiTalking\\Controllers\\PostController.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAQwBgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-04T20:51:30.15Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EntitiesLibrary",
+              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\EntitiesLibrary\\EntitiesLibrary.csproj",
+              "RelativeDocumentMoniker": "EntitiesLibrary\\EntitiesLibrary.csproj",
+              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\EntitiesLibrary\\EntitiesLibrary.csproj",
+              "RelativeToolTip": "EntitiesLibrary\\EntitiesLibrary.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-02-04T20:38:56.353Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DAOUser.cs",
+              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\DaoLibrary\\EFCore\\User\\DAOUser.cs",
+              "RelativeDocumentMoniker": "DaoLibrary\\EFCore\\User\\DAOUser.cs",
+              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\DaoLibrary\\EFCore\\User\\DAOUser.cs",
+              "RelativeToolTip": "DaoLibrary\\EFCore\\User\\DAOUser.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAowEEAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T22:03:18.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Program.cs",
+              "RelativeDocumentMoniker": "ApiTalking\\Program.cs",
+              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Program.cs",
+              "RelativeToolTip": "ApiTalking\\Program.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAAAEoAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T21:20:28.119Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ResponseLoginDTO.cs",
+              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\DTOs\\Login\\ResponseLoginDTO.cs",
+              "RelativeDocumentMoniker": "ApiTalking\\DTOs\\Login\\ResponseLoginDTO.cs",
+              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\DTOs\\Login\\ResponseLoginDTO.cs",
+              "RelativeToolTip": "ApiTalking\\DTOs\\Login\\ResponseLoginDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T21:18:37.148Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ResponseDTO.cs",
+              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\DTOs\\common\\ResponseDTO.cs",
+              "RelativeDocumentMoniker": "ApiTalking\\DTOs\\common\\ResponseDTO.cs",
+              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\DTOs\\common\\ResponseDTO.cs",
+              "RelativeToolTip": "ApiTalking\\DTOs\\common\\ResponseDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T21:14:03.144Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AuthService.cs",
+              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Service\\AuthService.cs",
+              "RelativeDocumentMoniker": "ApiTalking\\Service\\AuthService.cs",
+              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Service\\AuthService.cs",
+              "RelativeToolTip": "ApiTalking\\Service\\AuthService.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAADwvyEAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T21:09:43.821Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "ApiTalking\\Controllers\\LoginController.cs",
+              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "ApiTalking\\Controllers\\LoginController.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAgwDQAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T21:05:53.712Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\appsettings.json",
+              "RelativeDocumentMoniker": "ApiTalking\\appsettings.json",
+              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\appsettings.json",
+              "RelativeToolTip": "ApiTalking\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-01-30T21:02:00.348Z"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -64,139 +179,22 @@
               "RelativeDocumentMoniker": "ApiTalking\\Controllers\\UserController.cs",
               "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Controllers\\UserController.cs",
               "RelativeToolTip": "ApiTalking\\Controllers\\UserController.cs",
-              "ViewState": "AgIAAOEAAAAAAAAAAAAQwPwAAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAIwHoAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T02:23:06.275Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Comment.cs",
-              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\EntitiesLibrary\\Comment\\Comment.cs",
-              "RelativeDocumentMoniker": "EntitiesLibrary\\Comment\\Comment.cs",
-              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\EntitiesLibrary\\Comment\\Comment.cs",
-              "RelativeToolTip": "EntitiesLibrary\\Comment\\Comment.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAwwBEAAABAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T02:22:20.14Z",
+              "WhenOpened": "2025-01-30T20:28:26.256Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Reaction.cs",
-              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\EntitiesLibrary\\Reaction\\Reaction.cs",
-              "RelativeDocumentMoniker": "EntitiesLibrary\\Reaction\\Reaction.cs",
-              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\EntitiesLibrary\\Reaction\\Reaction.cs",
-              "RelativeToolTip": "EntitiesLibrary\\Reaction\\Reaction.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T02:21:42.251Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CommentController.cs",
-              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Controllers\\CommentController.cs",
-              "RelativeDocumentMoniker": "ApiTalking\\Controllers\\CommentController.cs",
-              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Controllers\\CommentController.cs",
-              "RelativeToolTip": "ApiTalking\\Controllers\\CommentController.cs",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAQwIUAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T01:53:34.67Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DAOComment.cs",
-              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\DaoLibrary\\EFCore\\Comment\\DAOComment.cs",
-              "RelativeDocumentMoniker": "DaoLibrary\\EFCore\\Comment\\DAOComment.cs",
-              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\DaoLibrary\\EFCore\\Comment\\DAOComment.cs",
-              "RelativeToolTip": "DaoLibrary\\EFCore\\Comment\\DAOComment.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T02:15:25.729Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DAOUser.cs",
-              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\DaoLibrary\\EFCore\\User\\DAOUser.cs",
-              "RelativeDocumentMoniker": "DaoLibrary\\EFCore\\User\\DAOUser.cs",
-              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\DaoLibrary\\EFCore\\User\\DAOUser.cs",
-              "RelativeToolTip": "DaoLibrary\\EFCore\\User\\DAOUser.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAowDEAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T02:05:33.828Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ResponseCommentDTO.cs",
-              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\DTO\\Comment\\ResponseCommentDTO.cs",
-              "RelativeDocumentMoniker": "ApiTalking\\DTO\\Comment\\ResponseCommentDTO.cs",
-              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\DTO\\Comment\\ResponseCommentDTO.cs",
-              "RelativeToolTip": "ApiTalking\\DTO\\Comment\\ResponseCommentDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T01:53:40.108Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "PostController.cs",
-              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Controllers\\PostController.cs",
-              "RelativeDocumentMoniker": "ApiTalking\\Controllers\\PostController.cs",
-              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\ApiTalking\\Controllers\\PostController.cs",
-              "RelativeToolTip": "ApiTalking\\Controllers\\PostController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T01:46:40.218Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "DAOReaction.cs",
-              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\DaoLibrary\\EFCore\\Reaction\\DAOReaction.cs",
-              "RelativeDocumentMoniker": "DaoLibrary\\EFCore\\Reaction\\DAOReaction.cs",
-              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\DaoLibrary\\EFCore\\Reaction\\DAOReaction.cs",
-              "RelativeToolTip": "DaoLibrary\\EFCore\\Reaction\\DAOReaction.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAhwBUAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T01:46:23.3Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\EntitiesLibrary\\User\\User.cs",
               "RelativeDocumentMoniker": "EntitiesLibrary\\User\\User.cs",
               "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\EntitiesLibrary\\User\\User.cs",
               "RelativeToolTip": "EntitiesLibrary\\User\\User.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAWwBYAAAA8AAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAIAzwBkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T01:44:48.765Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "EntitiesLibrary",
-              "DocumentMoniker": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\EntitiesLibrary\\EntitiesLibrary.csproj",
-              "RelativeDocumentMoniker": "EntitiesLibrary\\EntitiesLibrary.csproj",
-              "ToolTip": "C:\\Users\\William Rojas\\Desktop\\ApiTalkingV1\\EntitiesLibrary\\EntitiesLibrary.csproj",
-              "RelativeToolTip": "EntitiesLibrary\\EntitiesLibrary.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-01-29T01:44:39.529Z",
+              "WhenOpened": "2025-01-29T21:25:25.477Z",
               "EditorCaption": ""
             }
           ]

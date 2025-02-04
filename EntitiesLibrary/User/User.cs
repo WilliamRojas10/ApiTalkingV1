@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace EntitiesLibrary.User;
     public class User
@@ -11,6 +13,17 @@ namespace EntitiesLibrary.User;
         public required string LastName { get; set; }
         public required string Email { get; set; }
         public required string Password { get; set; }
+
+        public void SetPassword(string password)
+        {
+            Password = BCrypt.Net.BCrypt.HashPassword(password);
+        }
+        public bool VerifyPassword(string password)
+        {
+            
+            return BCrypt.Net.BCrypt.Verify(password, Password);
+        }
+
         public required DateOnly BirthDate { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

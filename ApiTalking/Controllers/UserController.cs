@@ -43,13 +43,13 @@ public class UserController : ControllerBase
             }
             var userDTO = users.Select(user => new ResponseUserDTO
             {
-                idUser = user.Id,
-                name = user.Name,
-                lastName = user.LastName,
-                email = user.Email,
-                birthDate = user.BirthDate.ToString(),
-                nationality = user.Nationality,
-                province = user.Province
+                IdUser = user.Id,
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email,
+                BirthDate = user.BirthDate.ToString(),
+                Nationality = user.Nationality,
+                Province = user.Province
             });
             return Ok(new
             {
@@ -87,13 +87,13 @@ public class UserController : ControllerBase
             }
             return Ok(new ResponseUserDTO
             {
-                idUser = user.Id,
-                name = user.Name,
-                lastName = user.LastName,
-                email = user.Email,
-                birthDate = user.BirthDate.ToString(),
-                nationality = user.Nationality,
-                province = user.Province
+                IdUser = user.Id,
+                Name = user.Name,
+                LastName = user.LastName,
+                Email = user.Email,
+                BirthDate = user.BirthDate.ToString(),
+                Nationality = user.Nationality,
+                Province = user.Province
             });
         }
         catch (Exception ex)

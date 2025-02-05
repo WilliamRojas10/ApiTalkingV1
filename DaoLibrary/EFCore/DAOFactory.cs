@@ -12,6 +12,9 @@ using DaoLibrary.EFCore.Reaction;
 using DaoLibrary.Interfaces.Comment;
 using DaoLibrary.EFCore.Comment;
 
+using DaoLibrary.Interfaces.Course;
+using DaoLibrary.EFCore.Course;
+
 namespace DaoLibrary.EFCore;
 
 public class DAOFactory : IDAOFactory
@@ -46,5 +49,9 @@ public class DAOFactory : IDAOFactory
     public IDAOComment CreateDAOComment()
     {
         return new DAOComment(context);
+    }
+     public IDAOCourse CreateDAOCourse()
+    {
+        return new DAOCourse(context);
     }
 }

@@ -4,6 +4,7 @@ using EntitiesLibrary.FileSystem;
 using EntitiesLibrary.Post;
 using EntitiesLibrary.Reaction;
 using EntitiesLibrary.User;
+using EntitiesLibrary.Course;
 
 namespace DaoLibrary;
     public class MyDbContext : DbContext
@@ -17,6 +18,7 @@ namespace DaoLibrary;
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reaction> Reactions { get; set; }
+        public DbSet<Course> Course { get; set; }
 
         //public string? ProfileImagePath { get; set; }
 

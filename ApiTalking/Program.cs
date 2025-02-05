@@ -6,6 +6,10 @@ using Microsoft.OpenApi.Models; // Para OpenApiSchema y OpenApiInfo
 
 using DaoLibrary.Interfaces.User;
 using DaoLibrary.EFCore.User;
+using DaoLibrary.Interfaces.Course;
+using DaoLibrary.EFCore.Course;
+
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +22,7 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 // Registro de DAOFactory
 builder.Services.AddScoped<IDAOFactory, DAOFactory>();
 builder.Services.AddScoped<IDAOUser, DAOUser>(); // Registra DAOUser si es necesario
+builder.Services.AddScoped<IDAOCourse, DAOCourse>();
 
 // Add services to the container.
 builder.Services.AddControllers();

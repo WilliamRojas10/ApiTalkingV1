@@ -8,6 +8,11 @@ using DaoLibrary.Interfaces.User;
 using DaoLibrary.EFCore.User;
 using DaoLibrary.Interfaces.Course;
 using DaoLibrary.EFCore.Course;
+using DaoLibrary.EFCore.Post;
+using DaoLibrary.Interfaces.Post;
+
+
+
 
 
 
@@ -23,6 +28,8 @@ builder.Services.AddDbContext<MyDbContext>(options =>
 builder.Services.AddScoped<IDAOFactory, DAOFactory>();
 builder.Services.AddScoped<IDAOUser, DAOUser>(); // Registra DAOUser si es necesario
 builder.Services.AddScoped<IDAOCourse, DAOCourse>();
+builder.Services.AddScoped<IDAOPost, DAOPost>();
+
 
 // Add services to the container.
 builder.Services.AddControllers();

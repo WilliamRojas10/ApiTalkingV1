@@ -11,7 +11,7 @@ public class RequestPostDTO
 
   //  public DateTime RegistrationDateTime { get; set; }
     public required int idUser { get; set; }
-    public int? idFile { get; set; }
+    public UploadFileDTO? FileDTO { get; set; }
    
 }
 

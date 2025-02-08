@@ -15,12 +15,11 @@ namespace ApiTalking.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IDAOUser _daoUser;
-
-
     public UserController(IDAOUser daoUser)
     {
         _daoUser = daoUser;
     }
+
 
     [Authorize(Roles = "Administrator")]
     [HttpGet("paginado")]
@@ -45,13 +44,13 @@ public class UserController : ControllerBase
             }
             var userDTO = users.Select(user => new ResponseUserDTO
             {
-                IdUser = user.Id,
-                Name = user.Name,
-                LastName = user.LastName,
-                Email = user.Email,
-                BirthDate = user.BirthDate.ToString(),
-                Nationality = user.Nationality,
-                Province = user.Province
+                idUser = user.Id,
+                name = user.Name,
+                lastName = user.LastName,
+                email = user.Email,
+                birthDate = user.BirthDate.ToString(),
+                nationality = user.Nationality,
+                province = user.Province
             });
             return Ok(new
             {
@@ -90,13 +89,13 @@ public class UserController : ControllerBase
             }
             return Ok(new ResponseUserDTO
             {
-                IdUser = user.Id,
-                Name = user.Name,
-                LastName = user.LastName,
-                Email = user.Email,
-                BirthDate = user.BirthDate.ToString(),
-                Nationality = user.Nationality,
-                Province = user.Province
+                idUser = user.Id,
+                name = user.Name,
+                lastName = user.LastName,
+                email = user.Email,
+                birthDate = user.BirthDate.ToString(),
+                nationality = user.Nationality,
+                province = user.Province
             });
         }
         catch (Exception ex)

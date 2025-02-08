@@ -9,6 +9,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ApiTalking.Service;
+using DaoLibrary.Interfaces.Course;
+using DaoLibrary.EFCore.Course;
+using DaoLibrary.EFCore.Post;
+using DaoLibrary.Interfaces.Post;
+using DaoLibrary.EFCore.Reaction;
+using DaoLibrary.Interfaces.Reaction;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +30,10 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IDAOFactory, DAOFactory>();
 builder.Services.AddScoped<IDAOUser, DAOUser>(); // Registra DAOUser si es necesario
 builder.Services.AddScoped<IDAOCourse, DAOCourse>();
+builder.Services.AddScoped<IDAOPost, DAOPost>();
+// Registrar la implementación de IDAOReaction
+builder.Services.AddScoped<IDAOReaction, DAOReaction>();
+
 
 // 🔹 3️⃣ Agregar Autenticación y Autorización JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

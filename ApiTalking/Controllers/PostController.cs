@@ -299,9 +299,102 @@ namespace ApiTalking.Controllers;
         }
 
 
+ // agregar imagen desde el ordenador -------------------------------------------
+    [HttpPost("subir-imagen")]
+public async Task<IActionResult> UploadUserImage([FromForm] RequestPostDTO requestPostDTO)
+{
+    try
+    {
+        // Validar si se proporcionó la imagen
+        if (requestPostDTO.FileDTO == null || requestPostDTO.FileDTO.image == null || requestPostDTO.FileDTO.image.Length == 0)
+        {
+            return BadRequest(new ErrorResponseDTO
+            {
+                sucess = false,
+                message = "No se proporcionó ninguna imagen o el archivo está vacío."
+            });
+        }
 
+        // Verificar si el usuario existe
+        var user = await _daoUser.GetUserById(requestPostDTO.idUser);
+        if (user == null)
+        {
+            return NotFound(new ErrorResponseDTO
+            {
+                sucess = false,
+                message = $"No se encontró el usuario con el Id: {requestPostDTO.idUser}"
+            });
+        }
 
+        // Validar la extensión del archivo
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+        var extension = Path.GetExtension(requestPostDTO.FileDTO.image.FileName).ToLower();
+        if (!allowedExtensions.Contains(extension))
+        {
+            return BadRequest(new ErrorResponseDTO
+            {
+                sucess = false,
+                message = "El formato del archivo no es válido. Solo se permiten .jpg, .jpeg, .png, .gif."
+            });
+        }
+
+        // Definir el directorio de almacenamiento
+        var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "posts");
+        if (!Directory.Exists(uploadPath))
+        {
+            Directory.CreateDirectory(uploadPath);
+        }
+
+        // Crear un nombre único para la imagen
+        var imageFileName = $"{requestPostDTO.idUser}_{Guid.NewGuid()}{extension}";
+        var imagePath = Path.Combine(uploadPath, imageFileName);
+
+        // Guardar la imagen físicamente en el servidor
+        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+        {
+            await requestPostDTO.FileDTO.image.CopyToAsync(fileStream);
+        }
+
+        // Crear una entidad para almacenar la imagen
+        var fileEntity = new EntitiesLibrary.FileSystem.PublishedFile
+        {
+            Id = 0, 
+            Name = imageFileName,
+            Path = $"/images/posts/{imageFileName}",
+            EntityStatus = EntitiesLibrary.Common.EntityStatus.Active,
+            Type =new EntitiesLibrary.FileSystem.FileType
+            {
+                Id = 0, 
+                TypeFile = "image"
+            }
+            
+        };
+        //await _daoFile.AddFile(fileEntity); // Guardar en la base de datos
+
+        // Crear el post con la imagen asociada
+        var post = new Post
+        {
+            Description = requestPostDTO.description,
+            EntityStatus = EntitiesLibrary.Common.EntityStatus.Active,
+            User = user,
+            File = fileEntity
+        };
+        await _daoPost.AddPost(post);
+
+        return Ok(new ResponseDTO
+        {
+            sucess = true,
+            message = "La imagen y el post fueron subidos exitosamente.",
+            //data = new { userId = requestPostDTO.idUser, imagePath = fileEntity.FilePath }
+        });
     }
-
-
-
+    catch (Exception ex)
+    {
+        return BadRequest(new ErrorResponseDTO
+        {
+            sucess = false,
+            message = "Error al subir la imagen y crear el post: " + ex.Message
+        });
+    }
+}
+    }

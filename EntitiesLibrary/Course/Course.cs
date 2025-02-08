@@ -18,5 +18,7 @@ namespace EntitiesLibrary.Course
        public required EntitiesLibrary.Common.EntityStatus EntityStatus{ get; set; } 
 
         public required EntitiesLibrary.User.User User { get; set; } // Usuario obligatorio
+
+        public required string URL { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using EntitiesLibrary.User;
 using DaoLibrary.Interfaces.User;
@@ -7,24 +7,26 @@ using ApiTalking.DTOs.User;
 using ApiTalking.Helpers;
 using ApiTalking.DTOs.Post;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ApiTalking.Controllers;
+[Authorize(Roles = "Administrator")]
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : ControllerBase
+public class AdministratorController : ControllerBase
 {
     private readonly IDAOUser _daoUser;
 
 
-    public UserController(IDAOUser daoUser)
+    public AdministratorController(IDAOUser daoUser)
     {
         _daoUser = daoUser;
     }
 
     [Authorize(Roles = "Administrator")]
     [HttpGet("paginado")]
-    public async Task<IActionResult> GetUsers(int page, int pageSize)
+    public async Task<IActionResult> GetAdministrators(int page, int pageSize)
     {
         try
         {
@@ -45,13 +47,13 @@ public class UserController : ControllerBase
             }
             var userDTO = users.Select(user => new ResponseUserDTO
             {
-                IdUser = user.Id,
-                Name = user.Name,
-                LastName = user.LastName,
-                Email = user.Email,
-                BirthDate = user.BirthDate.ToString(),
-                Nationality = user.Nationality,
-                Province = user.Province
+                idUser = user.Id,
+                name = user.Name,
+                lastName = user.LastName,
+                email = user.Email,
+                birthDate = user.BirthDate.ToString(),
+                nationality = user.Nationality,
+                province = user.Province
             });
             return Ok(new
             {
@@ -69,9 +71,72 @@ public class UserController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Administrator")]
-    [HttpGet("{idUser}")]
+    [HttpGet("automatic")]
     public async Task<IActionResult> GetUserById
+(
+    //int idUser,
+    //EntitiesLibrary.Common.EntityStatus entityStatus
+)
+    {
+        try
+        {
+            // Obtener el id del administrador logueado desde los claims
+            var administratorId = User.FindFirstValue("UserId"); // Usamos "UserId" que se agregó en los claims
+            var userRole = User.FindFirstValue(ClaimTypes.Role); // Obtener el rol (por ejemplo, "Administrator")
+            var userEmail = User.FindFirstValue(ClaimTypes.Name); // Obtener el email del administrador
+
+            int idAdministrator = Int32.Parse(administratorId);
+            // Imprimir los claims para depuración o auditoría
+            Console.WriteLine($"Administrator ID: {administratorId}");
+            Console.WriteLine($"Role: {userRole}");
+            Console.WriteLine($"Email: {userEmail}");
+            var active = EntitiesLibrary.Common.EntityStatus.Active;
+
+            // Obtener el usuario por su id
+            var user = await _daoUser.GetUserById(idAdministrator, active);
+            if (user == null)
+            {
+                return BadRequest(new ErrorResponseDTO
+                {
+                    sucess = false,
+                    message = "No se encontró el usuario con el Id: " + idAdministrator
+                });
+            }
+
+            // Devolver la información del usuario junto con los claims
+            return Ok(new
+            {
+                AdministratorId = administratorId,
+                Role = userRole,
+                Email = userEmail,
+                UserData = new ResponseUserDTO
+                {
+                    idUser = user.Id,
+                    name = user.Name,
+                    lastName = user.LastName,
+                    email = user.Email,
+                    birthDate = user.BirthDate.ToString(),
+                    nationality = user.Nationality,
+                    province = user.Province
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ErrorResponseDTO
+            {
+                sucess = false,
+                message = "Error al obtener un usuario usando VIPGetUserById(): " + ex.Message
+            });
+        }
+    }
+
+
+    
+
+
+    [HttpGet("{idUser}")]
+    public async Task<IActionResult> GetAdministratorById
     (
         int idUser,
         EntitiesLibrary.Common.EntityStatus entityStatus
@@ -90,13 +155,13 @@ public class UserController : ControllerBase
             }
             return Ok(new ResponseUserDTO
             {
-                IdUser = user.Id,
-                Name = user.Name,
-                LastName = user.LastName,
-                Email = user.Email,
-                BirthDate = user.BirthDate.ToString(),
-                Nationality = user.Nationality,
-                Province = user.Province
+                idUser = user.Id,
+                name = user.Name,
+                lastName = user.LastName,
+                email = user.Email,
+                birthDate = user.BirthDate.ToString(),
+                nationality = user.Nationality,
+                province = user.Province
             });
         }
         catch (Exception ex)
@@ -108,7 +173,6 @@ public class UserController : ControllerBase
             });
         }
     }
-
 
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody] RequestUserDTO userDTO)
@@ -134,7 +198,7 @@ public class UserController : ControllerBase
                 Nationality = userDTO.nationality,
                 Province = userDTO.province,
                 EntityStatus = EntitiesLibrary.Common.EntityStatus.Active,
-                UserType = EntitiesLibrary.User.UserType.User
+                UserType = EntitiesLibrary.User.UserType.Administrator
             };
 
             await _daoUser.AddUser(user);
@@ -154,7 +218,6 @@ public class UserController : ControllerBase
             });
         }
     }
-
 
     [HttpPut("modificar/{idUser}")]
     public async Task<IActionResult> UpdateUser(int idUser, [FromBody] RequestUserDTO userDTO)
@@ -205,7 +268,6 @@ public class UserController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Administrator")]
     [HttpPut("bloquear/{idUser}")]
     public async Task<IActionResult> BlockUser(int idUser)
     {
@@ -242,7 +304,6 @@ public class UserController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Administrator")]
     [HttpPut("activar/{idUser}")]
     public async Task<IActionResult> ActivateUser(int idUser)
     {
@@ -277,8 +338,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Administrator")]
-    [HttpDelete("eliminar/{idUser}")]
+    [HttpPut("eliminar/{idUser}")]
     public async Task<IActionResult> DeleteUser(int idUser)
     {
         try
@@ -309,84 +369,6 @@ public class UserController : ControllerBase
             {
                 sucess = false,
                 message = "Error al actualizar el usuario: " + ex.Message
-            });
-        }
-    }
-
-
-    // agregar imagen desde el ordenador -------------------------------------------
-    [HttpPost("subir-imagen")]
-    public async Task<IActionResult> UploadUserImage([FromForm] UploadFileDTO imageDTO)
-    {
-        try
-        {
-            // Validar si la imagen se proporciona correctamente
-            if (imageDTO.image == null || imageDTO.image.Length == 0)
-            {
-                return BadRequest(new ErrorResponseDTO
-                {
-                    sucess = false,
-                    message = "No se proporcionó ninguna imagen o el archivo está vacío."
-                });
-            }
-
-            // Verificar si el usuario existe
-            var user = await _daoUser.GetUserById(imageDTO.userId);
-            if (user == null)
-            {
-                return NotFound(new ErrorResponseDTO
-                {
-                    sucess = false,
-                    message = $"No se encontró el usuario con el Id: {imageDTO.userId}"
-                });
-            }
-
-            // Validar la extensión del archivo
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-            var extension = Path.GetExtension(imageDTO.image.FileName).ToLower();
-            if (!allowedExtensions.Contains(extension))
-            {
-                return BadRequest(new ErrorResponseDTO
-                {
-                    sucess = false,
-                    message = "El formato del archivo no es válido. Solo se permiten .jpg, .jpeg, .png, .gif."
-                });
-            }
-
-            // Preparar el directorio de almacenamiento
-            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "users");
-            if (!Directory.Exists(uploadPath))
-            {
-                Directory.CreateDirectory(uploadPath);
-            }
-
-            // Generar un nombre único para la imagen
-            var imageFileName = $"{imageDTO.userId}_{Guid.NewGuid()}{extension}";
-            var imagePath = Path.Combine(uploadPath, imageFileName);
-
-            // Guardar la imagen físicamente en el servidor
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
-            {
-                await imageDTO.image.CopyToAsync(fileStream);
-            }
-
-            // Actualizar la información del usuario con la nueva ruta de imagen
-            user.ProfileImagePath = $"/images/users/{imageFileName}";
-            await _daoUser.UpdateUser(user);
-
-            return Ok(new ResponseDTO
-            {
-                sucess = true,
-                message = "La imagen fue subida exitosamente.",
-                data = new { userId = imageDTO.userId, imagePath = user.ProfileImagePath }
-            });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new ErrorResponseDTO
-            {
-                sucess = false,
-                message = "Error al subir la imagen: " + ex.Message
             });
         }
     }

@@ -1,4 +1,4 @@
-namespace ApiTalking.DTO.Post;
+namespace ApiTalking.DTOs.Post;
 public class ResponsePostDTO
 {    
  

@@ -46,6 +46,7 @@ namespace DaoLibrary.EFCore.User;
         {
             return await _context.Set<EntitiesLibrary.User.User>().FindAsync(id);
         }
+        
 
          public async Task<EntitiesLibrary.User.User?> GetUserById
         (int id, EntitiesLibrary.Common.EntityStatus? entityStatus)
@@ -54,9 +55,15 @@ namespace DaoLibrary.EFCore.User;
                 .FirstOrDefaultAsync(user => user.Id == id && user.EntityStatus == entityStatus);
         }
 
+        public async Task<EntitiesLibrary.User.User?> GetUserByEmail(string email)
+        {
+            return await _context.Set<EntitiesLibrary.User.User>().FirstOrDefaultAsync(u => u.Email == email);
+        }
+
 
         public async Task AddUser(EntitiesLibrary.User.User user)
         {
+            user.SetPassword(user.Password);
             await _context.Set<EntitiesLibrary.User.User>().AddAsync(user);
             await _context.SaveChangesAsync();
         }

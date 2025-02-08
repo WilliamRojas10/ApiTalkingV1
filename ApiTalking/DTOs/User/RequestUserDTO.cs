@@ -1,5 +1,5 @@
 
- namespace ApiTalking.DTO.User;
+ namespace ApiTalking.DTOs.User;
  public class RequestUserDTO
  {
          public required string name { get; set; }

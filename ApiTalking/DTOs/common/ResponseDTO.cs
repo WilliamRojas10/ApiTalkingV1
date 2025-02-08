@@ -1,4 +1,4 @@
-namespace ApiTalking.DTO.common;
+namespace ApiTalking.DTOs.common;
 public class ResponseDTO
 {
     public bool sucess { get; set; } = false;

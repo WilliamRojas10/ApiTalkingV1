@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using EntitiesLibrary.Post;
 using DaoLibrary.Interfaces.Post;
-using ApiTalking.DTO.common;
-using ApiTalking.DTO.Post;
+using ApiTalking.DTOs.common;
+using ApiTalking.DTOs.Post;
 using ApiTalking.Helpers;
 using DaoLibrary.Interfaces.User;
 
@@ -22,6 +22,7 @@ namespace ApiTalking.Controllers;
             _daoUser = daoUser;
         }
 
+        
         [HttpGet("paginado")]
         public async Task<IActionResult> GetPosts(int page, int pageSize)
         {

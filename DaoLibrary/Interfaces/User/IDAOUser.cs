@@ -9,6 +9,7 @@ namespace DaoLibrary.Interfaces.User;
         Task<List<EntitiesLibrary.User.User>> GetAllUsers();
         Task<EntitiesLibrary.User.User?> GetUserById(int id);
         Task<EntitiesLibrary.User.User?> GetUserById(int id, EntitiesLibrary.Common.EntityStatus? entityStatus);
+        Task<EntitiesLibrary.User.User?> GetUserByEmail(string email);
         Task AddUser(EntitiesLibrary.User.User user);
         Task UpdateUser(EntitiesLibrary.User.User user);
         Task DeleteUser(int id);

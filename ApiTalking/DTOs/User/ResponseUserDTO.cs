@@ -1,5 +1,5 @@
 
-namespace ApiTalking.DTO.User;
+namespace ApiTalking.DTOs.User;
 
 public class ResponseUserDTO
 {

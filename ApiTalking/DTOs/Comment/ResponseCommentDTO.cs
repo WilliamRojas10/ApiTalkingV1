@@ -1,4 +1,4 @@
-namespace ApiTalking.DTO.Comment;
+namespace ApiTalking.DTOs.Comment;
 
 public class ResponseCommentDTO
 {

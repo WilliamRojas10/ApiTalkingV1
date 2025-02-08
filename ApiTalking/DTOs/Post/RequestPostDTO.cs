@@ -1,6 +1,6 @@
 
 
-namespace ApiTalking.DTO.Post;
+namespace ApiTalking.DTOs.Post;
 public class RequestPostDTO
 {    
  

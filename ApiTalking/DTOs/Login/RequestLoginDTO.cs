@@ -1,4 +1,4 @@
-namespace ApiTalking.DTO.Login;
+namespace ApiTalking.DTOs.Login;
 
 public class RequestLoginDTO
 {

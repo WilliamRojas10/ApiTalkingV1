@@ -15,12 +15,11 @@ namespace ApiTalking.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IDAOUser _daoUser;
-
-
     public UserController(IDAOUser daoUser)
     {
         _daoUser = daoUser;
     }
+
 
     [Authorize(Roles = "Administrator")]
     [HttpGet("paginado")]

@@ -42,7 +42,7 @@ public class CourseController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontraron usuarios"
                 });
             }
@@ -64,7 +64,7 @@ public class CourseController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error en getCourses(): " + ex.Message
             });
         }
@@ -85,7 +85,7 @@ public class CourseController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idCourse
                 });
             }
@@ -102,7 +102,7 @@ public class CourseController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al obtener un usuario usando GetCourseById(): " + ex.Message
             });
         }
@@ -117,7 +117,7 @@ public class CourseController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "Datos del curso no válidos"
                 });
             }
@@ -127,7 +127,7 @@ public class CourseController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "Usuario asociado al curso no encontrado"
                 });
             }
@@ -145,7 +145,7 @@ public class CourseController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Curso guardado correctamente"
             });
         }
@@ -153,7 +153,7 @@ public class CourseController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al crear el curso: " + ex.Message
             });
         }
@@ -168,7 +168,7 @@ public class CourseController : ControllerBase
     //        {
     //            return BadRequest(new ErrorResponseDTO
     //            {
-    //                sucess = false,
+    //                success = false,
     //                message = "Datos del usuario no válidos",
     //                user = _daoUser.GetUserById(CourseDTO.id)
 
@@ -191,7 +191,7 @@ public class CourseController : ControllerBase
 
     //        return Ok(new ResponseDTO
     //        {
-    //            sucess = true,
+    //            success = true,
     //            message = "Usuario guardado correctamente"
     //        });
     //    }
@@ -199,7 +199,7 @@ public class CourseController : ControllerBase
     //    {
     //        return BadRequest(new ErrorResponseDTO
     //        {
-    //            sucess = false,
+    //            success = false,
     //            message = "Error al crear el usuario: " + ex.Message
     //        });
     //    }
@@ -216,7 +216,7 @@ public class CourseController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "Datos del usuario no válidos"
                 });
             }
@@ -226,7 +226,7 @@ public class CourseController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idCourse
                 });
             }
@@ -241,7 +241,7 @@ public class CourseController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario actualizado correctamente"
             });
         }
@@ -249,7 +249,7 @@ public class CourseController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }
@@ -268,7 +268,7 @@ public class CourseController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idCourse
                 });
             }
@@ -278,7 +278,7 @@ public class CourseController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario eliminado correctamente"
             });
         }
@@ -286,7 +286,7 @@ public class CourseController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }
@@ -303,7 +303,7 @@ public class CourseController : ControllerBase
     //        {
     //            return NotFound(new ErrorResponseDTO
     //            {
-    //                sucess = false,
+    //                success = false,
     //                message = "No se encontró el usuario con el Id: " + idCourse
     //            });
     //        }
@@ -313,7 +313,7 @@ public class CourseController : ControllerBase
 
     //        return Ok(new ResponseDTO
     //        {
-    //            sucess = true,
+    //            success = true,
     //            message = "Curso activado correctamente"
     //        });
     //    }
@@ -321,7 +321,7 @@ public class CourseController : ControllerBase
     //    {
     //        return BadRequest(new ErrorResponseDTO
     //        {
-    //            sucess = false,
+    //            success = false,
     //            message = "Error al activar el usuario: " + ex.Message
     //        });
     //    }
@@ -342,7 +342,7 @@ public class CourseController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el curso con el Id: " + idCourse
                 });
             }
@@ -355,7 +355,7 @@ public class CourseController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Curso activado correctamente"
             });
         }
@@ -363,7 +363,7 @@ public class CourseController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al activar el curso: " + ex.Message
             });
         }
@@ -381,7 +381,7 @@ public class CourseController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idCourse
                 });
             }
@@ -391,7 +391,7 @@ public class CourseController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario eliminado correctamente"
             });
         }
@@ -399,7 +399,7 @@ public class CourseController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }

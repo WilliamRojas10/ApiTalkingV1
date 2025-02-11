@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 namespace ApiTalking.Controllers;
-[Authorize(Roles = "Administrator")]
+//[Authorize(Roles = "Administrator")]
 
 [ApiController]
 [Route("api/[controller]")]
@@ -41,7 +41,7 @@ public class AdministratorController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontraron usuarios"
                 });
             }
@@ -65,7 +65,7 @@ public class AdministratorController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error en getUsers(): " + ex.Message
             });
         }
@@ -98,7 +98,7 @@ public class AdministratorController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idAdministrator
                 });
             }
@@ -125,7 +125,7 @@ public class AdministratorController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al obtener un usuario usando VIPGetUserById(): " + ex.Message
             });
         }
@@ -149,7 +149,7 @@ public class AdministratorController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
@@ -168,7 +168,7 @@ public class AdministratorController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al obtener un usuario usando GetUserById(): " + ex.Message
             });
         }
@@ -183,7 +183,7 @@ public class AdministratorController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "Datos del usuario no válidos"
                 });
             }
@@ -199,25 +199,27 @@ public class AdministratorController : ControllerBase
                 Province = userDTO.province,
                 EntityStatus = EntitiesLibrary.Common.EntityStatus.Active,
                 UserType = EntitiesLibrary.User.UserType.Administrator
+                
             };
 
             await _daoUser.AddUser(user);
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
-                message = "Usuario guardado correctamente"
+                success = true,
+                message = "Usuario ADMISTRADOR guardado correctamente"
             });
         }
         catch (Exception ex)
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
-                message = "Error al crear el usuario: " + ex.Message
+                success = false,
+                message = "Error al crear el usuario de ADMINISTRADOR: " + ex.Message
             });
         }
     }
+    [Authorize(Roles = "Administrator")]
 
     [HttpPut("modificar/{idUser}")]
     public async Task<IActionResult> UpdateUser(int idUser, [FromBody] RequestUserDTO userDTO)
@@ -229,7 +231,7 @@ public class AdministratorController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "Datos del usuario no válidos"
                 });
             }
@@ -239,7 +241,7 @@ public class AdministratorController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
@@ -254,7 +256,7 @@ public class AdministratorController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario actualizado correctamente"
             });
         }
@@ -262,11 +264,12 @@ public class AdministratorController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }
     }
+    [Authorize(Roles = "Administrator")]
 
     [HttpPut("bloquear/{idUser}")]
     public async Task<IActionResult> BlockUser(int idUser)
@@ -280,7 +283,7 @@ public class AdministratorController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
@@ -290,7 +293,7 @@ public class AdministratorController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario eliminado correctamente"
             });
         }
@@ -298,11 +301,13 @@ public class AdministratorController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }
     }
+    [Authorize(Roles = "Administrator")]
+
 
     [HttpPut("activar/{idUser}")]
     public async Task<IActionResult> ActivateUser(int idUser)
@@ -314,7 +319,7 @@ public class AdministratorController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
@@ -324,7 +329,7 @@ public class AdministratorController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario activado correctamente"
             });
         }
@@ -332,13 +337,14 @@ public class AdministratorController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al activar el usuario: " + ex.Message
             });
         }
     }
+    [Authorize(Roles = "Administrator")]
 
-    [HttpPut("eliminar/{idUser}")]
+    [HttpDelete("eliminar/{idUser}")]
     public async Task<IActionResult> DeleteUser(int idUser)
     {
         try
@@ -349,7 +355,7 @@ public class AdministratorController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
@@ -359,7 +365,7 @@ public class AdministratorController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario eliminado correctamente"
             });
         }
@@ -367,7 +373,7 @@ public class AdministratorController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }

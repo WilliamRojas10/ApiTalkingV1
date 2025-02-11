@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntitiesLibrary.Comment;
-
+[Table("comment")]
 public class Comment
 {
     [Key]

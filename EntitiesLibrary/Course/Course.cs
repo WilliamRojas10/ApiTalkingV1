@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EntitiesLibrary.User; // Relación con el usuario
 
-namespace EntitiesLibrary.Course
-{
-    public class Course
+
+namespace EntitiesLibrary.Course;
+[Table("course")]
+
+public class Course
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -21,4 +22,4 @@ namespace EntitiesLibrary.Course
 
         public required string URL { get; set; }
     }
-}
+

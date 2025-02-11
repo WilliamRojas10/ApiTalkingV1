@@ -77,25 +77,10 @@ namespace DaoLibrary.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Course");
+                    b.ToTable("course");
                 });
 
-            modelBuilder.Entity("EntitiesLibrary.FileSystem.FileType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("TypeFile")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FilesTypes");
-                });
-
-            modelBuilder.Entity("EntitiesLibrary.FileSystem.PublishedFile", b =>
+            modelBuilder.Entity("EntitiesLibrary.File.File", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -119,7 +104,22 @@ namespace DaoLibrary.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Files");
+                    b.ToTable("file");
+                });
+
+            modelBuilder.Entity("EntitiesLibrary.File.FileType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeFile")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("file_type");
                 });
 
             modelBuilder.Entity("EntitiesLibrary.Post.Post", b =>
@@ -150,7 +150,7 @@ namespace DaoLibrary.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("post");
                 });
 
             modelBuilder.Entity("EntitiesLibrary.Reaction.Reaction", b =>
@@ -181,7 +181,7 @@ namespace DaoLibrary.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reactions");
+                    b.ToTable("reaction");
                 });
 
             modelBuilder.Entity("EntitiesLibrary.User.User", b =>
@@ -230,7 +230,7 @@ namespace DaoLibrary.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("user");
                 });
 
             modelBuilder.Entity("EntitiesLibrary.Comment.Comment", b =>
@@ -263,9 +263,9 @@ namespace DaoLibrary.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EntitiesLibrary.FileSystem.PublishedFile", b =>
+            modelBuilder.Entity("EntitiesLibrary.File.File", b =>
                 {
-                    b.HasOne("EntitiesLibrary.FileSystem.FileType", "Type")
+                    b.HasOne("EntitiesLibrary.File.FileType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -276,7 +276,7 @@ namespace DaoLibrary.Migrations
 
             modelBuilder.Entity("EntitiesLibrary.Post.Post", b =>
                 {
-                    b.HasOne("EntitiesLibrary.FileSystem.PublishedFile", "File")
+                    b.HasOne("EntitiesLibrary.File.File", "File")
                         .WithMany()
                         .HasForeignKey("FileId");
 

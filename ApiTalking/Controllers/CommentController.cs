@@ -44,7 +44,7 @@ public class CommentController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontraron usuarios"
                 });
             }
@@ -64,7 +64,7 @@ public class CommentController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error en getComments(): " + ex.Message
             });
         }
@@ -84,7 +84,7 @@ public class CommentController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idComment
                 });
             }
@@ -99,7 +99,7 @@ public class CommentController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al obtener un usuario usando GetCommentById(): " + ex.Message
             });
         }
@@ -114,7 +114,7 @@ public class CommentController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "Datos del usuario no válidos"
                 });
             }
@@ -135,7 +135,7 @@ public class CommentController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Comentario guardado correctamente"
             });
         }
@@ -143,7 +143,7 @@ public class CommentController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al crear un comentario: " + ex.Message
             });
         }
@@ -159,7 +159,7 @@ public class CommentController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "Datos del usuario no válidos"
                 });
             }
@@ -169,7 +169,7 @@ public class CommentController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idComment
                 });
             }
@@ -179,7 +179,7 @@ public class CommentController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario actualizado correctamente"
             });
         }
@@ -187,7 +187,7 @@ public class CommentController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }
@@ -205,7 +205,7 @@ public class CommentController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idComment
                 });
             }
@@ -215,7 +215,7 @@ public class CommentController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario eliminado correctamente"
             });
         }
@@ -223,7 +223,7 @@ public class CommentController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }
@@ -239,7 +239,7 @@ public class CommentController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idComment
                 });
             }
@@ -249,7 +249,7 @@ public class CommentController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario activado correctamente"
             });
         }
@@ -257,7 +257,7 @@ public class CommentController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al activar el usuario: " + ex.Message
             });
         }
@@ -274,7 +274,7 @@ public class CommentController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idComment
                 });
             }
@@ -284,7 +284,7 @@ public class CommentController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario eliminado correctamente"
             });
         }
@@ -292,7 +292,7 @@ public class CommentController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }

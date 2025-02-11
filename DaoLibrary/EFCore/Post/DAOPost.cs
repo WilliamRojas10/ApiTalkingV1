@@ -15,26 +15,31 @@ namespace DaoLibrary.EFCore.Post
             _context = context;
         }
 
-        public async Task<(List<EntitiesLibrary.Post.Post> posts, int TotalCount)> GetPostsPaged
-        (int pageNumber, int pageSize, EntitiesLibrary.Common.EntityStatus? entityStatus)
-        {
-            var query = _context.Set<EntitiesLibrary.Post.Post>().AsQueryable();
-
-
-            if (entityStatus.HasValue)
+        public async Task<(List<EntitiesLibrary.Post.Post> posts, int TotalCount)> GetPostsPaged(
+        int pageNumber,
+        int pageSize,
+        EntitiesLibrary.Common.EntityStatus? entityStatus)
             {
-                query = query.Where(post => post.EntityStatus == entityStatus.Value);
-            }
+                var query = _context.Set<EntitiesLibrary.Post.Post>()
+                    .Include(post => post.User)  // Incluir la relación con User
+                    .Include(post => post.File)  // Incluir la relación con File
+                    .AsQueryable();
 
-            var totalCount = await query.CountAsync();
+                if (entityStatus.HasValue)
+                {
+                    query = query.Where(post => post.EntityStatus == entityStatus.Value);
+                }
 
-            var posts = await query
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+                var totalCount = await query.CountAsync();
+
+                var posts = await query
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
 
             return (posts, totalCount);
         }
+
 
 
         public async Task<List<EntitiesLibrary.Post.Post>> GetAllPosts()

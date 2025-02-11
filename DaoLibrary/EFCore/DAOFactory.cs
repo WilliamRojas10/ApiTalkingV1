@@ -15,6 +15,9 @@ using DaoLibrary.EFCore.Comment;
 using DaoLibrary.Interfaces.Course;
 using DaoLibrary.EFCore.Course;
 
+using DaoLibrary.Interfaces.File;
+using DaoLibrary.EFCore.File;
+
 namespace DaoLibrary.EFCore;
 
 public class DAOFactory : IDAOFactory
@@ -53,5 +56,9 @@ public class DAOFactory : IDAOFactory
      public IDAOCourse CreateDAOCourse()
     {
         return new DAOCourse(context);
+    }
+    public IDAOFile CreateDAOFile()
+    {
+        return new DAOFile(context);
     }
 }

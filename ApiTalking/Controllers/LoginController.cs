@@ -42,7 +42,7 @@ public class LoginController : ControllerBase
 
         return Ok(new ResponseDTO
         {
-            sucess = true,
+            success = true,
             message = "Login exitoso",
             data = new ResponseLoginDTO
             {

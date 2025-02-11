@@ -15,8 +15,10 @@ using DaoLibrary.EFCore.Post;
 using DaoLibrary.Interfaces.Post;
 using DaoLibrary.EFCore.Reaction;
 using DaoLibrary.Interfaces.Reaction;
-
-
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using DaoLibrary.EFCore.File;
+using DaoLibrary.Interfaces.File;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,10 +33,11 @@ builder.Services.AddScoped<IDAOFactory, DAOFactory>();
 builder.Services.AddScoped<IDAOUser, DAOUser>(); // Registra DAOUser si es necesario
 builder.Services.AddScoped<IDAOCourse, DAOCourse>();
 builder.Services.AddScoped<IDAOPost, DAOPost>();
-// Registrar la implementación de IDAOReaction
 builder.Services.AddScoped<IDAOReaction, DAOReaction>();
+builder.Services.AddScoped<IDAOFile, DAOFile>();
 
-
+// Registrar FileService
+builder.Services.AddScoped<FileService>();
 // 🔹 3️⃣ Agregar Autenticación y Autorización JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -118,8 +121,29 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+// 🔹 Agregar configuración para servir archivos desde "FilesSystem"
+var filesPath = Path.Combine(Directory.GetCurrentDirectory(), "FilesSystem");
+if (!Directory.Exists(filesPath))
+{
+    Directory.CreateDirectory(filesPath);
+}
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "FilesSystem")),
+    RequestPath = "/FilesSystem"
+});
+
+//app.UseStaticFiles(new StaticFileOptions
+//{
+//    FileProvider = new PhysicalFileProvider(
+//        Path.Combine(Directory.GetCurrentDirectory(), "FilesSystem", "Images", "Posts")),
+//    RequestPath = "/FilesSystem/Images/Posts"
+//});
+
+
 // 🔹 7️⃣ Aplicar los Middlewares en el orden correcto
-app.UseCors("AllowAllOrigins"); // Habilitar CORS antes de la autenticación
+app.UseCors("AllowAllOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -9,9 +9,9 @@ public class ResponsePostDTO
     public required string registrationDateTime { get; set; }
     public required int idUser { get; set; }
 
-    public string nameUser {get; set;}
-    public string lastNameUser {get; set;}
+    public required string nameUser {get; set;}
+    public required string lastNameUser {get; set;}
     
     public int? idFile { get; set; }
-   
+    public string? path { get; set; }
 }

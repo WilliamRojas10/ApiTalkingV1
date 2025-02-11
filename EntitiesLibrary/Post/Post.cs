@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EntitiesLibrary.FileSystem;
 
 namespace EntitiesLibrary.Post;
+[Table("post")]
 public class Post
 {    
     [Key]
@@ -15,7 +15,7 @@ public class Post
 
     public required EntitiesLibrary.User.User User { get; set; }
    
-    public EntitiesLibrary.FileSystem.PublishedFile? File { get; set; }
+    public EntitiesLibrary.File.File? File { get; set; }
     //public required PostStatus PostStatus { get; set; }
     public required EntitiesLibrary.Common.EntityStatus EntityStatus { get; set; }
 }

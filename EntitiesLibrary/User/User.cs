@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace EntitiesLibrary.User;
-    public class User
+[Table("user")]
+
+public class User
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -38,6 +38,6 @@ namespace EntitiesLibrary.User;
 
         //public required UserStatus UserStatus { get; set; }
 
-         public string? ProfileImagePath { get; set; }
+         //public string? ProfileImagePath { get; set; }
     }
 

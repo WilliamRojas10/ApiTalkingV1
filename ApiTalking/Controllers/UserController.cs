@@ -38,7 +38,7 @@ public class UserController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontraron usuarios"
                 });
             }
@@ -62,7 +62,7 @@ public class UserController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error en getUsers(): " + ex.Message
             });
         }
@@ -83,7 +83,7 @@ public class UserController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
@@ -102,7 +102,7 @@ public class UserController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al obtener un usuario usando GetUserById(): " + ex.Message
             });
         }
@@ -118,7 +118,7 @@ public class UserController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "Datos del usuario no válidos"
                 });
             }
@@ -140,7 +140,7 @@ public class UserController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario guardado correctamente"
             });
         }
@@ -148,7 +148,7 @@ public class UserController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al crear el usuario: " + ex.Message
             });
         }
@@ -165,7 +165,7 @@ public class UserController : ControllerBase
             {
                 return BadRequest(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "Datos del usuario no válidos"
                 });
             }
@@ -175,7 +175,7 @@ public class UserController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
@@ -190,7 +190,7 @@ public class UserController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario actualizado correctamente"
             });
         }
@@ -198,7 +198,7 @@ public class UserController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }
@@ -217,7 +217,7 @@ public class UserController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
@@ -227,7 +227,7 @@ public class UserController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario eliminado correctamente"
             });
         }
@@ -235,7 +235,7 @@ public class UserController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }
@@ -252,7 +252,7 @@ public class UserController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
@@ -262,7 +262,7 @@ public class UserController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario activado correctamente"
             });
         }
@@ -270,7 +270,7 @@ public class UserController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al activar el usuario: " + ex.Message
             });
         }
@@ -288,7 +288,7 @@ public class UserController : ControllerBase
             {
                 return NotFound(new ErrorResponseDTO
                 {
-                    sucess = false,
+                    success = false,
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
@@ -298,7 +298,7 @@ public class UserController : ControllerBase
 
             return Ok(new ResponseDTO
             {
-                sucess = true,
+                success = true,
                 message = "Usuario eliminado correctamente"
             });
         }
@@ -306,7 +306,7 @@ public class UserController : ControllerBase
         {
             return BadRequest(new ErrorResponseDTO
             {
-                sucess = false,
+                success = false,
                 message = "Error al actualizar el usuario: " + ex.Message
             });
         }
@@ -314,81 +314,81 @@ public class UserController : ControllerBase
 
 
     // agregar imagen desde el ordenador -------------------------------------------
-    [HttpPost("subir-imagen")]
-    public async Task<IActionResult> UploadUserImage([FromForm] UploadFileDTO imageDTO)
-    {
-        try
-        {
-            // Validar si la imagen se proporciona correctamente
-            if (imageDTO.image == null || imageDTO.image.Length == 0)
-            {
-                return BadRequest(new ErrorResponseDTO
-                {
-                    sucess = false,
-                    message = "No se proporcionó ninguna imagen o el archivo está vacío."
-                });
-            }
+    //[HttpPost("subir-imagen")]
+    //public async Task<IActionResult> UploadUserImage([FromForm] UploadFileDTO imageDTO)
+    //{
+    //    try
+    //    {
+    //        // Validar si la imagen se proporciona correctamente
+    //        if (imageDTO.image == null || imageDTO.image.Length == 0)
+    //        {
+    //            return BadRequest(new ErrorResponseDTO
+    //            {
+    //                success = false,
+    //                message = "No se proporcionó ninguna imagen o el archivo está vacío."
+    //            });
+    //        }
 
-            // Verificar si el usuario existe
-            var user = await _daoUser.GetUserById(imageDTO.userId);
-            if (user == null)
-            {
-                return NotFound(new ErrorResponseDTO
-                {
-                    sucess = false,
-                    message = $"No se encontró el usuario con el Id: {imageDTO.userId}"
-                });
-            }
+    //        // Verificar si el usuario existe
+    //        var user = await _daoUser.GetUserById(imageDTO.userId);
+    //        if (user == null)
+    //        {
+    //            return NotFound(new ErrorResponseDTO
+    //            {
+    //                success = false,
+    //                message = $"No se encontró el usuario con el Id: {imageDTO.userId}"
+    //            });
+    //        }
 
-            // Validar la extensión del archivo
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-            var extension = Path.GetExtension(imageDTO.image.FileName).ToLower();
-            if (!allowedExtensions.Contains(extension))
-            {
-                return BadRequest(new ErrorResponseDTO
-                {
-                    sucess = false,
-                    message = "El formato del archivo no es válido. Solo se permiten .jpg, .jpeg, .png, .gif."
-                });
-            }
+    //        // Validar la extensión del archivo
+    //        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+    //        var extension = Path.GetExtension(imageDTO.image.FileName).ToLower();
+    //        if (!allowedExtensions.Contains(extension))
+    //        {
+    //            return BadRequest(new ErrorResponseDTO
+    //            {
+    //                success = false,
+    //                message = "El formato del archivo no es válido. Solo se permiten .jpg, .jpeg, .png, .gif."
+    //            });
+    //        }
 
-            // Preparar el directorio de almacenamiento
-            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "users");
-            if (!Directory.Exists(uploadPath))
-            {
-                Directory.CreateDirectory(uploadPath);
-            }
+    //        // Preparar el directorio de almacenamiento
+    //        var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "users");
+    //        if (!Directory.Exists(uploadPath))
+    //        {
+    //            Directory.CreateDirectory(uploadPath);
+    //        }
 
-            // Generar un nombre único para la imagen
-            var imageFileName = $"{imageDTO.userId}_{Guid.NewGuid()}{extension}";
-            var imagePath = Path.Combine(uploadPath, imageFileName);
+    //        // Generar un nombre único para la imagen
+    //        var imageFileName = $"{imageDTO.userId}_{Guid.NewGuid()}{extension}";
+    //        var imagePath = Path.Combine(uploadPath, imageFileName);
 
-            // Guardar la imagen físicamente en el servidor
-            using (var fileStream = new FileStream(imagePath, FileMode.Create))
-            {
-                await imageDTO.image.CopyToAsync(fileStream);
-            }
+    //        // Guardar la imagen físicamente en el servidor
+    //        using (var fileStream = new FileStream(imagePath, FileMode.Create))
+    //        {
+    //            await imageDTO.image.CopyToAsync(fileStream);
+    //        }
 
-            // Actualizar la información del usuario con la nueva ruta de imagen
-            user.ProfileImagePath = $"/images/users/{imageFileName}";
-            await _daoUser.UpdateUser(user);
+    //        // Actualizar la información del usuario con la nueva ruta de imagen
+    //        user.ProfileImagePath = $"/images/users/{imageFileName}";
+    //        await _daoUser.UpdateUser(user);
 
-            return Ok(new ResponseDTO
-            {
-                sucess = true,
-                message = "La imagen fue subida exitosamente.",
-                data = new { userId = imageDTO.userId, imagePath = user.ProfileImagePath }
-            });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new ErrorResponseDTO
-            {
-                sucess = false,
-                message = "Error al subir la imagen: " + ex.Message
-            });
-        }
-    }
+    //        return Ok(new ResponseDTO
+    //        {
+    //            success = true,
+    //            message = "La imagen fue subida exitosamente.",
+    //            data = new { userId = imageDTO.userId, imagePath = user.ProfileImagePath }
+    //        });
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return BadRequest(new ErrorResponseDTO
+    //        {
+    //            success = false,
+    //            message = "Error al subir la imagen: " + ex.Message
+    //        });
+    //    }
+    //}
 
 
 

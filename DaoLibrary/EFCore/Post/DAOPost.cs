@@ -16,29 +16,38 @@ namespace DaoLibrary.EFCore.Post
         }
 
         public async Task<(List<EntitiesLibrary.Post.Post> posts, int TotalCount)> GetPostsPaged(
-        int pageNumber,
-        int pageSize,
-        EntitiesLibrary.Common.EntityStatus? entityStatus)
+            int pageNumber,
+            int pageSize,
+            EntitiesLibrary.Common.EntityStatus? entityStatus,
+            string orden) 
+        {
+            var query = _context.Set<EntitiesLibrary.Post.Post>()
+                .Include(post => post.User)  // Incluir la relación con User
+                .Include(post => post.File)  // Incluir la relación con File
+                .AsQueryable();
+
+            if (entityStatus.HasValue)
             {
-                var query = _context.Set<EntitiesLibrary.Post.Post>()
-                    .Include(post => post.User)  // Incluir la relación con User
-                    .Include(post => post.File)  // Incluir la relación con File
-                    .AsQueryable();
+                query = query.Where(post => post.EntityStatus == entityStatus.Value);
+            }
 
-                if (entityStatus.HasValue)
-                {
-                    query = query.Where(post => post.EntityStatus == entityStatus.Value);
-                }
-
-                var totalCount = await query.CountAsync();
-
-                var posts = await query
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToListAsync();
+            if (orden?.ToLower() == "asc")
+            {
+                query = query.OrderBy(post => post.Id); 
+            }
+            else if (orden?.ToLower() == "desc")
+            {
+                query = query.OrderByDescending(post => post.Id);  
+            }
+            var totalCount = await query.CountAsync();
+            var posts = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             return (posts, totalCount);
         }
+
 
 
 

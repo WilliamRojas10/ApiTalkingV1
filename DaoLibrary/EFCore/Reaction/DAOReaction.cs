@@ -39,10 +39,21 @@ public class DAOReaction : IDAOReaction
     }
 
 
-    public async Task<List<EntitiesLibrary.Reaction.Reaction>> GetAllReactions()
+    public async Task<List<dynamic>> GetAllReactionsByIdPost(int idPost)
     {
-        return await _context.Set<EntitiesLibrary.Reaction.Reaction>().ToListAsync();
+        var reactions = await _context.Set<EntitiesLibrary.Reaction.Reaction>()
+            .Where(r => r.Post.Id == idPost) // Filtrar por el ID del post
+            .GroupBy(r => r.ReactionStatus)  // Agrupar por el estado de reacción
+            .Select(group => new
+            {
+                ReactionStatus = group.Key,  // Estado de la reacción
+                Count = group.Count()        // Cantidad de reacciones por estado
+            })
+            .ToListAsync();
+
+        return reactions.Cast<dynamic>().ToList(); // Retorna la lista como dinámica o ajusta al tipo deseado
     }
+
 
     public async Task<EntitiesLibrary.Reaction.Reaction?> GetReactionById(int id)
     {

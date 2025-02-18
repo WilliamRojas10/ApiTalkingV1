@@ -14,4 +14,5 @@ public class ResponsePostDTO
     
     public int? idFile { get; set; }
     public string? path { get; set; }
+    public object? reactions { get; set; }
 }

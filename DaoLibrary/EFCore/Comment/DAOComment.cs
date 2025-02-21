@@ -16,14 +16,20 @@ public class DAOComment : IDAOComment
 
 
     public async Task<(List<EntitiesLibrary.Comment.Comment> Comments, int TotalCount)> GetCommentsPaged
-    (int pageNumber, int pageSize, EntitiesLibrary.Common.EntityStatus? entityStatus)
+  (
+      int pageNumber,
+      int pageSize,
+      EntitiesLibrary.Common.EntityStatus? entityStatus,
+      int idPost
+  )
     {
-        var query = _context.Set<EntitiesLibrary.Comment.Comment>().AsQueryable();
-
+        var query = _context.Set<EntitiesLibrary.Comment.Comment>()
+            .Include(c => c.User) 
+            .AsQueryable();
 
         if (entityStatus.HasValue)
         {
-            query = query.Where(comment => comment.EntityStatus == entityStatus.Value);
+            query = query.Where(comment => comment.EntityStatus == entityStatus.Value && comment.Post.Id == idPost);
         }
 
         var totalCount = await query.CountAsync();
@@ -35,6 +41,7 @@ public class DAOComment : IDAOComment
 
         return (comments, totalCount);
     }
+
 
 
     public async Task<List<EntitiesLibrary.Comment.Comment>> GetAllComments()

@@ -9,6 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Linq;
 using DaoLibrary.Interfaces.User;
 using DaoLibrary.Interfaces.Post;
+using System.Security.Claims;
 
 namespace ApiTalking.Controllers;
 
@@ -29,7 +30,7 @@ public class CommentController : ControllerBase
     }
 
     [HttpGet("paginado")]
-    public async Task<IActionResult> GetComments(int page, int pageSize)
+    public async Task<IActionResult> GetComments(int page, int pageSize, int idPost)
     {
         try
         {
@@ -38,7 +39,8 @@ public class CommentController : ControllerBase
             (
             page,
             pageSize,
-            activeStatus
+            activeStatus,
+            idPost
             );
             if (comments == null || !comments.Any())
             {
@@ -52,6 +54,7 @@ public class CommentController : ControllerBase
             {
                 idComment = comment.Id,
                 text = comment.Text,
+                userName = comment.User.Name + " " + comment.User.LastName, 
                 registrationDate = comment.RegistrationDateTime.ToString(),
             });
             return Ok(new
@@ -92,7 +95,9 @@ public class CommentController : ControllerBase
             {
                 idComment = comment.Id,
                 text = comment.Text,
+                userName = comment.User.Name + " " + comment.User.LastName,
                 registrationDate = comment.RegistrationDateTime.ToString(),
+
             });
         }
         catch (Exception ex)
@@ -105,8 +110,9 @@ public class CommentController : ControllerBase
         }
     }
 
+
     [HttpPost]
-    public async Task<IActionResult> CreateComment ([FromBody] RequestCommentDTO commentDTO)
+    public async Task<IActionResult> CreateComment([FromBody] RequestCommentDTO commentDTO)
     {
         try
         {
@@ -118,10 +124,16 @@ public class CommentController : ControllerBase
                     message = "Datos del usuario no válidos"
                 });
             }
-            EntitiesLibrary.User.User user = await _daoUser.
-                                                GetUserById(commentDTO.idUser, EntitiesLibrary.Common.EntityStatus.Active);
+            var userIdClaim = User.FindFirstValue("UserId");
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized(new ErrorResponseDTO { success = false, message = "Usuario no autenticado." });
 
-            EntitiesLibrary.Post.Post post = await _daoPost.
+            int userId = int.Parse(userIdClaim);
+            var user = await _daoUser.GetUserById(userId);
+            if (user == null)
+                return NotFound(new ErrorResponseDTO { success = false, message = $"Usuario con ID {userId} no encontrado." });
+
+            EntitiesLibrary.Post.Post? post = await _daoPost.
                                                 GetPostById(commentDTO.idPost, EntitiesLibrary.Common.EntityStatus.Active);
             var comment = new Comment
             {

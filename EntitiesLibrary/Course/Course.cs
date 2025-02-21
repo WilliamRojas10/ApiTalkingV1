@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EntitiesLibrary.Course;
 [Table("course")]
 
+
+
 public class Course
     {
         [Key]
@@ -21,5 +23,10 @@ public class Course
         public required EntitiesLibrary.User.User User { get; set; } // Usuario obligatorio
 
         public required string URL { get; set; }
-    }
+
+
+        public required LevelCourse Level { get; set; }  // Tipo del enum, no string
+
+        
+}
 

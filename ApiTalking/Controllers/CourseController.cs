@@ -8,6 +8,9 @@ using ApiTalking.Helpers;
 using ApiTalking.DTOs.Post;
 using Microsoft.AspNetCore.Authorization;
 using DaoLibrary.Interfaces.User;
+using EntitiesLibrary.User;
+
+
 
 namespace ApiTalking.Controllers;
 
@@ -25,7 +28,7 @@ public class CourseController : ControllerBase
         _daoUser=daoUser;
     }
 
-    [Authorize(Roles = "Administrator")]
+
     [HttpGet("paginado")]
     public async Task<IActionResult> GetCourses(int page, int pageSize)
     {
@@ -43,7 +46,7 @@ public class CourseController : ControllerBase
                 return BadRequest(new ErrorResponseDTO
                 {
                     success = false,
-                    message = "No se encontraron usuarios"
+                    message = "No se encontraron cursos"
                 });
             }
             var CourseDTO = Courses.Select(Course => new ResponseCourseDTO
@@ -52,7 +55,8 @@ public class CourseController : ControllerBase
                 name = Course.Name,
                 description = Course.Description,
                 URL = Course.URL,
-                
+
+
             });
             return Ok(new
             {
@@ -86,7 +90,7 @@ public class CourseController : ControllerBase
                 return BadRequest(new ErrorResponseDTO
                 {
                     success = false,
-                    message = "No se encontró el usuario con el Id: " + idCourse
+                    message = "No se encontró el curso con el Id: " + idCourse
                 });
             }
             return Ok(new ResponseCourseDTO
@@ -103,11 +107,12 @@ public class CourseController : ControllerBase
             return BadRequest(new ErrorResponseDTO
             {
                 success = false,
-                message = "Error al obtener un usuario usando GetCourseById(): " + ex.Message
+                message = "Error al obtener un curso usando GetCourseById(): " + ex.Message
             });
         }
     }
 
+    [Authorize(Roles = "Administrator")]
     [HttpPost]
     public async Task<IActionResult> CreateCourse([FromBody] RequestCourseDTO CourseDTO)
     {
@@ -118,10 +123,13 @@ public class CourseController : ControllerBase
                 return BadRequest(new ErrorResponseDTO
                 {
                     success = false,
-                    message = "Datos del curso no válidos"
+                    message = "Datos del curso no válidos",
+
+
                 });
             }
 
+            // Corrección aquí: debe ser CourseDTO.UserId (no userId)
             var user = await _daoUser.GetUserById(CourseDTO.userId);
             if (user == null)
             {
@@ -129,16 +137,18 @@ public class CourseController : ControllerBase
                 {
                     success = false,
                     message = "Usuario asociado al curso no encontrado"
+
                 });
             }
 
             var course = new Course
             {
-                Name = CourseDTO.name,
+                Name = CourseDTO.name, // También corregí la mayúscula en Name
                 Description = CourseDTO.description,
                 URL = CourseDTO.URL,
                 EntityStatus = EntitiesLibrary.Common.EntityStatus.Active,
-                User = user
+                User = user,
+                Level = Enum.Parse<LevelCourse>(CourseDTO.Level, true) //  'true' para que ignore mayúsculas/minúsculas
             };
 
             await _daoCourse.AddCourse(course);
@@ -217,7 +227,7 @@ public class CourseController : ControllerBase
                 return BadRequest(new ErrorResponseDTO
                 {
                     success = false,
-                    message = "Datos del usuario no válidos"
+                    message = "Datos del curso no válidos"
                 });
             }
 
@@ -227,13 +237,13 @@ public class CourseController : ControllerBase
                 return NotFound(new ErrorResponseDTO
                 {
                     success = false,
-                    message = "No se encontró el usuario con el Id: " + idCourse
+                    message = "No se encontró el curso con el Id: " + idCourse
                 });
             }
             Course.Name = CourseDTO.name;
             Course.Description = CourseDTO.description;
             Course.URL = CourseDTO.URL;
-            Course.Id = CourseDTO.id;
+
 
 
 
@@ -242,7 +252,7 @@ public class CourseController : ControllerBase
             return Ok(new ResponseDTO
             {
                 success = true,
-                message = "Usuario actualizado correctamente"
+                message = "curso actualizado correctamente"
             });
         }
         catch (Exception ex)
@@ -250,7 +260,7 @@ public class CourseController : ControllerBase
             return BadRequest(new ErrorResponseDTO
             {
                 success = false,
-                message = "Error al actualizar el usuario: " + ex.Message
+                message = "Error al actualizar el curso: " + ex.Message
             });
         }
     }
@@ -269,7 +279,7 @@ public class CourseController : ControllerBase
                 return NotFound(new ErrorResponseDTO
                 {
                     success = false,
-                    message = "No se encontró el usuario con el Id: " + idCourse
+                    message = "No se encontró el curso con el Id: " + idCourse
                 });
             }
             Course.EntityStatus = EntitiesLibrary.Common.EntityStatus.Blocked;
@@ -279,7 +289,7 @@ public class CourseController : ControllerBase
             return Ok(new ResponseDTO
             {
                 success = true,
-                message = "Usuario eliminado correctamente"
+                message = "curso eliminado correctamente"
             });
         }
         catch (Exception ex)
@@ -287,7 +297,7 @@ public class CourseController : ControllerBase
             return BadRequest(new ErrorResponseDTO
             {
                 success = false,
-                message = "Error al actualizar el usuario: " + ex.Message
+                message = "Error al actualizar el curso: " + ex.Message
             });
         }
     }
@@ -382,7 +392,7 @@ public class CourseController : ControllerBase
                 return NotFound(new ErrorResponseDTO
                 {
                     success = false,
-                    message = "No se encontró el usuario con el Id: " + idCourse
+                    message = "No se encontró el curso con el Id: " + idCourse
                 });
             }
             Course.EntityStatus = EntitiesLibrary.Common.EntityStatus.Deleted;
@@ -392,7 +402,7 @@ public class CourseController : ControllerBase
             return Ok(new ResponseDTO
             {
                 success = true,
-                message = "Usuario eliminado correctamente"
+                message = "Curso eliminado correctamente"
             });
         }
         catch (Exception ex)
@@ -400,11 +410,72 @@ public class CourseController : ControllerBase
             return BadRequest(new ErrorResponseDTO
             {
                 success = false,
-                message = "Error al actualizar el usuario: " + ex.Message
+                message = "Error al actualizar el Curso: " + ex.Message
             });
+        }
+    }
+
+
+    //busca cursos por nivel a traves de filtro
+    [HttpPost("CreateCourse/{idCourse}")]
+    public async Task<IActionResult> RequestCourseDTO([FromBody] RequestCourseDTO courseCreateDTO)
+    {
+        try
+        {
+            EntitiesLibrary.User.User? user = await _daoUser.GetUserById(courseCreateDTO.userId);
+            // Convertir el string del nivel a LevelCourse (enum)
+            if (Enum.TryParse(courseCreateDTO.Level, true, out LevelCourse levelEnum))
+            {
+                var newCourse = new Course
+                {
+                    Name = courseCreateDTO.name,
+                    Description = courseCreateDTO.description,
+                    EntityStatus = EntitiesLibrary.Common.EntityStatus.Active,
+                    User = user,
+                    URL = courseCreateDTO.URL,
+                    Level = levelEnum  //  asignar el nivel correctamente
+                };
+
+                await _daoCourse.AddCourse(newCourse);
+                return Ok(new { message = "Curso creado exitosamente." }); }
+            else
+            {
+                return BadRequest(new { message = "Nivel de curso no válido." });
+            }
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = "Error al crear el curso: " + ex.Message });
+        }
+    }
+
+
+
+[HttpGet("Level/{level}")]
+    public async Task<IActionResult> GetCoursesByLevel(string level, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    {
+        try
+        {
+            // Convertir el string del nivel a LevelCourse (enum)
+            if (!Enum.TryParse(level, true, out LevelCourse levelEnum))
+            {
+                return BadRequest(new { message = "Nivel de curso no válido." });
+            }
+
+            // Usar la versión con paginación
+            var courses = await _daoCourse.GetCoursesByLevel(levelEnum, page, pageSize);
+
+            if (courses == null || !courses.Any())
+            {
+                return NotFound(new { message = "No hay cursos disponibles para este nivel." });
+            }
+
+            return Ok(courses);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "Error al obtener cursos: " + ex.Message });
         }
     }
 }
 
-
-   

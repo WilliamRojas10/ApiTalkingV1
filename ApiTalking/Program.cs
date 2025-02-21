@@ -19,6 +19,8 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using DaoLibrary.EFCore.File;
 using DaoLibrary.Interfaces.File;
+using DaoLibrary.Interfaces.Comment;
+using DaoLibrary.EFCore.Comment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +37,7 @@ builder.Services.AddScoped<IDAOCourse, DAOCourse>();
 builder.Services.AddScoped<IDAOPost, DAOPost>();
 builder.Services.AddScoped<IDAOReaction, DAOReaction>();
 builder.Services.AddScoped<IDAOFile, DAOFile>();
+builder.Services.AddScoped<IDAOComment, DAOComment>();
 
 // Registrar FileService
 builder.Services.AddScoped<FileService>();

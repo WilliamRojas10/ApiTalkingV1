@@ -3,10 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\Usuario\\Desktop\\ApiTalkingV1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\daolibrary\\efcore\\comment\\daocomment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|solutionrelative:daolibrary\\efcore\\comment\\daocomment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
       "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\usuario\\desktop\\apitalkingv1\\apitalking\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|c:\\users\\william rojas\\desktop\\apitalkingv1\\daolibrary\\interfaces\\comment\\idaocomment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66066E27-ED99-42D2-A947-8070E6BB3A7D}|DaoLibrary\\DaoLibrary.csproj|solutionrelative:daolibrary\\interfaces\\comment\\idaocomment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
       "AbsoluteMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|c:\\users\\usuario\\desktop\\apitalkingv1\\apitalking\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3234B8D7-2082-4AD7-8D01-A36E1A9D8423}|ApiTalking\\ApiTalking.csproj|solutionrelative:apitalking\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -499,7 +503,8 @@
               "RelativeToolTip": "ApiTalking\\Service\\FIleService.cs",
               "ViewState": "AgIAABwAAAAAAAAAAAAgwDEAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-09T17:26:50.625Z"
+              "WhenOpened": "2025-02-21T04:25:22.153Z",
+              "EditorCaption": ""
             }
           ]
         }

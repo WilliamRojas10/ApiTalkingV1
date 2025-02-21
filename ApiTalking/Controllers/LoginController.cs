@@ -30,7 +30,7 @@ public class LoginController : ControllerBase
 
   
 
-    [HttpPost("login")]
+    [HttpPost]
     public async Task<IActionResult> Login([FromBody] RequestLoginDTO requestLoginDTO)
     {
         var token = await _authService.AuthenticateUser(requestLoginDTO.email, requestLoginDTO.password);
@@ -43,7 +43,7 @@ public class LoginController : ControllerBase
         return Ok(new ResponseDTO
         {
             success = true,
-            message = "Login exitoso",
+            message = "Se inicio sesión correctamente",
             data = new ResponseLoginDTO
             {
                 email = requestLoginDTO.email,

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntitiesLibrary.Comment;
-[Table("comment")]
+[Table("comments")]
 public class Comment
 {
     [Key]
@@ -11,7 +11,7 @@ public class Comment
     public string? Text { get; set; }
     
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public  DateTime RegistrationDateTime { get; set; }
+    public DateTime RegistrationDateTime { get; set; }
 
     public required EntitiesLibrary.User.User User { get; set; }
 

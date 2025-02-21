@@ -9,6 +9,8 @@ using DaoLibrary.Interfaces.User;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using ApiTalking.Service;
+using DaoLibrary.Interfaces.Reaction;
+using Microsoft.Extensions.Hosting;
 
 namespace ApiTalking.Controllers;
 
@@ -19,64 +21,119 @@ namespace ApiTalking.Controllers;
         private readonly IDAOPost _daoPost;
         private readonly IDAOUser _daoUser;
         private readonly FileService _fileService;
+        private readonly IDAOReaction _daoReaction;
 
 
-    public PostController(IDAOPost daoPost, IDAOUser daoUser, FileService fileService)
+
+    public PostController(IDAOPost daoPost, IDAOUser daoUser, FileService fileService, IDAOReaction daoReaction)
         {
             _daoPost = daoPost;
             _daoUser = daoUser;
+            _daoReaction = daoReaction;
         _fileService = fileService;
         }
 
-        
-        [HttpGet("paginado")]
-        public async Task<IActionResult> GetPosts(int page, int pageSize)
+
+    [HttpGet("paginado")]
+    public async Task<IActionResult> GetPosts(int page, int pageSize, string orden = "desc")
+    {
+        try
         {
-            try
-            {
-                var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
-                (var posts, int totalRecords) = await _daoPost.GetPostsPaged
-                (
+            var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
+            (var posts, int totalRecords) = await _daoPost.GetPostsPaged(
                 page,
                 pageSize,
-                activeStatus
-                );
-                if (posts == null || !posts.Any())
-                {
-                    return BadRequest(new ErrorResponseDTO
-                    {
-                        success = false,
-                        message = "No se encontraron los posteos"
-                    });
-                }
-                var postDTO = posts.Select(post => new ResponsePostDTO
-                {
-                    idPost = post.Id,
-                    description = post.Description,
-                    registrationDateTime = post.RegistrationDateTime.ToString(),
-                    idUser = post.User.Id,
-                    nameUser = post.User.Name,
-                    lastNameUser = post.User.LastName,
-                    idFile = post.File.Id,
-                    path = post.File.Path
-                });
-                return Ok(new
-                {
-                    totalRecords = totalRecords,
-                    posts = postDTO
-                });
-            }
-            catch (Exception ex)
+                activeStatus,
+                orden
+            );
+
+            if (posts == null || !posts.Any())
             {
                 return BadRequest(new ErrorResponseDTO
                 {
                     success = false,
-                    message = "Error al obtener posteos paginado GetPosts(): " + ex.Message
+                    message = "No se encontraron los posteos"
                 });
             }
-        }
 
-        [HttpGet("{idUser}")]
+            var listPostsDTO = new List<ResponsePostDTO>();
+
+            foreach (var post in posts)
+            {
+                // Esperamos la llamada asíncrona para obtener las reacciones de cada post.
+                var reactions = await _daoReaction.GetAllReactionsByIdPost(post.Id);
+
+                listPostsDTO.Add(new ResponsePostDTO
+                {
+                    idPost = post.Id,
+                    description = post.Description,
+                    registrationDateTime = post.RegistrationDateTime.ToString(),
+                    reactions = reactions,
+                    idUser = post.User.Id,
+                    nameUser = post.User.Name,
+                    lastNameUser = post.User.LastName,
+                    idFile = post.File?.Id,
+                    path = post.File?.Path
+                });
+            }
+
+            return Ok(new
+            {
+                totalRecords,
+                posts = listPostsDTO
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ErrorResponseDTO
+            {
+                success = false,
+                message = "Error al obtener posteos paginado GetPosts(): " + ex.Message
+            });
+        }
+    }
+
+
+    //public async Task<IActionResult> GetReactionsByPost(int idPost)
+    //{
+    //    try
+
+    //    {
+    //        var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
+    //        //(var Reactions, int totalRecords) = await _daoReaction.GetReactionsPaged
+    //        var reactions = await _daoReaction.GetAllReactionsByIdPost(idPost);
+
+    //        if (reactions == null || !reactions.Any())
+    //        {
+    //            return BadRequest(new ErrorResponseDTO
+    //            {
+    //                success = false,
+    //                message = "No se encontraron reacciones"
+    //            });
+    //        }
+    //        //var reactionDTO = reactions.Select(Reaction => new ResponseReactionDTO
+    //        //{
+    //        //    reactionStatus = reactions[0],
+    //        //    countReactions = reactions[1]
+    //        //});
+    //        return Ok(new ResponseDTO
+    //        {
+    //            success = true,
+    //            message = "Se ha obtenido las reacciones de un posteo",
+    //            data = reactions
+    //        });
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return BadRequest(new ErrorResponseDTO
+    //        {
+    //            success = false,
+    //            message = "Error en getReactions(): " + ex.Message
+    //        });
+    //    }
+    //}
+
+    [HttpGet("{idUser}")]
         public async Task<IActionResult> GetUserById(int idPost)
         {
             try
@@ -319,6 +376,7 @@ namespace ApiTalking.Controllers;
     {
         try
         {
+            EntitiesLibrary.File.File file = null;
             var userIdClaim = User.FindFirstValue("UserId");
             if (string.IsNullOrEmpty(userIdClaim))
                 return Unauthorized(new ErrorResponseDTO { success = false, message = "Usuario no autenticado." });
@@ -328,11 +386,13 @@ namespace ApiTalking.Controllers;
             if (user == null)
                 return NotFound(new ErrorResponseDTO { success = false, message = $"Usuario con ID {userId} no encontrado." });
 
-            if (requestPostDTO.image == null)
-                return BadRequest(new ErrorResponseDTO { success = false, message = "No se proporcionó una imagen." });
-
+            if (requestPostDTO.image != null)
+            // return BadRequest(new ErrorResponseDTO { success = false, message = "No se proporcionó una imagen." });
+            {
             // Guardar la imagen y obtener la entidad `PublishedFile`
-            var file = await _fileService.SaveImage(requestPostDTO.image, userId, "Posts");
+                file = await _fileService.SaveImage(requestPostDTO.image, userId, "Posts");
+            }
+         
 
             // Crear el post
             var post = new EntitiesLibrary.Post.Post
@@ -340,7 +400,9 @@ namespace ApiTalking.Controllers;
                 Description = requestPostDTO.description,
                 User = user,
                 EntityStatus = EntitiesLibrary.Common.EntityStatus.Active,
-                File = file
+                File = file ?? null,
+                //File = file != null ? file : null,
+
             };
             await _daoPost.AddPost(post);
 
@@ -348,7 +410,7 @@ namespace ApiTalking.Controllers;
             {
                 success = true,
                 message = "Post subido exitosamente.",
-                data = new { postId = post.Id, imagePath = file.Path }
+                data = new { postId = post.Id, imagePath = file?.Path }
             });
         }
         catch (Exception ex)

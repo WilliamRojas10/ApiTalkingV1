@@ -7,6 +7,8 @@ using ApiTalking.DTOs.User;
 using ApiTalking.Helpers;
 using ApiTalking.DTOs.Post;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using EntitiesLibrary.Post;
 
 namespace ApiTalking.Controllers;
 
@@ -109,6 +111,53 @@ public class UserController : ControllerBase
     }
 
 
+    [Authorize(Roles = "Administrator, User")]
+    [HttpGet("obtener-mi-usuario")]
+    public async Task<IActionResult> GetMyUserByLogin ()
+    {
+        try
+        {
+            EntitiesLibrary.File.File file = null;
+            var userIdClaim = User.FindFirstValue("UserId");
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized(new ErrorResponseDTO { success = false, message = "Usuario no autenticado." });
+            int userId = int.Parse(userIdClaim);
+
+            var user = await _daoUser.GetUserById(userId, EntitiesLibrary.Common.EntityStatus.Active);
+            if (user == null)
+            {
+                return BadRequest(new ErrorResponseDTO
+                {
+                    success = false,
+                    message = "No se encontró el usuario con el Id: " + userId
+                });
+            }
+            return Ok(new ResponseDTO
+            {
+                success = true,
+                message = "Se obtuvo los datos del usuario logueado",
+                data = new ResponseUserDTO
+                {
+                    idUser = user.Id,
+                    name = user.Name,
+                    lastName = user.LastName,
+                    email = user.Email,
+                    birthDate = user.BirthDate.ToString(),
+                    nationality = user.Nationality,
+                    province = user.Province
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ErrorResponseDTO
+            {
+                success = false,
+                message = "Error al obtener un usuario usando GetUserById(): " + ex.Message
+            });
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody] RequestUserDTO userDTO)
     {
@@ -154,7 +203,7 @@ public class UserController : ControllerBase
         }
     }
 
-
+    [Authorize(Roles = "Administrator, User")]
     [HttpPut("modificar/{idUser}")]
     public async Task<IActionResult> UpdateUser(int idUser, [FromBody] RequestUserDTO userDTO)
     {
@@ -247,6 +296,7 @@ public class UserController : ControllerBase
     {
         try
         {
+            var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
             var user = await _daoUser.GetUserById(idUser);
             if (user == null)
             {
@@ -256,7 +306,15 @@ public class UserController : ControllerBase
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
-            user.EntityStatus = EntitiesLibrary.Common.EntityStatus.Active;
+            if (user.EntityStatus == activeStatus)
+            {
+                return NotFound(new ErrorResponseDTO
+                {
+                    success = false,
+                    message = "No se puede activar, el post se encuentra activo"
+                });
+            }
+            user.EntityStatus = activeStatus;
 
             await _daoUser.UpdateUser(user);
 
@@ -277,7 +335,7 @@ public class UserController : ControllerBase
     }
 
     [Authorize(Roles = "Administrator")]
-    [HttpDelete("eliminar/{idUser}")]
+    [HttpDelete("{idUser}")]
     public async Task<IActionResult> DeleteUser(int idUser)
     {
         try
@@ -311,85 +369,6 @@ public class UserController : ControllerBase
             });
         }
     }
-
-
-    // agregar imagen desde el ordenador -------------------------------------------
-    //[HttpPost("subir-imagen")]
-    //public async Task<IActionResult> UploadUserImage([FromForm] UploadFileDTO imageDTO)
-    //{
-    //    try
-    //    {
-    //        // Validar si la imagen se proporciona correctamente
-    //        if (imageDTO.image == null || imageDTO.image.Length == 0)
-    //        {
-    //            return BadRequest(new ErrorResponseDTO
-    //            {
-    //                success = false,
-    //                message = "No se proporcionó ninguna imagen o el archivo está vacío."
-    //            });
-    //        }
-
-    //        // Verificar si el usuario existe
-    //        var user = await _daoUser.GetUserById(imageDTO.userId);
-    //        if (user == null)
-    //        {
-    //            return NotFound(new ErrorResponseDTO
-    //            {
-    //                success = false,
-    //                message = $"No se encontró el usuario con el Id: {imageDTO.userId}"
-    //            });
-    //        }
-
-    //        // Validar la extensión del archivo
-    //        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-    //        var extension = Path.GetExtension(imageDTO.image.FileName).ToLower();
-    //        if (!allowedExtensions.Contains(extension))
-    //        {
-    //            return BadRequest(new ErrorResponseDTO
-    //            {
-    //                success = false,
-    //                message = "El formato del archivo no es válido. Solo se permiten .jpg, .jpeg, .png, .gif."
-    //            });
-    //        }
-
-    //        // Preparar el directorio de almacenamiento
-    //        var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "users");
-    //        if (!Directory.Exists(uploadPath))
-    //        {
-    //            Directory.CreateDirectory(uploadPath);
-    //        }
-
-    //        // Generar un nombre único para la imagen
-    //        var imageFileName = $"{imageDTO.userId}_{Guid.NewGuid()}{extension}";
-    //        var imagePath = Path.Combine(uploadPath, imageFileName);
-
-    //        // Guardar la imagen físicamente en el servidor
-    //        using (var fileStream = new FileStream(imagePath, FileMode.Create))
-    //        {
-    //            await imageDTO.image.CopyToAsync(fileStream);
-    //        }
-
-    //        // Actualizar la información del usuario con la nueva ruta de imagen
-    //        user.ProfileImagePath = $"/images/users/{imageFileName}";
-    //        await _daoUser.UpdateUser(user);
-
-    //        return Ok(new ResponseDTO
-    //        {
-    //            success = true,
-    //            message = "La imagen fue subida exitosamente.",
-    //            data = new { userId = imageDTO.userId, imagePath = user.ProfileImagePath }
-    //        });
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return BadRequest(new ErrorResponseDTO
-    //        {
-    //            success = false,
-    //            message = "Error al subir la imagen: " + ex.Message
-    //        });
-    //    }
-    //}
-
 
 
 }

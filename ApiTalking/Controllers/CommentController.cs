@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using DaoLibrary.Interfaces.User;
 using DaoLibrary.Interfaces.Post;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ApiTalking.Controllers;
 
@@ -57,11 +58,16 @@ public class CommentController : ControllerBase
                 userName = comment.User.Name + " " + comment.User.LastName, 
                 registrationDate = comment.RegistrationDateTime.ToString(),
             });
-            return Ok(new
-            {
-                totalRecords = totalRecords,
-                comments = commentDTO
-            });
+            return Ok(new ResponseDTO
+                {
+                    success = true,
+                    message = "Se obtuvo la lista de comentarios correctamente",
+                    data = new{
+                        totalRecords,
+                        comments = commentDTO
+                }
+            }
+            );
         }
         catch (Exception ex)
         {
@@ -110,7 +116,7 @@ public class CommentController : ControllerBase
         }
     }
 
-
+    [Authorize(Roles = "Administrator, User")]
     [HttpPost]
     public async Task<IActionResult> CreateComment([FromBody] RequestCommentDTO commentDTO)
     {
@@ -161,6 +167,7 @@ public class CommentController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Administrator, User")]
     [HttpPut("modificar/{idComment}")]
     public async Task<IActionResult> UpdateComment(int idComment, [FromBody] RequestCommentDTO commentDTO)
     {
@@ -205,6 +212,7 @@ public class CommentController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Administrator")]
     [HttpPut("bloquear/{idComment}")]
     public async Task<IActionResult> BlockComment(int idComment)
     {
@@ -241,6 +249,7 @@ public class CommentController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Administrator")]
     [HttpPut("activar/{idComment}")]
     public async Task<IActionResult> ActivateComment(int idComment)
     {
@@ -275,7 +284,8 @@ public class CommentController : ControllerBase
         }
     }
 
-    [HttpPut("eliminar/{idComment}")]
+    [Authorize(Roles = "Administrator, User")]
+    [HttpPut("{idComment}")]
     public async Task<IActionResult> DeleteComment(int idComment)
     {
         try
@@ -309,11 +319,5 @@ public class CommentController : ControllerBase
             });
         }
     }
-
-
-
-
-
-
 
 }

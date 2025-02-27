@@ -7,6 +7,13 @@ namespace DaoLibrary.Interfaces.Post;
     {
         Task<(List<EntitiesLibrary.Post.Post> posts, int TotalCount)> GetPostsPaged
         (int pageNumber, int pageSize, EntitiesLibrary.Common.EntityStatus? entityStatus, string orden);
+        Task<(List<EntitiesLibrary.Post.Post> posts, int TotalCount)> GetUserPostsPaged(
+         int pageNumber,
+         int pageSize,
+         EntitiesLibrary.Common.EntityStatus? entityStatus,
+         string orden,
+         int idUser
+         );
         Task<List<EntitiesLibrary.Post.Post>> GetAllPosts();
         Task<EntitiesLibrary.Post.Post?> GetPostById(int id);
         Task<EntitiesLibrary.Post.Post?> GetPostById(int id, EntitiesLibrary.Common.EntityStatus? entityStatus);

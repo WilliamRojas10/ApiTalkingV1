@@ -1,12 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace EntitiesLibrary.Course;
 [Table("course")]
-
-
-
 public class Course
     {
         [Key]
@@ -14,18 +10,17 @@ public class Course
         public int Id { get; set; }
 
         [Required]
-        public required string Name { get; set; }  // Ej: "Curso de Inglés"
+        public required string Name { get; set; }  
 
         public string? Description { get; set; }
 
        public required EntitiesLibrary.Common.EntityStatus EntityStatus{ get; set; } 
 
-        public required EntitiesLibrary.User.User User { get; set; } // Usuario obligatorio
+        public required EntitiesLibrary.User.User User { get; set; }
 
         public required string URL { get; set; }
 
-
-        public required LevelCourse Level { get; set; }  // Tipo del enum, no string
+        public required LevelCourse Level { get; set; } 
 
         
 }

@@ -49,6 +49,40 @@ namespace DaoLibrary.EFCore.Post
         }
 
 
+        public async Task<(List<EntitiesLibrary.Post.Post> posts, int TotalCount)> GetUserPostsPaged(
+         int pageNumber,
+         int pageSize,
+         EntitiesLibrary.Common.EntityStatus? entityStatus,
+         string orden,
+         int idUser
+         )
+        {
+            var query = _context.Set<EntitiesLibrary.Post.Post>()
+                .Include(post => post.User) 
+                .Include(post => post.File) 
+                .AsQueryable();
+
+            if (entityStatus.HasValue)
+            {
+                query = query.Where(post => post.EntityStatus == entityStatus.Value && post.User.Id == idUser);
+            }
+
+            if (orden?.ToLower() == "asc")
+            {
+                query = query.OrderBy(post => post.Id);
+            }
+            else if (orden?.ToLower() == "desc")
+            {
+                query = query.OrderByDescending(post => post.Id);
+            }
+            var totalCount = await query.CountAsync();
+            var posts = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (posts, totalCount);
+        }
 
 
         public async Task<List<EntitiesLibrary.Post.Post>> GetAllPosts()

@@ -7,7 +7,7 @@ using ApiTalking.Service;
 namespace ApiTalking.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class LoginController : ControllerBase
 {
 
@@ -33,7 +33,7 @@ public class LoginController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Login([FromBody] RequestLoginDTO requestLoginDTO)
     {
-        var token = await _authService.AuthenticateUser(requestLoginDTO.email, requestLoginDTO.password);
+         var token = await _authService.AuthenticateUser(requestLoginDTO.email, requestLoginDTO.password);
 
         if (token == null)
         {

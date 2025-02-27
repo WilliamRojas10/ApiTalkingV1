@@ -60,7 +60,7 @@ public class CourseController : ControllerBase
             });
             return Ok(new
             {
-                totalRecords = totalRecords,
+                totalRecords,
                 Courses = CourseDTO
             });
         }
@@ -380,7 +380,7 @@ public class CourseController : ControllerBase
     }
 
     [Authorize(Roles = "Administrator")]
-    [HttpDelete("eliminar/{idCourse}")]
+    [HttpDelete("{idCourse}")]
     public async Task<IActionResult> DeleteCourse(int idCourse)
     {
         try
@@ -416,8 +416,7 @@ public class CourseController : ControllerBase
     }
 
 
-    //busca cursos por nivel a traves de filtro
-    [HttpPost("CreateCourse/{idCourse}")]
+    [HttpPost("create-course/{idCourse}")]
     public async Task<IActionResult> RequestCourseDTO([FromBody] RequestCourseDTO courseCreateDTO)
     {
         try
@@ -451,30 +450,65 @@ public class CourseController : ControllerBase
 
 
 
-[HttpGet("Level/{level}")]
+    [HttpGet("filtrar-paged-level/{level}")]
     public async Task<IActionResult> GetCoursesByLevel(string level, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
         try
         {
-            // Convertir el string del nivel a LevelCourse (enum)
+            if (level == "Todos")
+            {
+                (var coursesAll, int totalRecordsAll) = await _daoCourse.GetCoursesPaged
+                (
+                   page,
+                   pageSize,
+                   EntitiesLibrary.Common.EntityStatus.Active
+                );
+
+                return Ok(new ResponseDTO
+                {
+                    success = true,
+                    message = "Se obtuvo los cursos filtados correctamente",
+                    data = new {
+                        courses = coursesAll,
+                        totalRecords = totalRecordsAll }
+                });
+            }
             if (!Enum.TryParse(level, true, out LevelCourse levelEnum))
             {
-                return BadRequest(new { message = "Nivel de curso no válido." });
+                return BadRequest(new ErrorResponseDTO
+                {   success = false,
+                    message = "Nivel de curso no válido." 
+                });
             }
 
-            // Usar la versión con paginación
-            var courses = await _daoCourse.GetCoursesByLevel(levelEnum, page, pageSize);
+            (var coursesFiltered, int totalRecordsFiltered) = await _daoCourse.GetCoursesByLevel(levelEnum, page, pageSize);
 
-            if (courses == null || !courses.Any())
+            if (coursesFiltered == null || !coursesFiltered.Any())
             {
-                return NotFound(new { message = "No hay cursos disponibles para este nivel." });
+                return NotFound(new ErrorResponseDTO 
+                {   success = false,
+                    message = "No hay cursos disponibles para este nivel." 
+                });
             }
 
-            return Ok(courses);
+            return Ok(new ResponseDTO
+            {
+                success = true,
+                message = "Se obtuvo los cursos filtados correctamente",
+                data = new
+                {
+                    courses = coursesFiltered,
+                    totalRecords = totalRecordsFiltered
+                }
+            });
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { message = "Error al obtener cursos: " + ex.Message });
+            return BadRequest(new ErrorResponseDTO
+            {
+                message = "Error al obtener cursos: " + ex.Message,
+                success = false
+            });
         }
     }
 }

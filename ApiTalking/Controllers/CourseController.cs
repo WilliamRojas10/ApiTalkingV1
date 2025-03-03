@@ -34,12 +34,10 @@ public class CourseController : ControllerBase
     {
         try
         {
-            var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
             (var Courses, int totalRecords) = await _daoCourse.GetCoursesPaged
             (
             page,
-            pageSize,
-            activeStatus
+            pageSize
             );
             if (Courses == null || !Courses.Any())
             {
@@ -53,9 +51,12 @@ public class CourseController : ControllerBase
             {
                 id = Course.Id,
                 name = Course.Name,
+                UserId = Course.User.Id,
+                userName = Course.User.Name + " " + Course.User.LastName,
                 description = Course.Description,
                 URL = Course.URL,
-
+                entityStatus = (int)Course.EntityStatus,
+                Level = Course.Level.ToString()
 
             });
             return Ok(new
@@ -78,13 +79,12 @@ public class CourseController : ControllerBase
     [HttpGet("{idCourse}")]
     public async Task<IActionResult> GetCourseById
     (
-        int idCourse,
-        EntitiesLibrary.Common.EntityStatus entityStatus
+        int idCourse
     )
     {
         try
         {
-            var Course = await _daoCourse.GetCourseById(idCourse, entityStatus);
+            var Course = await _daoCourse.GetCourseById(idCourse);
             if (Course == null)
             {
                 return BadRequest(new ErrorResponseDTO
@@ -97,9 +97,12 @@ public class CourseController : ControllerBase
             {
                 id = Course.Id,
                 name = Course.Name,
+                UserId = Course.User.Id,
+                userName = Course.User.Name + " " + Course.User.LastName,
                 description = Course.Description,
                 URL = Course.URL,
-
+                entityStatus = (int)Course.EntityStatus,
+                Level = Course.Level.ToString()
             });
         }
         catch (Exception ex)
@@ -129,7 +132,6 @@ public class CourseController : ControllerBase
                 });
             }
 
-            // Corrección aquí: debe ser CourseDTO.UserId (no userId)
             var user = await _daoUser.GetUserById(CourseDTO.userId);
             if (user == null)
             {
@@ -143,12 +145,12 @@ public class CourseController : ControllerBase
 
             var course = new Course
             {
-                Name = CourseDTO.name, // También corregí la mayúscula en Name
+                Name = CourseDTO.name,
                 Description = CourseDTO.description,
                 URL = CourseDTO.URL,
                 EntityStatus = EntitiesLibrary.Common.EntityStatus.Active,
                 User = user,
-                Level = Enum.Parse<LevelCourse>(CourseDTO.Level, true) //  'true' para que ignore mayúsculas/minúsculas
+                Level = Enum.Parse<LevelCourse>(CourseDTO.Level, true) 
             };
 
             await _daoCourse.AddCourse(course);
@@ -168,52 +170,6 @@ public class CourseController : ControllerBase
             });
         }
     }
-
-    //[HttpPost]
-    //public async Task<IActionResult> CreateCourse([FromBody] RequestCourseDTO CourseDTO)
-    //{
-    //    try
-    //    {
-    //        if (CourseDTO == null)
-    //        {
-    //            return BadRequest(new ErrorResponseDTO
-    //            {
-    //                success = false,
-    //                message = "Datos del usuario no válidos",
-    //                user = _daoUser.GetUserById(CourseDTO.id)
-
-    //            });
-    //        }
-
-    //        var Course = new Course
-    //        {
-
-    //            Id = CourseDTO.id,
-    //            Name = CourseDTO.name,
-    //            Description = CourseDTO.description,
-    //            URL = CourseDTO.URL,
-    //            EntityStatus = EntitiesLibrary.Common.EntityStatus.Active,
-    //            User = _daoUser.GetUserById(CourseDTO.id)
-
-    //        };
-
-    //        await _daoCourse.AddCourse(Course);
-
-    //        return Ok(new ResponseDTO
-    //        {
-    //            success = true,
-    //            message = "Usuario guardado correctamente"
-    //        });
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return BadRequest(new ErrorResponseDTO
-    //        {
-    //            success = false,
-    //            message = "Error al crear el usuario: " + ex.Message
-    //        });
-    //    }
-    //}
 
 
     [HttpPut("modificar/{idCourse}")]
@@ -302,40 +258,6 @@ public class CourseController : ControllerBase
         }
     }
 
-    //[Authorize(Roles = "Administrator")]
-    //[HttpPut("activar/{idCourse}")]
-    //public async Task<IActionResult> ActivateCourse(int idCourse)
-    //{
-    //    try
-    //    {
-    //        var Course = await _daoCourse.GetCourseById(idCourse);
-    //        if (Course == null)
-    //        {
-    //            return NotFound(new ErrorResponseDTO
-    //            {
-    //                success = false,
-    //                message = "No se encontró el usuario con el Id: " + idCourse
-    //            });
-    //        }
-    //        Course.EntityStatus = EntitiesLibrary.Common.EntityStatus.Active;
-
-    //        await _daoCourse.UpdateCourse(Course);
-
-    //        return Ok(new ResponseDTO
-    //        {
-    //            success = true,
-    //            message = "Curso activado correctamente"
-    //        });
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return BadRequest(new ErrorResponseDTO
-    //        {
-    //            success = false,
-    //            message = "Error al activar el usuario: " + ex.Message
-    //        });
-    //    }
-    //}
 
     [Authorize(Roles = "Administrator")]
     [HttpPut("activar/{idCourse}")]
@@ -344,8 +266,6 @@ public class CourseController : ControllerBase
         try
         {
             var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
-
-            // Llamar a GetCourseById con el parámetro entityStatus
             var course = await _daoCourse.GetCourseById(idCourse, activeStatus);
 
             if (course == null)
@@ -356,11 +276,7 @@ public class CourseController : ControllerBase
                     message = "No se encontró el curso con el Id: " + idCourse
                 });
             }
-
-            // Activar el curso
             course.EntityStatus = EntitiesLibrary.Common.EntityStatus.Active;
-
-            // Actualizar el curso
             await _daoCourse.UpdateCourse(course);
 
             return Ok(new ResponseDTO
@@ -422,7 +338,6 @@ public class CourseController : ControllerBase
         try
         {
             EntitiesLibrary.User.User? user = await _daoUser.GetUserById(courseCreateDTO.userId);
-            // Convertir el string del nivel a LevelCourse (enum)
             if (Enum.TryParse(courseCreateDTO.Level, true, out LevelCourse levelEnum))
             {
                 var newCourse = new Course
@@ -432,7 +347,7 @@ public class CourseController : ControllerBase
                     EntityStatus = EntitiesLibrary.Common.EntityStatus.Active,
                     User = user,
                     URL = courseCreateDTO.URL,
-                    Level = levelEnum  //  asignar el nivel correctamente
+                    Level = levelEnum 
                 };
 
                 await _daoCourse.AddCourse(newCourse);

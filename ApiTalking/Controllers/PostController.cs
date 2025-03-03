@@ -30,7 +30,7 @@ namespace ApiTalking.Controllers;
             _daoPost = daoPost;
             _daoUser = daoUser;
             _daoReaction = daoReaction;
-        _fileService = fileService;
+            _fileService = fileService;
         }
 
 
@@ -39,11 +39,9 @@ namespace ApiTalking.Controllers;
     {
         try
         {
-            var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
             (var posts, int totalRecords) = await _daoPost.GetPostsPaged(
                 page,
                 pageSize,
-                activeStatus,
                 orden
             );
 
@@ -72,7 +70,8 @@ namespace ApiTalking.Controllers;
                     nameUser = post.User.Name,
                     lastNameUser = post.User.LastName,
                     idFile = post.File?.Id,
-                    path = post.File?.Path
+                    path = post.File?.Path,
+                    entityStatus = (int)post.EntityStatus
                 });
             }
 
@@ -189,11 +188,14 @@ namespace ApiTalking.Controllers;
                 return Ok(new ResponsePostDTO
                 {
                     idPost = post.Id,
+                    description = post.Description,
                     nameUser = post.User.Name,
                     lastNameUser = post.User.LastName,
                     idUser = post.User.Id,
                     idFile = post.File.Id,
-                    registrationDateTime = Converter.convertDateTimeToString(post.RegistrationDateTime)
+                    path = post.File.Path,
+                    registrationDateTime = Converter.convertDateTimeToString(post.RegistrationDateTime),
+                    entityStatus = (int)post.EntityStatus
                 });
             }
             catch (Exception ex)
@@ -301,7 +303,6 @@ namespace ApiTalking.Controllers;
             try
             {
                 var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
-                var deletedStatus = EntitiesLibrary.Common.EntityStatus.Deleted;
                 var post = await _daoPost.GetPostById(idPost);
                 if (post == null)
                 {

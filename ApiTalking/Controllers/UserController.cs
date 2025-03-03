@@ -29,12 +29,10 @@ public class UserController : ControllerBase
     {
         try
         {
-            var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
             (var users, int totalRecords) = await _daoUser.GetUsersPaged
             (
             page,
-            pageSize,
-            activeStatus
+            pageSize
             );
             if (users == null || !users.Any())
             {
@@ -52,12 +50,18 @@ public class UserController : ControllerBase
                 email = user.Email,
                 birthDate = user.BirthDate.ToString(),
                 nationality = user.Nationality,
-                province = user.Province
+                province = user.Province,
+                entityStatus = (int)user.EntityStatus
             });
-            return Ok(new
+            return Ok(new ResponseDTO
             {
-                totalRecords = totalRecords,
-                users = userDTO
+                success = true,
+                message = "Lista de usuarios paginados obtenidos exitosamente",
+                data = new
+                {
+                    totalRecords,
+                    users = userDTO
+                }
             });
         }
         catch (Exception ex)
@@ -97,7 +101,8 @@ public class UserController : ControllerBase
                 email = user.Email,
                 birthDate = user.BirthDate.ToString(),
                 nationality = user.Nationality,
-                province = user.Province
+                province = user.Province,
+                entityStatus = (int)user.EntityStatus
             });
         }
         catch (Exception ex)
@@ -144,7 +149,8 @@ public class UserController : ControllerBase
                     email = user.Email,
                     birthDate = user.BirthDate.ToString(),
                     nationality = user.Nationality,
-                    province = user.Province
+                    province = user.Province, 
+                    
                 }
             });
         }

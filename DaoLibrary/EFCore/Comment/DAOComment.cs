@@ -19,17 +19,22 @@ public class DAOComment : IDAOComment
   (
       int pageNumber,
       int pageSize,
-      EntitiesLibrary.Common.EntityStatus? entityStatus,
-      int idPost
+      int idPost,
+      EntitiesLibrary.Common.EntityStatus? entityStatus = null
   )
     {
         var query = _context.Set<EntitiesLibrary.Comment.Comment>()
             .Include(c => c.User) 
             .AsQueryable();
 
+
         if (entityStatus.HasValue)
         {
-            query = query.Where(comment => comment.EntityStatus == entityStatus.Value && comment.Post.Id == idPost);
+            query = query.Where(comment => comment.EntityStatus == entityStatus.Value);
+        }
+        if (idPost != null)
+        {
+            query = query.Where(comment => comment.Post.Id == idPost);
         }
 
         var totalCount = await query.CountAsync();
@@ -50,14 +55,18 @@ public class DAOComment : IDAOComment
     }
 
     public async Task<EntitiesLibrary.Comment.Comment?> GetCommentById(int id)
-    {   
-        return await _context.Set<EntitiesLibrary.Comment.Comment>().FindAsync(id);
+    {
+        return await _context.Set<EntitiesLibrary.Comment.Comment>()
+            .Include(comment => comment.User)
+            .FirstOrDefaultAsync(comment => comment.Id == id);
     }
+
 
     public async Task<EntitiesLibrary.Comment.Comment?> GetCommentById
    (int id, EntitiesLibrary.Common.EntityStatus? entityStatus)
     {
         return await _context.Set<EntitiesLibrary.Comment.Comment>()
+            .Include(comment => comment.User)
             .FirstOrDefaultAsync(comment => comment.Id == id && comment.EntityStatus == entityStatus);
     }
 

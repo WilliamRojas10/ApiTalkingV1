@@ -23,7 +23,9 @@ namespace DaoLibrary.EFCore.Course
 
         public async Task<(List<EntitiesLibrary.Course.Course> Courses, int TotalCount)> GetCoursesPaged(int pageNumber, int pageSize, EntityStatus? entityStatus)
         {
-            var query = _context.Set<EntitiesLibrary.Course.Course>().AsQueryable();
+            var query = _context.Set<EntitiesLibrary.Course.Course>()
+                 .Include(post => post.User)
+                 .AsQueryable();
 
             if (entityStatus.HasValue)
             {
@@ -48,9 +50,17 @@ namespace DaoLibrary.EFCore.Course
         public async Task<EntitiesLibrary.Course.Course?> GetCourseById(int id, EntityStatus? entityStatus)
         {
             return await _context.Set<EntitiesLibrary.Course.Course>()
-                .Include(c => c.User) // Cargar la relación con User
+                .Include(c => c.User) 
                 .FirstOrDefaultAsync(course => course.Id == id && course.EntityStatus == entityStatus);
         }
+
+        public async Task<EntitiesLibrary.Course.Course?> GetCourseById(int id)
+        {
+            return await _context.Set<EntitiesLibrary.Course.Course>()
+                .Include(course => course.User)
+                .FirstOrDefaultAsync(course => course.Id == id);
+        }
+
 
         public async Task AddCourse(EntitiesLibrary.Course.Course course)
         {

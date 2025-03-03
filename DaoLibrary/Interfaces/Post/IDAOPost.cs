@@ -6,7 +6,7 @@ namespace DaoLibrary.Interfaces.Post;
     public interface IDAOPost
     {
         Task<(List<EntitiesLibrary.Post.Post> posts, int TotalCount)> GetPostsPaged
-        (int pageNumber, int pageSize, EntitiesLibrary.Common.EntityStatus? entityStatus, string orden);
+        (int pageNumber, int pageSize, string orden, EntitiesLibrary.Common.EntityStatus? entityStatus = null);
         Task<(List<EntitiesLibrary.Post.Post> posts, int TotalCount)> GetUserPostsPaged(
          int pageNumber,
          int pageSize,

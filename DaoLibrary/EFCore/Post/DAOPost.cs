@@ -18,8 +18,9 @@ namespace DaoLibrary.EFCore.Post
         public async Task<(List<EntitiesLibrary.Post.Post> posts, int TotalCount)> GetPostsPaged(
             int pageNumber,
             int pageSize,
-            EntitiesLibrary.Common.EntityStatus? entityStatus,
-            string orden) 
+            string orden,
+            EntitiesLibrary.Common.EntityStatus? entityStatus = null
+            ) 
         {
             var query = _context.Set<EntitiesLibrary.Post.Post>()
                 .Include(post => post.User)  // Incluir la relación con User
@@ -92,10 +93,14 @@ namespace DaoLibrary.EFCore.Post
 
         public async Task<EntitiesLibrary.Post.Post?> GetPostById(int id)
         {
-            return await _context.Set<EntitiesLibrary.Post.Post>().FindAsync(id);
+            return await _context.Set<EntitiesLibrary.Post.Post>()
+                .Include(post => post.User)
+                .Include(post => post.File)
+                .FirstOrDefaultAsync(post => post.Id == id);
         }
 
-         public async Task<EntitiesLibrary.Post.Post?> GetPostById
+
+        public async Task<EntitiesLibrary.Post.Post?> GetPostById
         (int id, EntitiesLibrary.Common.EntityStatus? entityStatus)
         {
             return await _context.Set<EntitiesLibrary.Post.Post>()

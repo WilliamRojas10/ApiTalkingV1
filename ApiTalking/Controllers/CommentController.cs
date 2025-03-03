@@ -35,12 +35,10 @@ public class CommentController : ControllerBase
     {
         try
         {
-            var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
             (var comments, int totalRecords) = await _daoComment.GetCommentsPaged
             (
             page,
             pageSize,
-            activeStatus,
             idPost
             );
             if (comments == null || !comments.Any())
@@ -57,6 +55,7 @@ public class CommentController : ControllerBase
                 text = comment.Text,
                 userName = comment.User.Name + " " + comment.User.LastName, 
                 registrationDate = comment.RegistrationDateTime.ToString(),
+                entityStatus = (int)comment.EntityStatus
             });
             return Ok(new ResponseDTO
                 {
@@ -82,13 +81,12 @@ public class CommentController : ControllerBase
     [HttpGet("{idComment}")]
     public async Task<IActionResult> GetCommentById
     (
-        int idComment,
-        EntitiesLibrary.Common.EntityStatus entityStatus
+        int idComment
     )
     {
         try
         {
-            var comment = await _daoComment.GetCommentById(idComment, entityStatus);
+            var comment = await _daoComment.GetCommentById(idComment);
             if (comment == null)
             {
                 return BadRequest(new ErrorResponseDTO
@@ -103,7 +101,7 @@ public class CommentController : ControllerBase
                 text = comment.Text,
                 userName = comment.User.Name + " " + comment.User.LastName,
                 registrationDate = comment.RegistrationDateTime.ToString(),
-
+                entityStatus = (int)comment.EntityStatus
             });
         }
         catch (Exception ex)

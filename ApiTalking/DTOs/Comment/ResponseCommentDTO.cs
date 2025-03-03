@@ -6,4 +6,5 @@ public class ResponseCommentDTO
     public required string text { get; set; }
     public required string registrationDate { get; set; }
     public required string userName { get; set; }
+    public int entityStatus { get; set; }
 }

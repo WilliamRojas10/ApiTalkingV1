@@ -33,9 +33,9 @@ namespace ApiTalking.Controllers;
             _fileService = fileService;
         }
 
-
-    [HttpGet("paginado")]
-    public async Task<IActionResult> GetPosts(int page, int pageSize, string orden = "desc")
+    [Authorize(Roles = "Administrator")]
+    [HttpGet("paginado-admin")]
+    public async Task<IActionResult> GetPostsForAdmin(int page, int pageSize, string orden = "desc")
     {
         try
         {
@@ -72,6 +72,70 @@ namespace ApiTalking.Controllers;
                     idFile = post.File?.Id,
                     path = post.File?.Path,
                     entityStatus = (int)post.EntityStatus
+                });
+            }
+
+            return Ok(new ResponseDTO
+            {
+                success = true,
+                message = "Lista de posteos paginado obtenido correctamente",
+                data = new
+                {
+                    totalRecords,
+                    posts = listPostsDTO
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ErrorResponseDTO
+            {
+                success = false,
+                message = "Error al obtener posteos paginado GetPosts(): " + ex.Message
+            });
+        }
+    }
+
+    [HttpGet("paginado")]
+    public async Task<IActionResult> GetPosts(int page, int pageSize, string orden = "desc")
+    {
+        try
+        {
+            var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
+            (var posts, int totalRecords) = await _daoPost.GetPostsPaged(
+                page,
+                pageSize,
+                orden,
+                activeStatus
+            );
+
+            if (posts == null || !posts.Any())
+            {
+                return BadRequest(new ErrorResponseDTO
+                {
+                    success = false,
+                    message = "No se encontraron los posteos"
+                });
+            }
+
+            var listPostsDTO = new List<ResponsePostDTO>();
+
+            foreach (var post in posts)
+            {
+                var reactions = await _daoReaction.GetAllReactionsByIdPost(post.Id);
+
+                listPostsDTO.Add(new ResponsePostDTO
+                {
+                    idPost = post.Id,
+                    description = post.Description,
+                    registrationDateTime = post.RegistrationDateTime.ToString(),
+                    reactions = reactions,
+                    idUser = post.User.Id,
+                    nameUser = post.User.Name,
+                    lastNameUser = post.User.LastName,
+                    idFile = post.File?.Id,
+                    path = post.File?.Path,
+                    //entityStatus = (int)post.EntityStatus
                 });
             }
 
@@ -188,12 +252,12 @@ namespace ApiTalking.Controllers;
                 return Ok(new ResponsePostDTO
                 {
                     idPost = post.Id,
-                    description = post.Description,
                     nameUser = post.User.Name,
                     lastNameUser = post.User.LastName,
                     idUser = post.User.Id,
-                    idFile = post.File.Id,
-                    path = post.File.Path,
+                    description = post.Description != null ? post.Description : null,
+                    idFile = post.File != null ? post.File.Id : null,
+                    path = post.File != null ? post.File.Path : null != null ? post.File.Path : null,
                     registrationDateTime = Converter.convertDateTimeToString(post.RegistrationDateTime),
                     entityStatus = (int)post.EntityStatus
                 });
@@ -211,52 +275,57 @@ namespace ApiTalking.Controllers;
     
     [Authorize(Roles = "Administrator, User")]
     [HttpPut("modificar/{idPost}")]
-    public async Task<IActionResult> UpdatePost(int idPost, [FromBody] RequestPostDTO postDTO)
+    public async Task<IActionResult> UpdatePost(int idPost, [FromForm] RequestPostDTO postDTO)
+    {
+        try
         {
-            try
-            {
-                var activeStatus = EntitiesLibrary.Common.EntityStatus.Active; 
-                if (postDTO == null)
-                {
-                    return BadRequest(new ErrorResponseDTO
-                    {
-                        success = false,
-                        message = "Datos del post no válidos"
-                    });
-                }
-                var post = await _daoPost.GetPostById(idPost, activeStatus);
-                if (post == null)
-                {
-                    return NotFound(new ErrorResponseDTO
-                    {
-                        success = false,
-                        message = "No se encontró el post con el Id: " + idPost
-                    });
-                }
 
-                post.Description = postDTO.description;
-                //TODO: Se tiene que obtener por id de file
-                //post.File = postDTO.idFile;
-               // post.EntityStatus= (EntitiesLibrary.Common.EntityStatus)postDTO.postStatus;//TODO CAMBIA EL ATRIBUTO DEL DTO
-
-
-                await _daoPost.UpdatePost(post);
-
-                return Ok(new ResponseDTO
-                {
-                    success = true,
-                    message = "Usuario actualizado correctamente"
-                });
-            }
-            catch (Exception ex)
+            if (postDTO == null)
             {
                 return BadRequest(new ErrorResponseDTO
                 {
                     success = false,
-                    message = "Error al actualizar el usuario: " + ex.Message
+                    message = "Datos del post no válidos"
                 });
             }
+
+            var post = await _daoPost.GetPostById(idPost);
+            if (post == null)
+            {
+                return NotFound(new ErrorResponseDTO
+                {
+                    success = false,
+                    message = "No se encontró el post con el Id: " + idPost
+                });
+            }
+            if (post.Description != null)
+            {
+                post.Description = postDTO.description;
+            }
+            if (postDTO.image != null)
+            {
+                var file = await _fileService.SaveImage(postDTO.image, post.User.Id, "Posts");
+                post.File = file;
+            }
+
+            await _daoPost.UpdatePost(post);
+
+            return Ok(new ResponseDTO
+            {
+                success = true,
+                message = "Post actualizado correctamente"
+            });
         }
+        catch (Exception ex)
+        {
+            return BadRequest(new ErrorResponseDTO
+            {
+                success = false,
+                message = "Error al actualizar el post: " + ex.Message
+            });
+        }
+    }
+
 
 
     [Authorize(Roles = "Administrator")]

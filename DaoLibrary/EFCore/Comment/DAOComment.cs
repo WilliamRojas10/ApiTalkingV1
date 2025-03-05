@@ -30,7 +30,8 @@ public class DAOComment : IDAOComment
 
         if (entityStatus.HasValue)
         {
-            query = query.Where(comment => comment.EntityStatus == entityStatus.Value);
+            query = query.Where(comment => comment.EntityStatus == entityStatus.Value 
+            && comment.EntityStatus != EntitiesLibrary.Common.EntityStatus.Deleted);
         }
         if (idPost != null)
         {

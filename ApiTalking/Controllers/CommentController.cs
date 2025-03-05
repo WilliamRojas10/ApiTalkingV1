@@ -30,8 +30,9 @@ public class CommentController : ControllerBase
 
     }
 
-    [HttpGet("paginado")]
-    public async Task<IActionResult> GetComments(int page, int pageSize, int idPost)
+    [Authorize(Roles = "Administrator")]
+    [HttpGet("paginado-admin")]
+    public async Task<IActionResult> GetCommentsAdmin (int page, int pageSize, int idPost)
     {
         try
         {
@@ -40,6 +41,57 @@ public class CommentController : ControllerBase
             page,
             pageSize,
             idPost
+            );
+            if (comments == null || !comments.Any())
+            {
+                return BadRequest(new ErrorResponseDTO
+                {
+                    success = false,
+                    message = "No se encontraron usuarios"
+                });
+            }
+            var commentDTO = comments.Select(comment => new ResponseCommentDTO
+            {
+                idComment = comment.Id,
+                text = comment.Text,
+                userName = comment.User.Name + " " + comment.User.LastName,
+                registrationDate = comment.RegistrationDateTime.ToString(),
+                entityStatus = (int)comment.EntityStatus
+            });
+            return Ok(new ResponseDTO
+            {
+                success = true,
+                message = "Se obtuvo la lista de comentarios correctamente",
+                data = new
+                {
+                    totalRecords,
+                    comments = commentDTO
+                }
+            }
+            );
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new ErrorResponseDTO
+            {
+                success = false,
+                message = "Error en getComments(): " + ex.Message
+            });
+        }
+    }
+
+    [HttpGet("paginado")]
+    public async Task<IActionResult> GetComments(int page, int pageSize, int idPost)
+    {
+        try
+        {
+            var statusActive = EntitiesLibrary.Common.EntityStatus.Active;
+            (var comments, int totalRecords) = await _daoComment.GetCommentsPaged
+            (
+            page,
+            pageSize,
+            idPost,
+            statusActive
             );
             if (comments == null || !comments.Any())
             {
@@ -283,19 +335,18 @@ public class CommentController : ControllerBase
     }
 
     [Authorize(Roles = "Administrator, User")]
-    [HttpPut("{idComment}")]
+    [HttpDelete("{idComment}")]
     public async Task<IActionResult> DeleteComment(int idComment)
     {
         try
         {
-            var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
-            var comment = await _daoComment.GetCommentById(idComment, activeStatus);
+            var comment = await _daoComment.GetCommentById(idComment);
             if (comment == null)
             {
                 return NotFound(new ErrorResponseDTO
                 {
                     success = false,
-                    message = "No se encontró el usuario con el Id: " + idComment
+                    message = "No se encontró el comentario con el Id: " + idComment
                 });
             }
             comment.EntityStatus = EntitiesLibrary.Common.EntityStatus.Deleted;
@@ -305,7 +356,7 @@ public class CommentController : ControllerBase
             return Ok(new ResponseDTO
             {
                 success = true,
-                message = "Usuario eliminado correctamente"
+                message = "Comentario eliminado correctamente"
             });
         }
         catch (Exception ex)
@@ -313,7 +364,7 @@ public class CommentController : ControllerBase
             return BadRequest(new ErrorResponseDTO
             {
                 success = false,
-                message = "Error al actualizar el usuario: " + ex.Message
+                message = "Error al eliminar el comentario: " + ex.Message
             });
         }
     }

@@ -16,4 +16,5 @@ public class ResponseCourseDTO
 
     public int entityStatus { get; set; } 
     public string Level { get; set; }  
+    public int statusLevel { get; set; }
 }

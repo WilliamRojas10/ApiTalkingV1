@@ -78,13 +78,13 @@ public class UserController : ControllerBase
     [HttpGet("{idUser}")]
     public async Task<IActionResult> GetUserById
     (
-        int idUser,
-        EntitiesLibrary.Common.EntityStatus entityStatus
+        int idUser
+        
     )
     {
         try
         {
-            var user = await _daoUser.GetUserById(idUser, entityStatus);
+            var user = await _daoUser.GetUserById(idUser);
             if (user == null)
             {
                 return BadRequest(new ErrorResponseDTO
@@ -215,7 +215,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
+            
             if (userDTO == null)
             {
                 return BadRequest(new ErrorResponseDTO
@@ -225,7 +225,7 @@ public class UserController : ControllerBase
                 });
             }
 
-            var user = await _daoUser.GetUserById(idUser, activeStatus);
+            var user = await _daoUser.GetUserById(idUser);
             if (user == null)
             {
                 return NotFound(new ErrorResponseDTO
@@ -234,12 +234,31 @@ public class UserController : ControllerBase
                     message = "No se encontró el usuario con el Id: " + idUser
                 });
             }
-            user.Name = userDTO.name;
+            if (!string.IsNullOrEmpty(userDTO.name))
+            {
+                user.Name = userDTO.name;
+            }
+            if (!string.IsNullOrEmpty(userDTO.lastName))
+            { 
             user.LastName = userDTO.lastName;
-            user.Email = userDTO.email;
-            user.BirthDate = Converter.convertStringToDateOnly(userDTO.birthDate);
-            user.Nationality = userDTO.nationality;
-            user.Province = userDTO.province;
+        }
+            if (!string.IsNullOrEmpty(userDTO.email))
+            {
+                user.Email = userDTO.email;
+            }
+            if (!string.IsNullOrEmpty(userDTO.birthDate))
+            {
+                user.BirthDate = Converter.convertStringToDateOnly(userDTO.birthDate);
+            }
+            if (!string.IsNullOrEmpty(userDTO.nationality))
+            {
+                user.Nationality = userDTO.nationality;
+            }
+
+            if (!string.IsNullOrEmpty(userDTO.province))
+            {
+                user.Province = userDTO.province;
+            }
 
             await _daoUser.UpdateUser(user);
 
@@ -265,9 +284,9 @@ public class UserController : ControllerBase
     {
         try
         {
-            var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
+            
 
-            var user = await _daoUser.GetUserById(idUser, activeStatus);
+            var user = await _daoUser.GetUserById(idUser);
             if (user == null)
             {
                 return NotFound(new ErrorResponseDTO
@@ -283,7 +302,7 @@ public class UserController : ControllerBase
             return Ok(new ResponseDTO
             {
                 success = true,
-                message = "Usuario eliminado correctamente"
+                message = "Usuario bloqueado correctamente"
             });
         }
         catch (Exception ex)
@@ -291,7 +310,7 @@ public class UserController : ControllerBase
             return BadRequest(new ErrorResponseDTO
             {
                 success = false,
-                message = "Error al actualizar el usuario: " + ex.Message
+                message = "Error al bloquear el usuario: " + ex.Message
             });
         }
     }
@@ -346,8 +365,8 @@ public class UserController : ControllerBase
     {
         try
         {
-            var activeStatus = EntitiesLibrary.Common.EntityStatus.Active;
-            var user = await _daoUser.GetUserById(idUser, activeStatus);
+           
+            var user = await _daoUser.GetUserById(idUser);
             if (user == null)
             {
                 return NotFound(new ErrorResponseDTO

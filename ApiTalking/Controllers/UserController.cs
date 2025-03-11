@@ -25,14 +25,15 @@ public class UserController : ControllerBase
 
     [Authorize(Roles = "Administrator")]
     [HttpGet("paginado")]
-    public async Task<IActionResult> GetUsers(int page, int pageSize)
+    public async Task<IActionResult> GetUsers(int page, int pageSize, string? searchTerm=null)
     {
         try
         {
             (var users, int totalRecords) = await _daoUser.GetUsersPaged
             (
             page,
-            pageSize
+            pageSize,
+            searchTerm
             );
             if (users == null || !users.Any())
             {

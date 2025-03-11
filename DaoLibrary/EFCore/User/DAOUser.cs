@@ -15,29 +15,38 @@ namespace DaoLibrary.EFCore.User;
         }
 
 
-        public async Task<(List<EntitiesLibrary.User.User> Users, int TotalCount)> GetUsersPaged
-        (int pageNumber, int pageSize, EntitiesLibrary.Common.EntityStatus? entityStatus)
+    public async Task<(List<EntitiesLibrary.User.User> Users, int TotalCount)> GetUsersPaged(
+int pageNumber,              
+int pageSize,
+string? searchTerm,
+EntitiesLibrary.Common.EntityStatus?  entityStatus
+)
+    {
+        var query = _context.Set<EntitiesLibrary.User.User>().AsQueryable();
+
+        if (entityStatus.HasValue)
         {
-            var query = _context.Set<EntitiesLibrary.User.User>().AsQueryable();
-
-
-            if (entityStatus.HasValue)
-            {
-                query = query.Where(user => user.EntityStatus == entityStatus.Value);
-            }
-
-            var totalCount = await query.CountAsync();
-
-            var users = await query
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            return (users, totalCount);
+            query = query.Where(user => user.EntityStatus == entityStatus.Value);
         }
 
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            query = query.Where(user =>
+                user.Name.Contains(searchTerm) ||
+                user.Email.Contains(searchTerm));
+        }
 
-        public async Task<List<EntitiesLibrary.User.User>> GetAllUsers()
+        var totalCount = await query.CountAsync();
+
+        var users = await query
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (users, totalCount);
+    }
+
+    public async Task<List<EntitiesLibrary.User.User>> GetAllUsers()
         {
             return await _context.Set<EntitiesLibrary.User.User>().ToListAsync();
         }

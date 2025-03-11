@@ -35,7 +35,9 @@ public class AdministratorController : ControllerBase
             (
             page,
             pageSize,
+            null,
             activeStatus
+         
             );
             if (users == null || !users.Any())
             {
